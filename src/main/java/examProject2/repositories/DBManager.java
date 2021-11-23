@@ -1,4 +1,4 @@
-package miniprojekt.repositories;
+package examProject2.repositories;
 
 import java.io.FileInputStream;
 import java.io.IOException;

@@ -1,0 +1,217 @@
+-- MySQL dump 10.13  Distrib 8.0.26, for Win64 (x86_64)
+--
+-- Host: localhost    Database: alphasolutions
+-- ------------------------------------------------------
+-- Server version	8.0.26
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `companies`
+--
+
+DROP TABLE IF EXISTS `companies`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `companies` (
+  `companyID` int NOT NULL AUTO_INCREMENT,
+  `companyName` varchar(255) NOT NULL,
+  PRIMARY KEY (`companyID`),
+  UNIQUE KEY `companyName_UNIQUE` (`companyName`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `companies`
+--
+
+LOCK TABLES `companies` WRITE;
+/*!40000 ALTER TABLE `companies` DISABLE KEYS */;
+INSERT INTO `companies` VALUES (1,'alphasolutions');
+/*!40000 ALTER TABLE `companies` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `projects`
+--
+
+DROP TABLE IF EXISTS `projects`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `projects` (
+  `projectID` int NOT NULL,
+  `companyID` int NOT NULL,
+  `projectName` varchar(100) NOT NULL,
+  PRIMARY KEY (`projectID`),
+  UNIQUE KEY `projectName_UNIQUE` (`projectName`),
+  KEY `fkprojectCompany_idx` (`companyID`),
+  CONSTRAINT `fkprojectCompany` FOREIGN KEY (`companyID`) REFERENCES `companies` (`companyID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `projects`
+--
+
+LOCK TABLES `projects` WRITE;
+/*!40000 ALTER TABLE `projects` DISABLE KEYS */;
+/*!40000 ALTER TABLE `projects` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `subprojects`
+--
+
+DROP TABLE IF EXISTS `subprojects`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `subprojects` (
+  `subprojectID` int NOT NULL AUTO_INCREMENT,
+  `projectID` int NOT NULL,
+  `subprojectName` varchar(100) NOT NULL,
+  PRIMARY KEY (`subprojectID`),
+  UNIQUE KEY `subprojectName_UNIQUE` (`subprojectName`),
+  KEY `fksubprojectProject_idx` (`projectID`),
+  CONSTRAINT `fksubprojectProject` FOREIGN KEY (`projectID`) REFERENCES `projects` (`projectID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `subprojects`
+--
+
+LOCK TABLES `subprojects` WRITE;
+/*!40000 ALTER TABLE `subprojects` DISABLE KEYS */;
+/*!40000 ALTER TABLE `subprojects` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `subtasks`
+--
+
+DROP TABLE IF EXISTS `subtasks`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `subtasks` (
+  `subtaskID` int NOT NULL AUTO_INCREMENT,
+  `taskID` int NOT NULL,
+  `subtaskName` varchar(100) NOT NULL,
+  PRIMARY KEY (`subtaskID`),
+  UNIQUE KEY `subtaskscol_UNIQUE` (`subtaskName`),
+  KEY `fksubtaskTask_idx` (`taskID`),
+  CONSTRAINT `fksubtaskTask` FOREIGN KEY (`taskID`) REFERENCES `tasks` (`taskID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `subtasks`
+--
+
+LOCK TABLES `subtasks` WRITE;
+/*!40000 ALTER TABLE `subtasks` DISABLE KEYS */;
+/*!40000 ALTER TABLE `subtasks` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tasks`
+--
+
+DROP TABLE IF EXISTS `tasks`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tasks` (
+  `taskID` int NOT NULL AUTO_INCREMENT,
+  `subprojectID` int NOT NULL,
+  `taskName` varchar(100) NOT NULL,
+  PRIMARY KEY (`taskID`),
+  UNIQUE KEY `taskName_UNIQUE` (`taskName`),
+  KEY `fktasksubproject_idx` (`subprojectID`),
+  CONSTRAINT `fktasksubproject` FOREIGN KEY (`subprojectID`) REFERENCES `subprojects` (`subprojectID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tasks`
+--
+
+LOCK TABLES `tasks` WRITE;
+/*!40000 ALTER TABLE `tasks` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tasks` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `userroles`
+--
+
+DROP TABLE IF EXISTS `userroles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `userroles` (
+  `userroleID` int NOT NULL AUTO_INCREMENT,
+  `userrole` varchar(100) NOT NULL,
+  PRIMARY KEY (`userroleID`),
+  UNIQUE KEY `userrole_UNIQUE` (`userrole`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `userroles`
+--
+
+LOCK TABLES `userroles` WRITE;
+/*!40000 ALTER TABLE `userroles` DISABLE KEYS */;
+INSERT INTO `userroles` VALUES (2,'Admin'),(1,'SuperAdmin'),(3,'Worker');
+/*!40000 ALTER TABLE `userroles` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `users` (
+  `userID` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(100) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `companyID` int NOT NULL,
+  `userroleID` int NOT NULL,
+  PRIMARY KEY (`userID`),
+  UNIQUE KEY `username_UNIQUE` (`username`),
+  UNIQUE KEY `password_UNIQUE` (`password`),
+  KEY `fkusersUserRoles_idx` (`userroleID`),
+  KEY `fkusersCompanies_idx` (`companyID`),
+  CONSTRAINT `fkusersCompanies` FOREIGN KEY (`companyID`) REFERENCES `companies` (`companyID`),
+  CONSTRAINT `fkusersuserroles` FOREIGN KEY (`userroleID`) REFERENCES `userroles` (`userroleID`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2021-11-23 16:43:56
