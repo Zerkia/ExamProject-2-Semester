@@ -4,17 +4,15 @@ public class User {
 
     private String username;
     private String password;
-    private String companyName;
-    private String userrole;
+    private int userroleID;
 
     public User(){
     }
 
-    public User(String username, String password, String companyName, String userrole) {
+    public User(String username, String password, int userroleID) {
         this.username = username;
         this.password = password;
-        this.companyName = companyName;
-        this.userrole = userrole;
+        this.userroleID = userroleID;
     }
 
     public String getUsername() {
@@ -33,20 +31,12 @@ public class User {
         this.password = password;
     }
 
-    public String getCompanyName() {
-        return companyName;
+    public int getUserroleID() {
+        return userroleID;
     }
 
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
-
-    public String getUserrole() {
-        return userrole;
-    }
-
-    public void setUserrole(String userrole) {
-        this.userrole = userrole;
+    public void setUserroleID(int userroleID) {
+        this.userroleID = userroleID;
     }
 
     @Override
@@ -54,7 +44,6 @@ public class User {
         return "User{" +
                 "username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", companyName='" + companyName + '\'' +
                 '}';
     }
 }

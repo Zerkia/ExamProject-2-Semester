@@ -16,31 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `companies`
---
-
-DROP TABLE IF EXISTS `companies`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `companies` (
-  `companyID` int NOT NULL AUTO_INCREMENT,
-  `companyName` varchar(255) NOT NULL,
-  PRIMARY KEY (`companyID`),
-  UNIQUE KEY `companyName_UNIQUE` (`companyName`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `companies`
---
-
-LOCK TABLES `companies` WRITE;
-/*!40000 ALTER TABLE `companies` DISABLE KEYS */;
-INSERT INTO `companies` VALUES (1,'alphasolutions');
-/*!40000 ALTER TABLE `companies` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `projects`
 --
 
@@ -49,12 +24,12 @@ DROP TABLE IF EXISTS `projects`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `projects` (
   `projectID` int NOT NULL,
-  `companyID` int NOT NULL,
+  `userID` int NOT NULL,
   `projectName` varchar(100) NOT NULL,
   PRIMARY KEY (`projectID`),
   UNIQUE KEY `projectName_UNIQUE` (`projectName`),
-  KEY `fkprojectCompany_idx` (`companyID`),
-  CONSTRAINT `fkprojectCompany` FOREIGN KEY (`companyID`) REFERENCES `companies` (`companyID`)
+  KEY `fkprojectUser_idx` (`userID`),
+  CONSTRAINT `fkprojectUser` FOREIGN KEY (`userID`) REFERENCES `users` (`userID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -184,16 +159,13 @@ CREATE TABLE `users` (
   `userID` int NOT NULL AUTO_INCREMENT,
   `username` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL,
-  `companyID` int NOT NULL,
   `userroleID` int NOT NULL,
   PRIMARY KEY (`userID`),
   UNIQUE KEY `username_UNIQUE` (`username`),
   UNIQUE KEY `password_UNIQUE` (`password`),
   KEY `fkusersUserRoles_idx` (`userroleID`),
-  KEY `fkusersCompanies_idx` (`companyID`),
-  CONSTRAINT `fkusersCompanies` FOREIGN KEY (`companyID`) REFERENCES `companies` (`companyID`),
   CONSTRAINT `fkusersuserroles` FOREIGN KEY (`userroleID`) REFERENCES `userroles` (`userroleID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -202,6 +174,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (3,'SuperAdmin','superadmin',1),(4,'John Wick','john',3);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -214,4 +187,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-11-23 16:43:56
+-- Dump completed on 2021-11-24 11:38:51
