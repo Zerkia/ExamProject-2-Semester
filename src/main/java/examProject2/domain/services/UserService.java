@@ -18,4 +18,8 @@ public class UserService {
         User user = new User(username, password, userroleID);
         return userRepository.createUser(user);
     }
+
+    public User login(String username, String password) throws ExamProjectException {
+        return userRepository.login(username, password);
+    }
 }

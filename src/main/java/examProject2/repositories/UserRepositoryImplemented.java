@@ -23,4 +23,27 @@ public class UserRepositoryImplemented implements UserRepository{
             throw new ExamProjectException(regErr.getMessage());
         }
     }
+
+    public User login(String username, String password) throws ExamProjectException {
+        try{
+            Connection conn = DBManager.getConnection();
+            String sqlStr = "SELECT userID FROM users WHERE username = ? AND password = ?";
+            PreparedStatement ps = conn.prepareStatement(sqlStr);
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()){
+                int userID = rs.getInt("userID");
+                User user = new User(username, password);
+                user.setUserID(userID);
+                return user;
+            } else {
+                throw new ExamProjectException("Could not figure out userID");
+            }
+        } catch (SQLException loginErr) {
+            System.out.println("Error in logging in");
+            throw new ExamProjectException(loginErr.getMessage());
+        }
+    }
 }

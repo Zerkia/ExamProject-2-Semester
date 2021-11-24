@@ -5,4 +5,5 @@ import examProject2.domain.models.User;
 
 public interface UserRepository {
     public User createUser(User user) throws ExamProjectException;
+    public User login(String username, String password) throws ExamProjectException;
 }

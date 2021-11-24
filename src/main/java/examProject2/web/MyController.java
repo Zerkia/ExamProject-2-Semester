@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.HttpSession;
+
 
 @Controller
 public class MyController {
@@ -45,5 +47,29 @@ public class MyController {
     @GetMapping("/login")
     public String login(){
         return "login";
+    }
+
+    @PostMapping("/login")
+    public RedirectView loginUser(WebRequest request) throws ExamProjectException {
+
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+        User user = userService.login(username, password);
+
+        request.setAttribute("user", user, WebRequest.SCOPE_SESSION);
+
+        return new RedirectView("mainPage");
+    }
+
+    @GetMapping("/mainPage")
+    public String mainPage(){
+        return "mainPage";
+    }
+
+    @GetMapping("/logout")
+    public RedirectView logout(HttpSession session){
+        session.invalidate();
+        return new RedirectView("/");
     }
 }

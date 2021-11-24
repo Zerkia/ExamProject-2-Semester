@@ -3,8 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link href="style.css" rel="stylesheet">
 </head>
-<body>
-    <h1>Success!</h1>
-</body>
+<div id="wrapper" class="center">
+    <form action="/login" method="post">
+        <h1>Login</h1>
+
+        Username: <input type="text" name="username"/>
+        <br><br>
+        Password: <input type="password" name="password"/>
+        <br><br>
+
+        <button onclick="location.href='/'" type="button">Back</button>
+        <button name="create" type="submit">Login</button>
+    </form>
+</div>
 </html>

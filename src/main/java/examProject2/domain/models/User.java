@@ -5,8 +5,14 @@ public class User {
     private String username;
     private String password;
     private int userroleID;
+    private int userID;
 
     public User(){
+    }
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
 
     public User(String username, String password, int userroleID) {
@@ -37,6 +43,14 @@ public class User {
 
     public void setUserroleID(int userroleID) {
         this.userroleID = userroleID;
+    }
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 
     @Override
