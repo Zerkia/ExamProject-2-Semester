@@ -7,9 +7,9 @@ public class Project {
     private int userID;
     private int projectID;
 
-    public Project(String projectName, int projectID) {
+    public Project(String projectName, int userID) {
         this.projectName = projectName;
-        this.projectID = projectID;
+        this.userID = userID;
     }
 
     public Project(String projectName, String projectOwner, int projectID) {
@@ -23,6 +23,9 @@ public class Project {
         this.userID = userID;
         this.projectID = projectID;
     }
+
+
+
 
     public String getProjectName() {
         return projectName;
