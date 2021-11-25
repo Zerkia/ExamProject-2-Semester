@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+    <div id="wrapper">
+        <div class="center">
+            <h1>Welcome to the main page!</h1>
+            <h2>Here you can start a new project, mark them finished or delete them!</h2>
+
+            <!--
+            In case of userroleID = 1 or 2, display the following h2:
+            </h2>Since you're a Super Admin / admin, you can delete anyones projects</h2>
+            -->
+
+            <button onclick="location.href='/addItem'" type="button" class="button2">Start a new project</button>
+            <br><br>
+            <form action="/logout">
+                <button type="submit" name="logout" class="button">Log Out</button>
+            </form>
+            <br><br>
+        </div>
+
+        <table id="customers">
+            <tr>
+                <th style="width: 55%">Project Name</th>
+                <th style="width: 25%">Project Owner</th>
+                <th style="width: 10%">Unknown</th>
+                <th style="width: 10%"></th>
+            </tr>
+
+
+            <tr th:each="project : ${projects}">
+                <td th:text="${project.projectName}"></td>
+                <td th:text="${project.projectOwner}"></td>
+                <td></td>
+                <td>
+                    <a onclick="
+                    return confirm('Er du sikker på at du vil slette dette projekt?');"
+                    th:href="@{/deleteItem(projectID=${project.projectID})}">
+                        <img class="icon center" src="trash.png" alt="delete item">
+                    </a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
