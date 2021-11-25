@@ -1,5 +1,6 @@
 package examProject2.domain.services;
 
+import examProject2.domain.models.Project;
 import examProject2.domain.models.User;
 import examProject2.domain.ExamProjectException;
 
@@ -22,4 +23,13 @@ public class UserService {
     public User login(String username, String password) throws ExamProjectException {
         return userRepository.login(username, password);
     }
+
+    public List<Project> fetchProjects(User user){
+        return userRepository.fetchProjects(user);
+    }
+
+    public List<Project> fetchAllProjects(){
+        return userRepository.fetchAllProjects();
+    }
+
 }

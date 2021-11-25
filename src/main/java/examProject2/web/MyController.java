@@ -6,6 +6,7 @@ import examProject2.domain.models.User;
 import examProject2.domain.services.UserService;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.context.request.WebRequest;
@@ -63,7 +64,15 @@ public class MyController {
     }
 
     @GetMapping("/mainPage")
-    public String mainPage(){
+    public String mainPage(Model model, WebRequest request){
+        User user = (User) request.getAttribute("user", 1);
+
+        assert user != null;
+        if(user.getUserroleID() <= 2){
+            model.addAttribute("projects", userService.fetchAllProjects());
+        } else {
+            model.addAttribute("projects", userService.fetchProjects(user));
+        }
         return "mainPage";
     }
 
