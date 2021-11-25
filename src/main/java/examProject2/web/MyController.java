@@ -1,6 +1,9 @@
 package examProject2.web;
 
 import examProject2.domain.ExamProjectException;
+import examProject2.domain.models.Project;
+import examProject2.domain.services.ProjectService;
+import examProject2.repositories.ProjectRepositoryImplemented;
 import examProject2.repositories.UserRepositoryImplemented;
 import examProject2.domain.models.User;
 import examProject2.domain.services.UserService;
@@ -18,6 +21,7 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class MyController {
     private UserService userService = new UserService(new UserRepositoryImplemented());
+    private ProjectService projectService = new ProjectService(new ProjectRepositoryImplemented());
 
     @GetMapping("/")
     public String index(){
@@ -74,6 +78,20 @@ public class MyController {
             model.addAttribute("projects", userService.fetchProjects(user));
         }
         return "mainPage";
+    }
+
+    @GetMapping("/newProject")
+    public String newProject(){return "newProject";}
+
+    @PostMapping("/createProject")
+    public RedirectView createProject(WebRequest request) throws ExamProjectException{
+        String projectname = request.getParameter("projectName");
+        User user = (User) request.getAttribute("user", WebRequest.SCOPE_SESSION);
+        System.out.println(user.getUserID() + " " + user.getUsername());
+        assert user != null;
+        Project project = projectService.createProject(projectname, user.getUserID());
+        request.setAttribute("project", project, WebRequest.SCOPE_SESSION);
+        return new RedirectView("mainPage");
     }
 
     @GetMapping("/logout")
