@@ -36,10 +36,11 @@ public class ProjectController {
     public RedirectView createProject(WebRequest request) throws ExamProjectException {
         String projectname = request.getParameter("projectName");
         User user = (User) request.getAttribute("user", WebRequest.SCOPE_SESSION);
-        System.out.println(user.getUserID() + " " + user.getUsername());
+
         assert user != null;
         Project project = projectService.createProject(projectname, user.getUserID());
         request.setAttribute("project", project, WebRequest.SCOPE_SESSION);
+
         return new RedirectView("mainPage");
     }
 }
