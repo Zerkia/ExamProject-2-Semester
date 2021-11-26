@@ -19,9 +19,8 @@ import javax.servlet.http.HttpSession;
 
 
 @Controller
-public class MyController {
+public class UserController {
     private UserService userService = new UserService(new UserRepositoryImplemented());
-    private ProjectService projectService = new ProjectService(new ProjectRepositoryImplemented());
 
     @GetMapping("/")
     public String index(){
@@ -64,33 +63,6 @@ public class MyController {
 
         request.setAttribute("user", user, WebRequest.SCOPE_SESSION);
 
-        return new RedirectView("mainPage");
-    }
-
-    @GetMapping("/mainPage")
-    public String mainPage(Model model, WebRequest request){
-        User user = (User) request.getAttribute("user", 1);
-
-        assert user != null;
-        if(user.getUserroleID() <= 2){
-            model.addAttribute("projects", userService.fetchAllProjects());
-        } else {
-            model.addAttribute("projects", userService.fetchProjects(user));
-        }
-        return "mainPage";
-    }
-
-    @GetMapping("/newProject")
-    public String newProject(){return "newProject";}
-
-    @PostMapping("/createProject")
-    public RedirectView createProject(WebRequest request) throws ExamProjectException{
-        String projectname = request.getParameter("projectName");
-        User user = (User) request.getAttribute("user", WebRequest.SCOPE_SESSION);
-        System.out.println(user.getUserID() + " " + user.getUsername());
-        assert user != null;
-        Project project = projectService.createProject(projectname, user.getUserID());
-        request.setAttribute("project", project, WebRequest.SCOPE_SESSION);
         return new RedirectView("mainPage");
     }
 
