@@ -24,12 +24,7 @@ public class UserService {
         return userRepository.login(username, password);
     }
 
-    public List<Project> fetchProjects(User user){
-        return userRepository.fetchProjects(user);
-    }
 
-    public List<Project> fetchAllProjects(){
-        return userRepository.fetchAllProjects();
-    }
+
 
 }
