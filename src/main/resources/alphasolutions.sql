@@ -55,7 +55,7 @@ CREATE TABLE `subprojects` (
   PRIMARY KEY (`subprojectID`),
   UNIQUE KEY `subprojectName_UNIQUE` (`subprojectName`),
   KEY `fkprojectsubproject_idx` (`projectID`),
-  CONSTRAINT `fkprojectsubproject` FOREIGN KEY (`projectID`) REFERENCES `projects` (`projectID`)
+  CONSTRAINT `fkprojectsubproject` FOREIGN KEY (`projectID`) REFERENCES `projects` (`projectID`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -65,6 +65,7 @@ CREATE TABLE `subprojects` (
 
 LOCK TABLES `subprojects` WRITE;
 /*!40000 ALTER TABLE `subprojects` DISABLE KEYS */;
+INSERT INTO `subprojects` VALUES (1,1,'subtest'),(2,1,'subtest2');
 /*!40000 ALTER TABLE `subprojects` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -82,7 +83,7 @@ CREATE TABLE `subtasks` (
   PRIMARY KEY (`subtaskID`),
   UNIQUE KEY `subtaskscol_UNIQUE` (`subtaskName`),
   KEY `fksubtaskTask_idx` (`taskID`),
-  CONSTRAINT `fksubtaskTask` FOREIGN KEY (`taskID`) REFERENCES `tasks` (`taskID`)
+  CONSTRAINT `fksubtaskTask` FOREIGN KEY (`taskID`) REFERENCES `tasks` (`taskID`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -92,6 +93,7 @@ CREATE TABLE `subtasks` (
 
 LOCK TABLES `subtasks` WRITE;
 /*!40000 ALTER TABLE `subtasks` DISABLE KEYS */;
+
 /*!40000 ALTER TABLE `subtasks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -109,7 +111,7 @@ CREATE TABLE `tasks` (
   PRIMARY KEY (`taskID`),
   UNIQUE KEY `taskName_UNIQUE` (`taskName`),
   KEY `fktasksubproject_idx` (`subprojectID`),
-  CONSTRAINT `fktasksubproject` FOREIGN KEY (`subprojectID`) REFERENCES `subprojects` (`subprojectID`)
+  CONSTRAINT `fktasksubproject` FOREIGN KEY (`subprojectID`) REFERENCES `subprojects` (`subprojectID`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
