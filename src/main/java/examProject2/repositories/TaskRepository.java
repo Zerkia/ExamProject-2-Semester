@@ -1,4 +1,9 @@
 package examProject2.repositories;
 
-public class TaskRepository {
+import examProject2.domain.models.Task;
+
+import java.util.List;
+
+public interface TaskRepository {
+    List<Task> fetchTasks(int subProjectID);
 }
