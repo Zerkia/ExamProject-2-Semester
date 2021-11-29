@@ -1,5 +1,6 @@
 package examProject2.domain.models;
 
+import java.util.Date;
 import java.util.List;
 
 public class Project {
@@ -8,6 +9,7 @@ public class Project {
     private String projectOwner;
     private int userID;
     private int projectID;
+    private Date deadline;
     private List<SubProject> subProjectList;
 
     public Project(String projectName, int userID) {
@@ -15,10 +17,11 @@ public class Project {
         this.userID = userID;
     }
 
-    public Project(String projectName, String projectOwner, int projectID) {
+    public Project(String projectName, String projectOwner, int projectID, Date deadline) {
         this.projectName = projectName;
         this.projectOwner = projectOwner;
         this.projectID = projectID;
+        this.deadline = deadline;
     }
 
     public Project(String projectName, int userID, int projectID) {
@@ -67,5 +70,13 @@ public class Project {
         return "Project{" +
                 "projectName='" + projectName + '\'' +
                 '}';
+    }
+
+    public Date getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(Date deadline) {
+        this.deadline = deadline;
     }
 }
