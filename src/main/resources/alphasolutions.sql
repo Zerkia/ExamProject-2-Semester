@@ -26,6 +26,7 @@ CREATE TABLE `projects` (
   `projectID` int NOT NULL AUTO_INCREMENT,
   `userID` int NOT NULL,
   `projectName` varchar(100) NOT NULL,
+  `deadline` datetime DEFAULT NULL,
   PRIMARY KEY (`projectID`),
   UNIQUE KEY `projectName_UNIQUE` (`projectName`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
