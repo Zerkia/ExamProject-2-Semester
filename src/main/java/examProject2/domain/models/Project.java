@@ -15,23 +15,17 @@ public class Project {
         this.userID = userID;
     }
 
+    public Project(String projectName, String projectOwner, int projectID) {
+        this.projectName = projectName;
+        this.projectOwner = projectOwner;
+        this.projectID = projectID;
+    }
+
     public Project(String projectName, String projectOwner, int projectID, Date deadline) {
         this.projectName = projectName;
         this.projectOwner = projectOwner;
         this.projectID = projectID;
         this.deadline = deadline;
-    }
-
-    public Project(String projectName, String projectOwner, int ProjectID){
-        this.projectName = projectName;
-        this.projectOwner = projectOwner;
-        this.projectID = ProjectID;
-    }
-
-    public Project(String projectName, int userID, int projectID) {
-        this.projectName = projectName;
-        this.userID = userID;
-        this.projectID = projectID;
     }
 
     public String getProjectName() {
@@ -64,6 +58,14 @@ public class Project {
 
     public void setUserID(int userID) {
         this.userID = userID;
+    }
+
+    public Date getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(Date deadline) {
+        this.deadline = deadline;
     }
 
     @Override

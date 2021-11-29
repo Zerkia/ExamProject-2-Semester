@@ -52,8 +52,11 @@ public class ProjectRepositoryImplemented implements ProjectRepository{
             while(rs.next()) {
                 Project project = new Project(
                         rs.getString("projectName"),
+                        //Inner joined username to show the name of who created the project
+                        //If userID is connected to a non existent user, project won't show
                         rs.getString("username"),
-                        rs.getInt("projectID")
+                        rs.getInt("projectID"),
+                        rs.getDate("deadline")
                 );
                 list.add(project);
             }
@@ -77,13 +80,12 @@ public class ProjectRepositoryImplemented implements ProjectRepository{
             while(rs.next()) {
                 Project project = new Project(
                         rs.getString("projectName"),
-                        //Inner joined username to show the name of who created the project
                         rs.getString("username"),
-                        rs.getInt("projectID")
+                        rs.getInt("projectID"),
+                        rs.getDate("deadline")
                 );
                 list.add(project);
             }
-            //return wishlist;
         } catch (SQLException wlErr) {
             System.out.println("Something went wrong");
             System.out.println(wlErr.getMessage());

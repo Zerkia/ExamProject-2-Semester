@@ -26,18 +26,20 @@
 
         <table id="customers">
             <tr>
-                <th style="width: 55%">Project Name</th>
-                <th style="width: 25%">Project Owner</th>
-                <th style="width: 10%">Unknown</th>
+                <th style="width: 40%">Project Name</th>
+                <th style="width: 20%">Project Owner</th>
+                <th style="width: 20%">Deadline</th>
+                <th style="width: 10%">Project Changes</th>
                 <th style="width: 10%"></th>
             </tr>
 
             <tr th:each="project : ${projects}">
                 <td th:text="${project.projectName}"></td>
                 <td th:text="${project.projectOwner}"></td>
+                <td th:text="${project.deadline}"></td>
                 <td>
                     <a th:href="@{/projectsPage(projectID=${project.projectID})}">
-                        <img class="icon center" src="trash.png" alt="delete item">
+                        <p class="center">Update</p>
                     </a>
                 </td>
                 <td>
