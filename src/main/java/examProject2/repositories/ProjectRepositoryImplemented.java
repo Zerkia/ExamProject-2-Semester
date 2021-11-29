@@ -113,7 +113,8 @@ public class ProjectRepositoryImplemented implements ProjectRepository{
         List<SubProject> list = new ArrayList<>();
 
         try {
-            String sqlStr = "SELECT * FROM subprojects WHERE projectID = ?";
+            String sqlStr = "SELECT * FROM subprojects " +
+                    "INNER JOIN users ON users.userID = subprojects.userID WHERE projectID = ?";
             Connection conn = DBManager.getConnection();
             PreparedStatement ps = conn.prepareStatement(sqlStr);
             ps.setInt(1, projectID);
@@ -122,7 +123,9 @@ public class ProjectRepositoryImplemented implements ProjectRepository{
             while (rs.next()) {
                 SubProject subProject = new SubProject(
                         rs.getString("subprojectName"),
-                        rs.getInt("subprojectID")
+                        rs.getString("username"),
+                        rs.getInt("subprojectID"),
+                        rs.getDate("deadline")
                 );
                 list.add(subProject);
             }
