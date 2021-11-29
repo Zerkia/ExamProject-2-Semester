@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table id="customers">
+    <tr>
+        <th style="width: 55%">Project Name</th>
+        <th style="width: 25%">Project id</th>
+        <th style="width: 10%">Unknown</th>
+        <th style="width: 10%"></th>
+    </tr>
+
+
+    <tr th:each="subproject : ${subprojects}">
+        <td th:text="${subproject.subprojectName}"></td>
+        <td th:text="${subproject.projectID}"></td>
+        <td></td>
+
+    </tr>
+</table>
+</div>
+</body>
+</html>
