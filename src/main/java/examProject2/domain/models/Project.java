@@ -10,9 +10,9 @@ public class Project {
     private int projectID;
     private Date deadline;
 
-    public Project(String projectName, int projectID) {
+    public Project(String projectName, int userID) {
         this.projectName = projectName;
-        this.projectID = projectID;
+        this.userID = userID;
     }
 
     public Project(String projectName, String projectOwner, int projectID, Date deadline) {
@@ -20,6 +20,12 @@ public class Project {
         this.projectOwner = projectOwner;
         this.projectID = projectID;
         this.deadline = deadline;
+    }
+
+    public Project(String projectName, String projectOwner, int ProjectID){
+        this.projectName = projectName;
+        this.projectOwner = projectOwner;
+        this.projectID = ProjectID;
     }
 
     public Project(String projectName, int userID, int projectID) {
