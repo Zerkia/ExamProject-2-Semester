@@ -69,7 +69,8 @@ public class UserRepositoryImplemented implements UserRepository{
                 Project list = new Project(
                         rs.getString("projectName"),
                         rs.getString("username"),
-                        rs.getInt("projectID")
+                        rs.getInt("projectID"),
+                        rs.getDate("deadline")
                 );
                 project.add(list);
             }
@@ -95,7 +96,8 @@ public class UserRepositoryImplemented implements UserRepository{
                         rs.getString("projectName"),
                         //Inner joined username to show the name of who created the project
                         rs.getString("username"),
-                        rs.getInt("projectID")
+                        rs.getInt("projectID"),
+                        rs.getDate("deadline")
                 );
                 project.add(list);
             }

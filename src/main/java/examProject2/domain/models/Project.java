@@ -1,21 +1,25 @@
 package examProject2.domain.models;
 
+import java.util.Date;
+
 public class Project {
 
     private String projectName;
     private String projectOwner;
     private int userID;
     private int projectID;
+    private Date deadline;
 
     public Project(String projectName, int projectID) {
         this.projectName = projectName;
         this.projectID = projectID;
     }
 
-    public Project(String projectName, String projectOwner, int projectID) {
+    public Project(String projectName, String projectOwner, int projectID, Date deadline) {
         this.projectName = projectName;
         this.projectOwner = projectOwner;
         this.projectID = projectID;
+        this.deadline = deadline;
     }
 
     public Project(String projectName, int userID, int projectID) {
