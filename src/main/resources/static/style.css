@@ -5,14 +5,8 @@ a{
 }
 
 .button{
-    width: 100px;
-    height: 40px;
-    font-size: 20px;
-}
-
-.button2{
-    width: 200px;
-    height: 40px;
+    width: auto;
+    height: auto;
     font-size: 20px;
 }
 
