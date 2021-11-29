@@ -37,7 +37,7 @@ public class ProjectRepositoryImplemented implements ProjectRepository{
 
     @Override
     public List<Project> fetchProjects(User user) {
-        List<Project> project = new ArrayList<>();
+        List<Project> list = new ArrayList<>();
         int userID = user.getUserID();
 
         try{
@@ -50,22 +50,22 @@ public class ProjectRepositoryImplemented implements ProjectRepository{
             ResultSet rs = ps.executeQuery();
 
             while(rs.next()) {
-                Project list = new Project(
+                Project project = new Project(
                         rs.getString("projectName"),
                         rs.getString("username"),
                         rs.getInt("projectID")
                 );
-                project.add(list);
+                list.add(project);
             }
-        } catch (SQLException wlErr) {
+        } catch (SQLException fetchErr) {
             System.out.println("Something went wrong");
-            System.out.println(wlErr.getMessage());
+            System.out.println(fetchErr.getMessage());
         }
-        return project;
+        return list;
     }
 
     public List<Project> fetchAllProjects() {
-        List<Project> project = new ArrayList<>();
+        List<Project> list = new ArrayList<>();
 
         try{
             String sqlStr = "SELECT users.username, projects.* FROM projects " +
@@ -75,20 +75,20 @@ public class ProjectRepositoryImplemented implements ProjectRepository{
             ResultSet rs = ps.executeQuery();
 
             while(rs.next()) {
-                Project list = new Project(
+                Project project = new Project(
                         rs.getString("projectName"),
                         //Inner joined username to show the name of who created the project
                         rs.getString("username"),
                         rs.getInt("projectID")
                 );
-                project.add(list);
+                list.add(project);
             }
             //return wishlist;
         } catch (SQLException wlErr) {
             System.out.println("Something went wrong");
             System.out.println(wlErr.getMessage());
         }
-        return project;
+        return list;
     }
 
     public String deleteProject(int projectID) {
@@ -107,29 +107,27 @@ public class ProjectRepositoryImplemented implements ProjectRepository{
         return "redirect:/mainPage";
     }
 
-    @Override
     public List<SubProject> fetchSubProjects(int projectID) {
-        List<SubProject> subProject = new ArrayList<>();
+        List<SubProject> list = new ArrayList<>();
 
         try {
-            String sqlStr = "SELECT subprojects.* FROM subprojects WHERE projectID= ?";
+            String sqlStr = "SELECT * FROM subprojects WHERE projectID = ?";
             Connection conn = DBManager.getConnection();
             PreparedStatement ps = conn.prepareStatement(sqlStr);
-            ps.setInt(1,projectID);
+            ps.setInt(1, projectID);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                SubProject list = new SubProject(
+                SubProject subProject = new SubProject(
                         rs.getString("subprojectName"),
-                        rs.getInt("projectID"),
                         rs.getInt("subprojectID")
                 );
-                subProject.add(list);
+                list.add(subProject);
             }
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException subfetchErr) {
+            System.out.println("Error in subFetch");
+            System.out.println(subfetchErr.getMessage());
         }
-        return subProject;
-        }
+        return list;
     }
+}

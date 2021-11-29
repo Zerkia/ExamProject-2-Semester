@@ -16,7 +16,6 @@ public class ProjectService {
     public Project createProject(String projectName, int userID) throws ExamProjectException {
         Project project = new Project(projectName, userID);
         return projectRepository.createProject(project);
-
     }
 
     public List<Project> fetchProjects(User user){

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+    <div id="wrapper">
+        <div class="center">
+            <h1>Welcome to the subprojects page!</h1>
+            <h2>Here you can start a new subproject, mark them finished or delete them!</h2>
+
+            <!--
+            In case of userroleID = 1 or 2, display the following h2:
+            </h2>Since you're a Super Admin / admin, you can delete anyones subprojects</h2>
+            -->
+
+            <button onclick="location.href='/newSubProject'" type="button" class="button2">Start a new project</button>
+            <br><br>
+            <form action="/logout">
+                <button type="submit" name="logout" class="button">Log Out</button>
+            </form>
+            <br><br>
+        </div>
+
+        <table id="customers">
+            <tr>
+                <th style="width: 55%">Project Name</th>
+                <th style="width: 25%">Project id</th>
+                <th style="width: 10%">Unknown</th>
+                <th style="width: 10%"></th>
+            </tr>
+
+            <tr th:each="subproject : ${subprojects}">
+                <td th:text="${subproject.subprojectName}"></td>
+                <td th:text="${subproject.projectID}"></td>
+                <td></td>
+                <td>
+                    <a onclick="
+                        return confirm('Er du sikker på at du vil slette dette projekt?');"
+                       th:href="@{/deleteSubProject(subProjectID=${subproject.subprojectID})}">
+                        <img class="icon center" src="trash.png" alt="delete item">
+                    </a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>
