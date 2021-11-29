@@ -31,14 +31,6 @@ public class ProjectController {
         return "mainPage";
     }
 
-    @GetMapping("/projectsPage")
-    public String projectsPage(Model model, @RequestParam int projectID){
-        System.out.println(projectID);
-
-        model.addAttribute("subprojects", projectService.fetchSubprojects(projectID));
-        return "subprojectsPage";
-    }
-
     @GetMapping("/newProject")
     public String newProject(){return "newProject";}
 
@@ -56,5 +48,11 @@ public class ProjectController {
     public RedirectView deleteProject(int projectID) {
         projectService.deleteProject(projectID);
         return new RedirectView("mainPage");
+    }
+
+    @GetMapping("/subprojectsPage")
+    public String subprojectsPage(Model model, @RequestParam int projectID){
+        model.addAttribute("subprojects", projectService.fetchSubprojects(projectID));
+        return "subprojectsPage";
     }
 }
