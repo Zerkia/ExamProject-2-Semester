@@ -40,6 +40,7 @@ public class ProjectController {
         assert user != null;
         Project project = projectService.createProject(projectname, user.getUserID());
         request.setAttribute("project", project, WebRequest.SCOPE_SESSION);
+
         return new RedirectView("mainPage");
     }
 
