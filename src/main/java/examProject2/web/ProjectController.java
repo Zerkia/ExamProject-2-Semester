@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -30,6 +31,14 @@ public class ProjectController {
         return "mainPage";
     }
 
+    @GetMapping("/projectsPage")
+    public String projectsPage(Model model, @RequestParam int projectID){
+        System.out.println(projectID);
+
+        model.addAttribute("subprojects", projectService.fetchSubprojects(projectID));
+        return "subprojectsPage";
+    }
+
     @GetMapping("/newProject")
     public String newProject(){return "newProject";}
 
@@ -40,7 +49,6 @@ public class ProjectController {
         assert user != null;
         Project project = projectService.createProject(projectname, user.getUserID());
         request.setAttribute("project", project, WebRequest.SCOPE_SESSION);
-
         return new RedirectView("mainPage");
     }
 
@@ -48,12 +56,5 @@ public class ProjectController {
     public RedirectView deleteProject(int projectID) {
         projectService.deleteProject(projectID);
         return new RedirectView("mainPage");
-    }
-
-    @GetMapping("/projectsPage")
-    public RedirectView projectsPage(int projectID, Model model){
-
-        model.addAttribute("subprojects", projectService.fetchSubprojects(projectID));
-        return new RedirectView("projectsPage");
     }
 }

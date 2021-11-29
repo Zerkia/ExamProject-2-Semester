@@ -7,9 +7,6 @@ public class User {
     private int userroleID;
     private int userID;
 
-    public User(){
-    }
-
     public User(String username, String password) {
         this.username = username;
         this.password = password;
@@ -45,13 +42,9 @@ public class User {
         this.userroleID = userroleID;
     }
 
-    public int getUserID() {
-        return userID;
-    }
+    public int getUserID() { return userID; }
 
-    public void setUserID(int userID) {
-        this.userID = userID;
-    }
+    public void setUserID(int userID) { this.userID = userID; }
 
     @Override
     public String toString() {

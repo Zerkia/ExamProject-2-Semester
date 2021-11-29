@@ -36,13 +36,11 @@
                 <td th:text="${project.projectName}"></td>
                 <td th:text="${project.projectOwner}"></td>
                 <td>
-
                     <a th:href="@{/projectsPage(projectID=${project.projectID})}">
                         <img class="icon center" src="trash.png" alt="delete item">
                     </a>
                 </td>
                 <td>
-
                     <a onclick="
                     return confirm('Er du sikker på at du vil slette dette projekt?');"
                     th:href="@{/deleteProject(projectID=${project.projectID})}">

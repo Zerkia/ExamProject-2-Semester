@@ -8,7 +8,6 @@ public class Project {
     private String projectOwner;
     private int userID;
     private int projectID;
-    private List<SubProject> subProjectList;
 
     public Project(String projectName, int userID) {
         this.projectName = projectName;
