@@ -36,9 +36,13 @@
             <tr th:each="project : ${projects}">
                 <td th:text="${project.projectName}"></td>
                 <td th:text="${project.projectOwner}"></td>
-                <td></td>
                 <td>
-                    <a th:href="@{/deleteItem(projectID=${project.projectID})}">
+                    <a th:href="@{/projectsPage(projectID=${project.projectID})}">
+                        <img class="icon center" src="trash.png" alt="delete item">
+                    </a>
+                </td>
+                <td>
+                    <a th:href="@{/deleteProject(projectID=${project.projectID})}">
                         <img class="icon center" src="trash.png" alt="delete item">
                     </a>
                 </td>
