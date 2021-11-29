@@ -2,6 +2,7 @@ package examProject2.domain.services;
 
 import examProject2.domain.ExamProjectException;
 import examProject2.domain.models.Project;
+import examProject2.domain.models.SubProject;
 import examProject2.domain.models.User;
 import examProject2.repositories.ProjectRepository;
 
@@ -25,5 +26,9 @@ public class ProjectService {
     public List<Project> fetchAllProjects(){
         return projectRepository.fetchAllProjects();
     }
+
+    public String deleteProject(int projectID){ return projectRepository.deleteProject(projectID); }
+
+    public List<SubProject> fetchSubprojects(int projectID){return projectRepository.fetchSubProjects(projectID);}
 
 }

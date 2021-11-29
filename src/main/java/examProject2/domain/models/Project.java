@@ -1,11 +1,14 @@
 package examProject2.domain.models;
 
+import java.util.List;
+
 public class Project {
 
     private String projectName;
     private String projectOwner;
     private int userID;
     private int projectID;
+    private List<SubProject> subProjectList;
 
     public Project(String projectName, int userID) {
         this.projectName = projectName;

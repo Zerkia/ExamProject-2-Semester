@@ -2,6 +2,7 @@ package examProject2.repositories;
 
 import examProject2.domain.ExamProjectException;
 import examProject2.domain.models.Project;
+import examProject2.domain.models.SubProject;
 import examProject2.domain.models.User;
 
 import java.sql.Connection;
@@ -89,4 +90,46 @@ public class ProjectRepositoryImplemented implements ProjectRepository{
         }
         return project;
     }
-}
+
+    public String deleteProject(int projectID) {
+        try{
+            String sqlStr = "DELETE projects.* FROM projects WHERE projectID = ?";
+            Connection conn = DBManager.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sqlStr);
+            ps.setInt(1, projectID);
+            ps.executeUpdate();
+
+            return "Success!";
+        } catch (SQLException delErr) {
+            System.out.println("Couldn't delete item, Error");
+            System.out.println(delErr.getMessage());
+        }
+        return "redirect:/mainPage";
+    }
+
+    @Override
+    public List<SubProject> fetchSubProjects(int projectID) {
+        List<SubProject> subProject = new ArrayList<>();
+
+        try {
+            String sqlStr = "SELECT subprojects.* FROM subprojects WHERE projectID= ?";
+            Connection conn = DBManager.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sqlStr);
+            ps.setInt(1,projectID);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                SubProject list = new SubProject(
+                        rs.getString("subprojectName"),
+                        rs.getInt("projectID"),
+                        rs.getInt("subprojectID")
+                );
+                subProject.add(list);
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return subProject;
+        }
+    }
