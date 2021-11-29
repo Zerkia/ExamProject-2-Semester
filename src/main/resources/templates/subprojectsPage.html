@@ -16,29 +16,39 @@
             </h2>Since you're a Super Admin / admin, you can delete anyones subprojects</h2>
             -->
 
-            <button onclick="location.href='/newSubProject'" type="button" class="button2">Start a new project</button>
+            <button onclick="location.href='/newSubProject'" type="button" class="button">Start a new subproject</button>
             <br><br>
-            <form action="/logout">
-                <button type="submit" name="logout" class="button">Log Out</button>
-            </form>
+            <button onclick="location.href='/mainPage'" type="button" class="button">Back to Projects Page</button>
             <br><br>
         </div>
 
         <table id="customers">
             <tr>
-                <th style="width: 55%">Project Name</th>
-                <th style="width: 25%">Project id</th>
-                <th style="width: 10%">Unknown</th>
-                <th style="width: 10%"></th>
+                <th style="width: 40%">Project Name</th>
+                <th style="width: 15%">Project Owner</th>
+                <!--<th style="width: 15%">Deadline</th>-->
+                <th style="width: 10%">Tasks</th>
+                <th style="width: 10%">Subproject Changes</th>
+                <th style="width: 10%">Delete?</th>
             </tr>
 
             <tr th:each="subproject : ${subprojects}">
                 <td th:text="${subproject.subprojectName}"></td>
-                <td th:text="${subproject.projectID}"></td>
-                <td></td>
+                <td style="text-align:center" th:text="${subproject.subprojectOwner}"></td>
+                <!--<td style="text-align:center" th:text="${subproject.deadline}" ></td>-->
+                <td>
+                    <a th:href="@{/tasksPage(subprojectID=${subproject.subprojectID})}">
+                        <p class="center">View Tasks</p>
+                    </a>
+                </td>
+                <td>
+                    <a th:href="@{/updateSubproject(subprojectID=${subproject.subprojectID})}">
+                        <p class="center">Update Subproject</p>
+                    </a>
+                </td>
                 <td>
                     <a onclick="
-                        return confirm('Er du sikker på at du vil slette dette projekt?');"
+                        return confirm('Are you sure you want to delete this subproject?');"
                        th:href="@{/deleteSubProject(subProjectID=${subproject.subprojectID})}">
                         <img class="icon center" src="trash.png" alt="delete item">
                     </a>
