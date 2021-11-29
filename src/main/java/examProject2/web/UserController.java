@@ -1,6 +1,9 @@
 package examProject2.web;
 
 import examProject2.domain.ExamProjectException;
+import examProject2.domain.models.Project;
+import examProject2.domain.services.ProjectService;
+import examProject2.repositories.ProjectRepositoryImplemented;
 import examProject2.repositories.UserRepositoryImplemented;
 import examProject2.domain.models.User;
 import examProject2.domain.services.UserService;
@@ -16,7 +19,7 @@ import javax.servlet.http.HttpSession;
 
 
 @Controller
-public class MyController {
+public class UserController {
     private UserService userService = new UserService(new UserRepositoryImplemented());
 
     @GetMapping("/")
@@ -61,19 +64,6 @@ public class MyController {
         request.setAttribute("user", user, WebRequest.SCOPE_SESSION);
 
         return new RedirectView("mainPage");
-    }
-
-    @GetMapping("/mainPage")
-    public String mainPage(Model model, WebRequest request){
-        User user = (User) request.getAttribute("user", 1);
-
-        assert user != null;
-        if(user.getUserroleID() <= 2){
-            model.addAttribute("projects", userService.fetchAllProjects());
-        } else {
-            model.addAttribute("projects", userService.fetchProjects(user));
-        }
-        return "mainPage";
     }
 
     @GetMapping("/logout")
