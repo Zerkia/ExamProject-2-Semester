@@ -26,7 +26,7 @@
             <tr>
                 <th style="width: 40%">Project Name</th>
                 <th style="width: 15%">Project Owner</th>
-                <!--<th style="width: 15%">Deadline</th>-->
+                <th style="width: 15%">Deadline</th>
                 <th style="width: 10%">Tasks</th>
                 <th style="width: 10%">Subproject Changes</th>
                 <th style="width: 10%">Delete?</th>
@@ -35,7 +35,7 @@
             <tr th:each="subproject : ${subprojects}">
                 <td th:text="${subproject.subprojectName}"></td>
                 <td style="text-align:center" th:text="${subproject.subprojectOwner}"></td>
-                <!--<td style="text-align:center" th:text="${subproject.deadline}" ></td>-->
+                <td style="text-align:center" th:text="${subproject.deadline}" ></td>
                 <td>
                     <a th:href="@{/tasksPage(subprojectID=${subproject.subprojectID})}">
                         <p class="center">View Tasks</p>

@@ -44,7 +44,6 @@ public class ProjectRepositoryImplemented implements ProjectRepository{
         List<Project> list = new ArrayList<>();
         int userID = user.getUserID();
 
-
         try{
             String sqlStr = "SELECT users.username, projects.* FROM projects " +
                     "INNER JOIN users ON users.userID = projects.userID WHERE users.userID = ?";

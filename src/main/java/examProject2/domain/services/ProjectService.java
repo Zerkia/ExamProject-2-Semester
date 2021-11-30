@@ -14,20 +14,16 @@ public class ProjectService {
     private ProjectRepository projectRepository;
 
     public ProjectService(ProjectRepository projectRepository){this.projectRepository = projectRepository;}
-
     public Project createProject(String projectName, int userID, LocalDateTime deadline) throws ExamProjectException {
         Project project = new Project(projectName,userID,deadline);
         return projectRepository.createProject(project);
     }
-
     public List<Project> fetchProjects(User user){
         return projectRepository.fetchProjects(user);
     }
-
     public List<Project> fetchAllProjects(){
         return projectRepository.fetchAllProjects();
     }
-
     public String deleteProject(int projectID){ return projectRepository.deleteProject(projectID); }
 
     public List<SubProject> fetchSubprojects(int projectID){return projectRepository.fetchSubProjects(projectID);}

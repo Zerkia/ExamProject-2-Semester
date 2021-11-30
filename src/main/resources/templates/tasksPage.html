@@ -26,7 +26,7 @@
         <tr>
             <th style="width: 40%">Task Name</th>
             <th style="width: 15%">Task Owner</th>
-            <!--<th style="width: 15%">Deadline</th>-->
+            <th style="width: 15%">Deadline</th>
             <th style="width: 10%">Subtasks</th>
             <th style="width: 10%">Task Changes</th>
             <th style="width: 10%">Delete?</th>
@@ -35,9 +35,9 @@
         <tr th:each="task : ${tasks}">
             <td th:text="${task.taskName}"></td>
             <td style="text-align:center" th:text="${task.taskOwner}"></td>
-            <!--<td style="text-align:center" th:text="${subproject.deadline}" ></td>-->
+            <td style="text-align:center" th:text="${task.deadline}" ></td>
             <td>
-                <a th:href="@{/subtasksPage(subprojectID=${task.taskID})}">
+                <a th:href="@{/subtasksPage(taskID=${task.taskID})}">
                     <p class="center">View Subtasks</p>
                 </a>
             </td>
@@ -55,7 +55,6 @@
             </td>
         </tr>
     </table>
-</div>
 </div>
 </body>
 </html>

@@ -15,6 +15,11 @@ public class TaskController {
     public String tasksPage(Model model, @RequestParam int subprojectID){
         model.addAttribute("tasks", taskService.fetchTasks(subprojectID));
         return "tasksPage";
+    }
 
+    @GetMapping("/subtasksPage")
+    public String subtasksPage(Model model, @RequestParam int taskID){
+        model.addAttribute("subtasks", taskService.fetchSubTasks(taskID));
+        return "subtasksPage";
     }
 }

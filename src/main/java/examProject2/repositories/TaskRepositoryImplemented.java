@@ -1,6 +1,7 @@
 package examProject2.repositories;
 
 import examProject2.domain.models.SubProject;
+import examProject2.domain.models.SubTask;
 import examProject2.domain.models.Task;
 
 import java.sql.Connection;
@@ -31,6 +32,33 @@ public class TaskRepositoryImplemented implements TaskRepository{
                         rs.getDate("deadline")
                 );
                 list.add(task);
+            }
+        } catch (SQLException subfetchErr) {
+            System.out.println("Error in subFetch");
+            System.out.println(subfetchErr.getMessage());
+        }
+        return list;
+    }
+
+    public List<SubTask> fetchSubTasks(int taskID) {
+        List<SubTask> list = new ArrayList<>();
+
+        try {
+            String sqlStr = "SELECT * FROM subtasks " +
+                    "INNER JOIN users ON users.userID = subtasks.userID WHERE taskID = ?";
+            Connection conn = DBManager.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sqlStr);
+            ps.setInt(1, taskID);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                SubTask subTask = new SubTask(
+                        rs.getString("subtaskName"),
+                        rs.getString("username"),
+                        rs.getInt("subtaskID"),
+                        rs.getDate("deadline")
+                );
+                list.add(subTask);
             }
         } catch (SQLException subfetchErr) {
             System.out.println("Error in subFetch");

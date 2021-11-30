@@ -8,11 +8,6 @@ public class SubProject {
     private int subprojectID;
     private Date deadline;
 
-    public SubProject(String subProjectName, int projectID){
-        this.subprojectName = subProjectName;
-        this.subprojectID = projectID;
-    }
-
     public SubProject(String subprojectName, String subprojectOwner, int subprojectID, Date deadline) {
         this.subprojectName = subprojectName;
         this.subprojectOwner = subprojectOwner;
