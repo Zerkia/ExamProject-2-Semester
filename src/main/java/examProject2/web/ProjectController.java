@@ -13,13 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Objects;
 
 @Controller
 public class ProjectController {
@@ -43,7 +38,7 @@ public class ProjectController {
     public String newProject(){return "newProject";}
 
     @PostMapping("/createProject")
-    public RedirectView createProject(WebRequest request) throws ExamProjectException, ParseException {
+    public RedirectView createProject(WebRequest request) throws ExamProjectException {
         String projectname = request.getParameter("projectName");
         String deadlineDate = request.getParameter("deadline");
 
@@ -68,9 +63,32 @@ public class ProjectController {
         return new RedirectView("mainPage");
     }
 
+
     @GetMapping("/subprojectsPage")
-    public String subprojectsPage(Model model, @RequestParam int projectID){
-        model.addAttribute("subprojects", projectService.fetchSubprojects(projectID));
-        return "subprojectsPage";
+    public String subprojectsPage(Model model, @RequestParam int projectID, WebRequest request){
+        //User user = (User) request.getAttribute("user", 1);
+        //Project project = (Project) request.getAttribute("project", 1);
+
+        //assert user != null;
+        //assert project != null;
+        //if(user.getUserID() != project.getUserID()){
+        //    return "errorPage";
+        //} else {
+            model.addAttribute("subprojects", projectService.fetchSubprojects(projectID));
+            return "subprojectsPage";
+        //}
+    }
+
+    @GetMapping("/newSubproject")
+    public String newSubproject(){ return "newSubproject"; }
+
+    @GetMapping("/createSubproject")
+    public RedirectView createSubproject(WebRequest request) throws ExamProjectException{
+        return new RedirectView("mainPage");
+    }
+
+    @GetMapping("/error")
+    public String error404(){
+        return "error404";
     }
 }
