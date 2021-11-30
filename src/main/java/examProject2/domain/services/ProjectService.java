@@ -6,6 +6,8 @@ import examProject2.domain.models.SubProject;
 import examProject2.domain.models.User;
 import examProject2.repositories.ProjectRepository;
 
+import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class ProjectService {
@@ -13,8 +15,8 @@ public class ProjectService {
 
     public ProjectService(ProjectRepository projectRepository){this.projectRepository = projectRepository;}
 
-    public Project createProject(String projectName, int userID) throws ExamProjectException {
-        Project project = new Project(projectName, userID);
+    public Project createProject(String projectName, int userID, LocalDateTime deadline) throws ExamProjectException {
+        Project project = new Project(projectName,userID,deadline);
         return projectRepository.createProject(project);
     }
 

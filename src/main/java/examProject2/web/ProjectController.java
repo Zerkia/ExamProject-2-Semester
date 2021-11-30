@@ -13,6 +13,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Objects;
+
 @Controller
 public class ProjectController {
     private ProjectService projectService = new ProjectService(new ProjectRepositoryImplemented());
@@ -35,11 +43,21 @@ public class ProjectController {
     public String newProject(){return "newProject";}
 
     @PostMapping("/createProject")
-    public RedirectView createProject(WebRequest request) throws ExamProjectException {
+    public RedirectView createProject(WebRequest request) throws ExamProjectException, ParseException {
         String projectname = request.getParameter("projectName");
+        String deadlineDate = request.getParameter("deadline");
+
+        String date = deadlineDate.substring(0,10).concat(" ");
+        String time = deadlineDate.substring(11);
+        String dt = date.concat(time);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime localDateTime = LocalDateTime.parse(dt, formatter);
+
+
         User user = (User) request.getAttribute("user", WebRequest.SCOPE_SESSION);
         assert user != null;
-        Project project = projectService.createProject(projectname, user.getUserID());
+        Project project = projectService.createProject(projectname, user.getUserID(),localDateTime);
         request.setAttribute("project", project, WebRequest.SCOPE_SESSION);
         return new RedirectView("mainPage");
     }

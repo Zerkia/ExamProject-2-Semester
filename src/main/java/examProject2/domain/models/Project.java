@@ -1,5 +1,7 @@
 package examProject2.domain.models;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class Project {
@@ -8,11 +10,14 @@ public class Project {
     private String projectOwner;
     private int userID;
     private int projectID;
-    private Date deadline;
+    private LocalDateTime deadline;
+    private String deadlineFormatted;
 
-    public Project(String projectName, int userID) {
+    public Project(String projectName, int userID, LocalDateTime deadline) {
         this.projectName = projectName;
         this.userID = userID;
+        this.deadline = deadline;
+        this.deadlineFormatted = formatDate(deadline);
     }
 
     public Project(String projectName, String projectOwner, int projectID) {
@@ -21,11 +26,12 @@ public class Project {
         this.projectID = projectID;
     }
 
-    public Project(String projectName, String projectOwner, int projectID, Date deadline) {
+    public Project(String projectName, String projectOwner, int projectID, LocalDateTime deadline) {
         this.projectName = projectName;
         this.projectOwner = projectOwner;
         this.projectID = projectID;
         this.deadline = deadline;
+        this.deadlineFormatted = formatDate(this.deadline);
     }
 
     public String getProjectName() {
@@ -60,11 +66,11 @@ public class Project {
         this.userID = userID;
     }
 
-    public Date getDeadline() {
+    public LocalDateTime getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(Date deadline) {
+    public void setDeadline(LocalDateTime deadline) {
         this.deadline = deadline;
     }
 
@@ -73,5 +79,16 @@ public class Project {
         return "Project{" +
                 "projectName='" + projectName + '\'' +
                 '}';
+    }
+    public String getDeadlineFormatted() {
+        return deadlineFormatted;
+    }
+
+    public String formatDate(LocalDateTime deadline){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String str = deadline.format(formatter);
+        String date = str.substring(0,10).concat(" ");
+        String time = str.substring(11);
+        return date.concat(time);
     }
 }

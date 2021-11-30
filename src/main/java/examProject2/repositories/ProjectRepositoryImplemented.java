@@ -5,14 +5,16 @@ import examProject2.domain.models.Project;
 import examProject2.domain.models.SubProject;
 import examProject2.domain.models.User;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ProjectRepositoryImplemented implements ProjectRepository{
+
+
 
     @Override
     public Project createProject(Project project) throws ExamProjectException {
@@ -20,11 +22,13 @@ public class ProjectRepositoryImplemented implements ProjectRepository{
         try {
             int userID = project.getUserID();
             String projectName = project.getProjectName();
-            String sqlStr = "INSERT INTO projects(userID, projectName) VALUES (?, ?);";
+            LocalDateTime deadline = project.getDeadline();
+            String sqlStr = "INSERT INTO projects(userID, projectName, deadline) VALUES (?, ?, ?);";
             Connection conn = DBManager.getConnection();
             PreparedStatement ps = conn.prepareStatement(sqlStr);
             ps.setInt(1, userID);
             ps.setString(2, projectName);
+            ps.setObject(3,  deadline);
             ps.executeUpdate();
 
             return project;
@@ -39,6 +43,7 @@ public class ProjectRepositoryImplemented implements ProjectRepository{
     public List<Project> fetchProjects(User user) {
         List<Project> list = new ArrayList<>();
         int userID = user.getUserID();
+
 
         try{
             String sqlStr = "SELECT users.username, projects.* FROM projects " +
@@ -56,7 +61,7 @@ public class ProjectRepositoryImplemented implements ProjectRepository{
                         //If userID is connected to a non existent user, project won't show
                         rs.getString("username"),
                         rs.getInt("projectID"),
-                        rs.getDate("deadline")
+                        rs.getObject("deadline", LocalDateTime.class)
                 );
                 list.add(project);
             }
@@ -82,7 +87,8 @@ public class ProjectRepositoryImplemented implements ProjectRepository{
                         rs.getString("projectName"),
                         rs.getString("username"),
                         rs.getInt("projectID"),
-                        rs.getDate("deadline")
+                        rs.getObject("deadline", LocalDateTime.class)
+
                 );
                 list.add(project);
             }
