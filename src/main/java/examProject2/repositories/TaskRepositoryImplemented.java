@@ -3,11 +3,13 @@ package examProject2.repositories;
 import examProject2.domain.models.SubProject;
 import examProject2.domain.models.SubTask;
 import examProject2.domain.models.Task;
+import org.apache.tomcat.jni.Local;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +31,7 @@ public class TaskRepositoryImplemented implements TaskRepository{
                         rs.getString("taskName"),
                         rs.getString("username"),
                         rs.getInt("taskID"),
-                        rs.getDate("deadline")
+                        rs.getObject("deadline", LocalDateTime.class)
                 );
                 list.add(task);
             }
@@ -56,7 +58,7 @@ public class TaskRepositoryImplemented implements TaskRepository{
                         rs.getString("subtaskName"),
                         rs.getString("username"),
                         rs.getInt("subtaskID"),
-                        rs.getDate("deadline")
+                        rs.getObject("deadline", LocalDateTime.class)
                 );
                 list.add(subTask);
             }
