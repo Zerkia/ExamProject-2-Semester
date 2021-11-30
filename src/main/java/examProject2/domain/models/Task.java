@@ -1,23 +1,27 @@
 package examProject2.domain.models;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class Task {
     private String taskName;
     private String taskOwner;
     private int taskID;
-    private Date deadline;
+    private LocalDateTime deadline;
+    private String deadlineFormatted;
 
     public Task(String taskName, int subprojectID) {
         this.taskName = taskName;
         this.taskID = subprojectID;
     }
 
-    public Task(String taskName, String taskOwner, int taskID, Date deadline) {
+    public Task(String taskName, String taskOwner, int taskID, LocalDateTime deadline) {
         this.taskName = taskName;
         this.taskOwner = taskOwner;
         this.taskID = taskID;
         this.deadline = deadline;
+        this.deadlineFormatted = formatDate(deadline);
     }
 
     public String getTaskName() {
@@ -44,11 +48,23 @@ public class Task {
         this.taskOwner = taskOwner;
     }
 
-    public Date getDeadline() {
+    public LocalDateTime getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(Date deadline) {
+    public void setDeadline(LocalDateTime deadline) {
         this.deadline = deadline;
+    }
+
+    public String getDeadlineFormatted() {
+        return deadlineFormatted;
+    }
+
+    public String formatDate(LocalDateTime deadline){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String str = deadline.format(formatter);
+        String date = str.substring(0,10).concat(" ");
+        String time = str.substring(11);
+        return date.concat(time);
     }
 }

@@ -35,7 +35,7 @@
         <tr th:each="task : ${tasks}">
             <td th:text="${task.taskName}"></td>
             <td style="text-align:center" th:text="${task.taskOwner}"></td>
-            <td style="text-align:center" th:text="${task.deadline}" ></td>
+            <td style="text-align:center" th:text="${task.getDeadlineFormatted}" ></td>
             <td>
                 <a th:href="@{/subtasksPage(taskID=${task.taskID})}">
                     <p class="center">View Subtasks</p>
