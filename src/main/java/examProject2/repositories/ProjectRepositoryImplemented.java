@@ -130,7 +130,7 @@ public class ProjectRepositoryImplemented implements ProjectRepository{
                         rs.getString("subprojectName"),
                         rs.getString("username"),
                         rs.getInt("subprojectID"),
-                        rs.getDate("deadline")
+                        rs.getObject("deadline", LocalDateTime.class)
                 );
                 list.add(subProject);
             }
