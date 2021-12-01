@@ -13,8 +13,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Objects;
 
 @Controller
 public class ProjectController {
@@ -27,8 +33,10 @@ public class ProjectController {
         assert user != null;
         if(user.getUserroleID() <= 2){
             model.addAttribute("projects", projectService.fetchAllProjects());
+            request.setAttribute("projects", projectService.fetchAllProjects(), 1);
         } else {
             model.addAttribute("projects", projectService.fetchProjects(user));
+            request.setAttribute("projects", projectService.fetchProjects(user), 1);
         }
 
         return "mainPage";
@@ -38,7 +46,7 @@ public class ProjectController {
     public String newProject(){return "newProject";}
 
     @PostMapping("/createProject")
-    public RedirectView createProject(WebRequest request) throws ExamProjectException {
+    public RedirectView createProject(WebRequest request) throws ExamProjectException, ParseException {
         String projectname = request.getParameter("projectName");
         String deadlineDate = request.getParameter("deadline");
 
@@ -63,32 +71,39 @@ public class ProjectController {
         return new RedirectView("mainPage");
     }
 
-
     @GetMapping("/subprojectsPage")
-    public String subprojectsPage(Model model, @RequestParam int projectID, WebRequest request){
-        //User user = (User) request.getAttribute("user", 1);
-        //Project project = (Project) request.getAttribute("project", 1);
-
-        //assert user != null;
-        //assert project != null;
-        //if(user.getUserID() != project.getUserID()){
-        //    return "errorPage";
-        //} else {
+    public String subprojectsPage(Model model, WebRequest request){
+        User user = (User) request.getAttribute("user", 1);
+        assert user != null;
+        String username = user.getUsername();
+        int userRoleID = user.getUserroleID();
+        Project owner = (Project) request.getAttribute("parentProject",1);
+        assert owner != null;
+        String ownerID = owner.getProjectOwner();
+        int projectID = owner.getProjectID();
+        if(username.equals(ownerID)) {
             model.addAttribute("subprojects", projectService.fetchSubprojects(projectID));
             return "subprojectsPage";
-        //}
+        } else if(userRoleID <= 2) {
+            model.addAttribute("subprojects", projectService.fetchSubprojects(projectID));
+            return "subprojectsPage";
+        } else {
+            return "/error";
+        }
+
     }
 
-    @GetMapping("/newSubproject")
-    public String newSubproject(){ return "newSubproject"; }
+    @GetMapping("/subprojectsRedirect")
+    public RedirectView subprojectRedirect(WebRequest request, int projectID){
+        List<Project> lst = (List<Project>) request.getAttribute("projects",1);
+        for(Project pro : lst){
+            if(pro.getProjectID() == projectID){
+                request.setAttribute("parentProject", pro,1);
+            }
+        }
 
-    @GetMapping("/createSubproject")
-    public RedirectView createSubproject(WebRequest request) throws ExamProjectException{
-        return new RedirectView("mainPage");
+        return new RedirectView("subprojectsPage");
     }
 
-    @GetMapping("/error")
-    public String error404(){
-        return "error404";
-    }
+
 }
