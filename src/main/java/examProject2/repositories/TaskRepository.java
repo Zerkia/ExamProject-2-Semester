@@ -9,5 +9,6 @@ import java.util.List;
 public interface TaskRepository {
     List<Task> fetchTasks(int subProjectID);
     Task createTask(Task task) throws ExamProjectException;
+    SubTask createSubTask(SubTask subTask) throws ExamProjectException;
     List<SubTask> fetchSubTasks(int taskID);
 }

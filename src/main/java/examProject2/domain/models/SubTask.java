@@ -72,4 +72,13 @@ public class SubTask {
         String time = str.substring(11);
         return date.concat(time);
     }
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public int getTaskID() {
+        return taskID;
+    }
+
 }

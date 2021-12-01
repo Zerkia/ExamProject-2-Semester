@@ -116,4 +116,31 @@ public class TaskController {
         return new RedirectView("tasksPage");
     }
 
+    @GetMapping("/newSubtask")
+    public String newSubtask(){
+        return "newSubtask";
+    }
+
+    @PostMapping("/createSubTask")
+    public RedirectView createSubTask(WebRequest request) throws ExamProjectException {
+        String subtaskName = request.getParameter("subtaskName");
+        String deadlineDate = request.getParameter("deadline");
+
+        String date = deadlineDate.substring(0,10).concat(" ");
+        String time = deadlineDate.substring(11);
+        String dt = date.concat(time);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime localDateTime = LocalDateTime.parse(dt, formatter);
+
+        User user = (User) request.getAttribute("user", WebRequest.SCOPE_SESSION);
+        Task task = (Task) request.getAttribute("parentTask", WebRequest.SCOPE_SESSION);
+        assert user != null;
+        assert task != null;
+        SubTask subTask = taskService.createSubTask(subtaskName, user.getUserID(), task.getTaskID(), localDateTime);
+        request.setAttribute("subtask", subTask, WebRequest.SCOPE_SESSION);
+        //need to figure out a way to return to the last visited page, something about "referer" maybe?
+        return new RedirectView("subtasksPage");
+    }
+
 }

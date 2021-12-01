@@ -37,6 +37,27 @@ public class TaskRepositoryImplemented implements TaskRepository{
             throw new ExamProjectException(regErr.getMessage());
         }
     }
+    public SubTask createSubTask(SubTask subTask) throws ExamProjectException {
+        try {
+            int userID = subTask.getUserID();
+            int taskID = subTask.getTaskID();
+            String subtaskName = subTask.getSubtaskName();
+            LocalDateTime deadline = subTask.getDeadline();
+            String sqlStr = "INSERT INTO subtasks(taskID, userID, subtaskName, deadline) VALUES (?, ?, ?, ?)";
+            Connection conn = DBManager.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sqlStr);
+            ps.setInt(1, taskID);
+            ps.setInt(2, userID);
+            ps.setString(3, subtaskName);
+            ps.setObject(4, deadline);
+            ps.executeUpdate();
+
+            return subTask;
+        } catch (SQLException regErr) {
+            System.out.println("Error in creating Subtask");
+            throw new ExamProjectException(regErr.getMessage());
+        }
+    }
 
     public List<Task> fetchTasks(int subprojectID) {
         List<Task> list = new ArrayList<>();

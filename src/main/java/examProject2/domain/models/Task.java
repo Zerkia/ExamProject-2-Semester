@@ -9,11 +9,6 @@ public class Task {
     private String taskOwner;
     private int taskID;
     private int userID;
-
-    public int getSubprojectID() {
-        return subprojectID;
-    }
-
     private int subprojectID;
     private LocalDateTime deadline;
     private String deadlineFormatted;
@@ -80,5 +75,8 @@ public class Task {
 
     public int getUserID() {
         return userID;
+    }
+    public int getSubprojectID() {
+        return subprojectID;
     }
 }

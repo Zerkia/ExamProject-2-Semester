@@ -21,4 +21,9 @@ public class TaskService {
         Task task = new Task(taskName,userID,subprojectID,deadline);
         return taskRepository.createTask(task);
     }
+
+    public SubTask createSubTask(String subtaskName, int userID, int taskID, LocalDateTime deadline) throws ExamProjectException{
+        SubTask subTask = new SubTask(subtaskName, userID, taskID, deadline);
+        return taskRepository.createSubTask(subTask);
+    }
 }
