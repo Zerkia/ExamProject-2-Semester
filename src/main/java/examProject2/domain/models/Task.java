@@ -8,7 +8,7 @@ public class Task {
     private String taskName;
     private String taskOwner;
     private int taskID;
-    int userID;
+    private int userID;
     private int subprojectID;
     private LocalDateTime deadline;
     private String deadlineFormatted;

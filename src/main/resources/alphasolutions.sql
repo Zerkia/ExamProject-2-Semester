@@ -98,7 +98,7 @@ CREATE TABLE `subtasks` (
 
 LOCK TABLES `subtasks` WRITE;
 /*!40000 ALTER TABLE `subtasks` DISABLE KEYS */;
-INSERT INTO `subtasks` VALUES (1,1,0,'subtask1','0000-00-00 00:00:00'),(2,1,0,'subtask2','0000-00-00 00:00:00'),(3,2,0,'subtask3','0000-00-00 00:00:00');
+INSERT INTO `subtasks` VALUES (1,1,3,'subtask1','2021-12-12 00:00:00'),(2,1,3,'subtask2','2021-10-10 01:00:00'),(3,2,3,'subtask3','2021-11-10 00:00:00');
 /*!40000 ALTER TABLE `subtasks` ENABLE KEYS */;
 UNLOCK TABLES;
 

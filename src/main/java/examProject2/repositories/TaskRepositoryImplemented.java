@@ -60,6 +60,7 @@ public class TaskRepositoryImplemented implements TaskRepository{
                         rs.getInt("subtaskID"),
                         rs.getObject("deadline", LocalDateTime.class)
                 );
+
                 list.add(subTask);
             }
         } catch (SQLException subfetchErr) {

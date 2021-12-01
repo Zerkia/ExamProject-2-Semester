@@ -92,12 +92,10 @@ public class ProjectController {
         if(username.equals(ownerID)) {
             model.addAttribute("subprojects", projectService.fetchSubprojects(projectID));
             request.setAttribute("subprojects", projectService.fetchSubprojects(projectID),1);
-            System.out.println(request.getAttributeNames(1));
             return "subprojectsPage";
         } else if(userRoleID <= 2) {
             model.addAttribute("subprojects", projectService.fetchSubprojects(projectID));
             request.setAttribute("subprojects", projectService.fetchSubprojects(projectID),1);
-            System.out.println(request.getAttributeNames(1));
             return "subprojectsPage";
         } else {
             return "/error";

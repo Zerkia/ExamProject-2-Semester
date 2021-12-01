@@ -8,8 +8,18 @@ public class SubTask {
     private String subtaskName;
     private String subtaskOwner;
     private int subtaskID;
+    private int userID;
+    private int taskID;
     private LocalDateTime deadline;
     private String deadlineFormatted;
+
+    public SubTask(String subtaskName, int userID, int taskID, LocalDateTime deadline) {
+        this.subtaskName = subtaskName;
+        this.userID = userID;
+        this.taskID = taskID;
+        this.deadline = deadline;
+        this.deadlineFormatted = formatDate(deadline);
+    }
 
     public SubTask(String subtaskName, String subtaskOwner, int subtaskID, LocalDateTime deadline) {
         this.subtaskName = subtaskName;

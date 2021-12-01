@@ -37,7 +37,7 @@
             <td style="text-align:center" th:text="${task.taskOwner}"></td>
             <td style="text-align:center" th:text="${task.getDeadlineFormatted}" ></td>
             <td>
-                <a th:href="@{/subtasksPage(taskID=${task.taskID})}">
+                <a th:href="@{/subtasksRedirect(taskID=${task.taskID})}">
                     <p class="center">View Subtasks</p>
                 </a>
             </td>
