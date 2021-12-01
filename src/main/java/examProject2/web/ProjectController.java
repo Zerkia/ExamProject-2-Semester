@@ -2,6 +2,7 @@ package examProject2.web;
 
 import examProject2.domain.ExamProjectException;
 import examProject2.domain.models.Project;
+import examProject2.domain.models.SubProject;
 import examProject2.domain.models.User;
 import examProject2.domain.services.ProjectService;
 import examProject2.repositories.ProjectRepositoryImplemented;
@@ -46,7 +47,7 @@ public class ProjectController {
     public String newProject(){return "newProject";}
 
     @PostMapping("/createProject")
-    public RedirectView createProject(WebRequest request) throws ExamProjectException, ParseException {
+    public RedirectView createProject(WebRequest request) throws ExamProjectException {
         String projectname = request.getParameter("projectName");
         String deadlineDate = request.getParameter("deadline");
 
@@ -65,11 +66,17 @@ public class ProjectController {
         return new RedirectView("mainPage");
     }
 
+    @GetMapping("/updateProject")
+    public String updateProject(Model model, WebRequest webRequest) {
+        return "updateProject";
+    }
+
     @GetMapping("/deleteProject")
     public RedirectView deleteProject(int projectID) {
         projectService.deleteProject(projectID);
         return new RedirectView("mainPage");
     }
+
 
     @GetMapping("/subprojectsPage")
     public String subprojectsPage(Model model, WebRequest request){
@@ -101,9 +108,34 @@ public class ProjectController {
                 request.setAttribute("parentProject", pro,1);
             }
         }
-
         return new RedirectView("subprojectsPage");
     }
 
+    @GetMapping("/newSubproject")
+    public String newSubproject(){
+        return "newSubproject";
+    }
+
+    @PostMapping("/createSubproject")
+    public RedirectView createSubrpoject(WebRequest request) throws ExamProjectException {
+        String subprojectName = request.getParameter("subprojectName");
+        String deadlineDate = request.getParameter("deadline");
+
+        String date = deadlineDate.substring(0,10).concat(" ");
+        String time = deadlineDate.substring(11);
+        String dt = date.concat(time);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime localDateTime = LocalDateTime.parse(dt, formatter);
+
+        User user = (User) request.getAttribute("user", WebRequest.SCOPE_SESSION);
+        Project project = (Project) request.getAttribute("parentProject", WebRequest.SCOPE_SESSION);
+        assert user != null;
+        assert project != null;
+        SubProject subProject = projectService.createSubproject(subprojectName, project.getProjectID(), user.getUserID(), localDateTime);
+        request.setAttribute("subproject", subProject, WebRequest.SCOPE_SESSION);
+        //need to figure out a way to return to the last visited page, something about "referer" maybe?
+        return new RedirectView("mainPage");
+    }
 
 }

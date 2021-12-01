@@ -28,5 +28,8 @@ public class ProjectService {
 
 
     public List<SubProject> fetchSubprojects(int projectID){return projectRepository.fetchSubProjects(projectID);}
-
+    public SubProject createSubproject(String projectName, int userID, int projectID, LocalDateTime deadline) throws ExamProjectException {
+        SubProject subProject = new SubProject(projectName, userID, projectID, deadline);
+        return projectRepository.createSubproject(subProject);
+    }
 }

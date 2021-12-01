@@ -14,4 +14,5 @@ public interface ProjectRepository {
         String deleteProject(int projectID);
 
         List<SubProject> fetchSubProjects(int projectID);
+        SubProject createSubproject(SubProject subProject) throws ExamProjectException;
 }

@@ -14,11 +14,7 @@ import java.util.List;
 
 public class ProjectRepositoryImplemented implements ProjectRepository{
 
-
-
-    @Override
     public Project createProject(Project project) throws ExamProjectException {
-
         try {
             int userID = project.getUserID();
             String projectName = project.getProjectName();
@@ -28,7 +24,7 @@ public class ProjectRepositoryImplemented implements ProjectRepository{
             PreparedStatement ps = conn.prepareStatement(sqlStr);
             ps.setInt(1, userID);
             ps.setString(2, projectName);
-            ps.setObject(3,  deadline);
+            ps.setObject(3, deadline);
             ps.executeUpdate();
 
             return project;
@@ -39,7 +35,28 @@ public class ProjectRepositoryImplemented implements ProjectRepository{
         }
     }
 
-    @Override
+    public SubProject createSubproject(SubProject subProject) throws ExamProjectException {
+        try {
+            int userID = subProject.getUserID();
+            int projectID = subProject.getProjectID();
+            String subprojectName = subProject.getSubprojectName();
+            LocalDateTime deadline = subProject.getDeadline();
+            String sqlStr = "INSERT INTO subprojects(projectID, userID, subprojectName, deadline) VALUES (?, ?, ?, ?)";
+            Connection conn = DBManager.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sqlStr);
+            ps.setInt(1, userID);
+            ps.setInt(2, projectID);
+            ps.setString(3, subprojectName);
+            ps.setObject(4, deadline);
+            ps.executeUpdate();
+
+            return subProject;
+        } catch (SQLException regErr) {
+            System.out.println("Error in creating Subproject");
+            throw new ExamProjectException(regErr.getMessage());
+        }
+    }
+
     public List<Project> fetchProjects(User user) {
         List<Project> list = new ArrayList<>();
         int userID = user.getUserID();
