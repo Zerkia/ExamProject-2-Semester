@@ -1,7 +1,8 @@
 package examProject2.domain.models;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.List;
 
 public class Project {
 
@@ -9,29 +10,32 @@ public class Project {
     private String projectOwner;
     private int userID;
     private int projectID;
-    private Date deadline;
-    private List<SubProject> subProjectList;
+    private LocalDateTime deadline;
+    private String deadlineFormatted;
 
-    public Project(String projectName, int userID) {
-        this.projectName = projectName;
-        this.userID = userID;
+    public Project() {
     }
 
-    public Project(String projectName, String projectOwner, int projectID, Date deadline) {
+    public Project(String projectName, int userID, LocalDateTime deadline) {
+        this.projectName = projectName;
+        this.userID = userID;
+        this.deadline = deadline;
+        this.deadlineFormatted = formatDate(deadline);
+    }
+
+    public Project(String projectName, String projectOwner, int projectID) {
+        this.projectName = projectName;
+        this.projectOwner = projectOwner;
+        this.projectID = projectID;
+    }
+
+    public Project(String projectName, String projectOwner, int projectID, LocalDateTime deadline) {
         this.projectName = projectName;
         this.projectOwner = projectOwner;
         this.projectID = projectID;
         this.deadline = deadline;
+        this.deadlineFormatted = formatDate(this.deadline);
     }
-
-    public Project(String projectName, int userID, int projectID) {
-        this.projectName = projectName;
-        this.userID = userID;
-        this.projectID = projectID;
-    }
-
-
-
 
     public String getProjectName() {
         return projectName;
@@ -65,18 +69,29 @@ public class Project {
         this.userID = userID;
     }
 
+    public LocalDateTime getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(LocalDateTime deadline) {
+        this.deadline = deadline;
+    }
+
     @Override
     public String toString() {
         return "Project{" +
                 "projectName='" + projectName + '\'' +
                 '}';
     }
-
-    public Date getDeadline() {
-        return deadline;
+    public String getDeadlineFormatted() {
+        return deadlineFormatted;
     }
 
-    public void setDeadline(Date deadline) {
-        this.deadline = deadline;
+    public String formatDate(LocalDateTime deadline){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String str = deadline.format(formatter);
+        String date = str.substring(0,10).concat(" ");
+        String time = str.substring(11);
+        return date.concat(time);
     }
 }

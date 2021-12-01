@@ -1,15 +1,27 @@
 package examProject2.domain.models;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+
 public class SubProject {
     private String subprojectName;
-    private String projectOwner;
-    private int userID;
+    private String subprojectOwner;
     private int subprojectID;
-    private int projectID;
+    private LocalDateTime deadline;
+    private String deadlineFormatted;
 
     public SubProject(String subProjectName, int projectID){
         this.subprojectName = subProjectName;
-        this.projectID = projectID;
+        this.subprojectID = projectID;
+    }
+
+    public SubProject(String subprojectName, String subprojectOwner, int subprojectID, LocalDateTime deadline) {
+        this.subprojectName = subprojectName;
+        this.subprojectOwner = subprojectOwner;
+        this.subprojectID = subprojectID;
+        this.deadline = deadline;
+        this.deadlineFormatted = formatDate(deadline);
     }
 
     public String getSubprojectName() {
@@ -20,22 +32,6 @@ public class SubProject {
         this.subprojectName = subprojectName;
     }
 
-    public String getProjectOwner() {
-        return projectOwner;
-    }
-
-    public void setProjectOwner(String projectOwner) {
-        this.projectOwner = projectOwner;
-    }
-
-    public int getUserID() {
-        return userID;
-    }
-
-    public void setUserID(int userID) {
-        this.userID = userID;
-    }
-
     public int getSubprojectID() {
         return subprojectID;
     }
@@ -44,11 +40,31 @@ public class SubProject {
         this.subprojectID = subprojectID;
     }
 
-    public int getProjectID() {
-        return projectID;
+    public String getSubprojectOwner() {
+        return subprojectOwner;
     }
 
-    public void setProjectID(int projectID) {
-        this.projectID = projectID;
+    public void setSubprojectOwner(String subprojectOwner) {
+        this.subprojectOwner = subprojectOwner;
+    }
+
+    public LocalDateTime getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(LocalDateTime deadline) {
+        this.deadline = deadline;
+    }
+
+    public String getDeadlineFormatted() {
+        return deadlineFormatted;
+    }
+
+    public String formatDate(LocalDateTime deadline){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String str = deadline.format(formatter);
+        String date = str.substring(0,10).concat(" ");
+        String time = str.substring(11);
+        return date.concat(time);
     }
 }

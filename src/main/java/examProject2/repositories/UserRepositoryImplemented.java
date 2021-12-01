@@ -51,8 +51,4 @@ public class UserRepositoryImplemented implements UserRepository{
             throw new ExamProjectException(loginErr.getMessage());
         }
     }
-
-
-
-
 }

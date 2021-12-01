@@ -5,14 +5,16 @@ import examProject2.domain.models.Project;
 import examProject2.domain.models.SubProject;
 import examProject2.domain.models.User;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ProjectRepositoryImplemented implements ProjectRepository{
+
+
 
     @Override
     public Project createProject(Project project) throws ExamProjectException {
@@ -20,11 +22,13 @@ public class ProjectRepositoryImplemented implements ProjectRepository{
         try {
             int userID = project.getUserID();
             String projectName = project.getProjectName();
-            String sqlStr = "INSERT INTO projects(userID, projectName) VALUES (?, ?);";
+            LocalDateTime deadline = project.getDeadline();
+            String sqlStr = "INSERT INTO projects(userID, projectName, deadline) VALUES (?, ?, ?);";
             Connection conn = DBManager.getConnection();
             PreparedStatement ps = conn.prepareStatement(sqlStr);
             ps.setInt(1, userID);
             ps.setString(2, projectName);
+            ps.setObject(3,  deadline);
             ps.executeUpdate();
 
             return project;
@@ -52,9 +56,11 @@ public class ProjectRepositoryImplemented implements ProjectRepository{
             while(rs.next()) {
                 Project project = new Project(
                         rs.getString("projectName"),
+                        //Inner joined username to show the name of who created the project
+                        //If userID is connected to a non existent user, project won't show
                         rs.getString("username"),
                         rs.getInt("projectID"),
-                        rs.getDate("deadline")
+                        rs.getObject("deadline", LocalDateTime.class)
                 );
                 list.add(project);
             }
@@ -78,14 +84,12 @@ public class ProjectRepositoryImplemented implements ProjectRepository{
             while(rs.next()) {
                 Project project = new Project(
                         rs.getString("projectName"),
-                        //Inner joined username to show the name of who created the project
                         rs.getString("username"),
                         rs.getInt("projectID"),
-                        rs.getDate("deadline")
+                        rs.getObject("deadline", LocalDateTime.class)
                 );
                 list.add(project);
             }
-            //return wishlist;
         } catch (SQLException wlErr) {
             System.out.println("Something went wrong");
             System.out.println(wlErr.getMessage());
@@ -113,7 +117,8 @@ public class ProjectRepositoryImplemented implements ProjectRepository{
         List<SubProject> list = new ArrayList<>();
 
         try {
-            String sqlStr = "SELECT * FROM subprojects WHERE projectID = ?";
+            String sqlStr = "SELECT users.username, subprojects.* FROM subprojects " +
+                    "INNER JOIN users ON users.userID = subprojects.userID WHERE projectID = ?";
             Connection conn = DBManager.getConnection();
             PreparedStatement ps = conn.prepareStatement(sqlStr);
             ps.setInt(1, projectID);
@@ -122,7 +127,9 @@ public class ProjectRepositoryImplemented implements ProjectRepository{
             while (rs.next()) {
                 SubProject subProject = new SubProject(
                         rs.getString("subprojectName"),
-                        rs.getInt("subprojectID")
+                        rs.getString("username"),
+                        rs.getInt("subprojectID"),
+                        rs.getObject("deadline", LocalDateTime.class)
                 );
                 list.add(subProject);
             }

@@ -12,8 +12,6 @@ public interface ProjectRepository {
         List<Project> fetchProjects(User user);
         List<Project> fetchAllProjects();
         String deleteProject(int projectID);
+
         List<SubProject> fetchSubProjects(int projectID);
-
-
-
 }
