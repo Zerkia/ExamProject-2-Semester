@@ -13,6 +13,9 @@ public class Project {
     private LocalDateTime deadline;
     private String deadlineFormatted;
 
+    public Project() {
+    }
+
     public Project(String projectName, int userID, LocalDateTime deadline) {
         this.projectName = projectName;
         this.userID = userID;

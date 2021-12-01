@@ -87,7 +87,6 @@ public class ProjectRepositoryImplemented implements ProjectRepository{
                         rs.getString("username"),
                         rs.getInt("projectID"),
                         rs.getObject("deadline", LocalDateTime.class)
-
                 );
                 list.add(project);
             }
@@ -118,7 +117,7 @@ public class ProjectRepositoryImplemented implements ProjectRepository{
         List<SubProject> list = new ArrayList<>();
 
         try {
-            String sqlStr = "SELECT * FROM subprojects " +
+            String sqlStr = "SELECT users.username, subprojects.* FROM subprojects " +
                     "INNER JOIN users ON users.userID = subprojects.userID WHERE projectID = ?";
             Connection conn = DBManager.getConnection();
             PreparedStatement ps = conn.prepareStatement(sqlStr);

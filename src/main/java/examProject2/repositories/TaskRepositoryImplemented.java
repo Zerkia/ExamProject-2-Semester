@@ -19,7 +19,7 @@ public class TaskRepositoryImplemented implements TaskRepository{
         List<Task> list = new ArrayList<>();
 
         try {
-            String sqlStr = "SELECT * FROM tasks " +
+            String sqlStr = "SELECT users.username, tasks.* FROM tasks " +
                     "INNER JOIN users ON users.userID = tasks.userID WHERE subprojectID = ?";
             Connection conn = DBManager.getConnection();
             PreparedStatement ps = conn.prepareStatement(sqlStr);
@@ -46,7 +46,7 @@ public class TaskRepositoryImplemented implements TaskRepository{
         List<SubTask> list = new ArrayList<>();
 
         try {
-            String sqlStr = "SELECT * FROM subtasks " +
+            String sqlStr = "SELECT users.username, subtasks.* FROM subtasks " +
                     "INNER JOIN users ON users.userID = subtasks.userID WHERE taskID = ?";
             Connection conn = DBManager.getConnection();
             PreparedStatement ps = conn.prepareStatement(sqlStr);
