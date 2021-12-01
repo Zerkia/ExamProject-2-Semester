@@ -8,12 +8,17 @@ public class Task {
     private String taskName;
     private String taskOwner;
     private int taskID;
+    int userID;
+    private int subprojectID;
     private LocalDateTime deadline;
     private String deadlineFormatted;
 
-    public Task(String taskName, int subprojectID) {
+    public Task(String taskName, int userID, int subprojectID, LocalDateTime deadline) {
         this.taskName = taskName;
-        this.taskID = subprojectID;
+        this.userID = userID;
+        this.subprojectID = subprojectID;
+        this.deadline = deadline;
+        this.deadlineFormatted = formatDate(deadline);
     }
 
     public Task(String taskName, String taskOwner, int taskID, LocalDateTime deadline) {

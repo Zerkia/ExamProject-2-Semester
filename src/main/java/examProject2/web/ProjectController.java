@@ -91,9 +91,13 @@ public class ProjectController {
         int projectID = owner.getProjectID();
         if(username.equals(ownerID)) {
             model.addAttribute("subprojects", projectService.fetchSubprojects(projectID));
+            request.setAttribute("subprojects", projectService.fetchSubprojects(projectID),1);
+            System.out.println(request.getAttributeNames(1));
             return "subprojectsPage";
         } else if(userRoleID <= 2) {
             model.addAttribute("subprojects", projectService.fetchSubprojects(projectID));
+            request.setAttribute("subprojects", projectService.fetchSubprojects(projectID),1);
+            System.out.println(request.getAttributeNames(1));
             return "subprojectsPage";
         } else {
             return "/error";
@@ -138,5 +142,7 @@ public class ProjectController {
         //need to figure out a way to return to the last visited page, something about "referer" maybe?
         return new RedirectView("mainPage");
     }
+
+
 
 }
