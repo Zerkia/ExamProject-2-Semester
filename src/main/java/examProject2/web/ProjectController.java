@@ -68,6 +68,7 @@ public class ProjectController {
 
     @GetMapping("/updateProject")
     public String updateProject(Model model, WebRequest webRequest) {
+        //needs to use model and potentially webrequest due to ID being in URL
         return "updateProject";
     }
 
