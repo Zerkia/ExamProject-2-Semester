@@ -9,6 +9,11 @@ public class Task {
     private String taskOwner;
     private int taskID;
     private int userID;
+
+    public int getSubprojectID() {
+        return subprojectID;
+    }
+
     private int subprojectID;
     private LocalDateTime deadline;
     private String deadlineFormatted;
@@ -71,5 +76,9 @@ public class Task {
         String date = str.substring(0,10).concat(" ");
         String time = str.substring(11);
         return date.concat(time);
+    }
+
+    public int getUserID() {
+        return userID;
     }
 }

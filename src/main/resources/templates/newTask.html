@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>newTask</title>
+</head>
+<body>
+<div id="wrapper" class="center">
+    <form action="/createTask" method="post">
+        <h1>Create Project</h1>
+
+        Taskname: <input type="text" name="taskName"/>
+        <br><br>
+        Deadline: <input type="datetime-local" name="deadline"/>
+        <br><br>
+        <button onclick="history.back()" type="button">Back</button>
+        <button name="create" type="submit">Register</button>
+    </form>
+</div>
+</body>
+</html>

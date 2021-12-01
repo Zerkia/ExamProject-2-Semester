@@ -1,5 +1,6 @@
 package examProject2.repositories;
 
+import examProject2.domain.ExamProjectException;
 import examProject2.domain.models.SubProject;
 import examProject2.domain.models.SubTask;
 import examProject2.domain.models.Task;
@@ -14,6 +15,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TaskRepositoryImplemented implements TaskRepository{
+
+    public Task createTask(Task task) throws ExamProjectException {
+        try {
+            int userID = task.getUserID();
+            int subProjectID = task.getSubprojectID();
+            String taskName = task.getTaskName();
+            LocalDateTime deadline = task.getDeadline();
+            String sqlStr = "INSERT INTO tasks(subprojectID, userID, taskName, deadline) VALUES (?, ?, ?, ?)";
+            Connection conn = DBManager.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sqlStr);
+            ps.setInt(1, subProjectID);
+            ps.setInt(2, userID);
+            ps.setString(3, taskName);
+            ps.setObject(4, deadline);
+            ps.executeUpdate();
+
+            return task;
+        } catch (SQLException regErr) {
+            System.out.println("Error in creating Subproject");
+            throw new ExamProjectException(regErr.getMessage());
+        }
+    }
 
     public List<Task> fetchTasks(int subprojectID) {
         List<Task> list = new ArrayList<>();

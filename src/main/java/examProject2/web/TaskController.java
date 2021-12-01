@@ -1,15 +1,19 @@
 package examProject2.web;
 
+import examProject2.domain.ExamProjectException;
 import examProject2.domain.models.*;
 import examProject2.domain.services.TaskService;
 import examProject2.repositories.TaskRepositoryImplemented;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -82,6 +86,34 @@ public class TaskController {
             }
         }
         return new RedirectView("subtasksPage");
+    }
+
+    @GetMapping("/newTask")
+    public String newTask(){
+        return "newTask";
+    }
+
+
+    @PostMapping("/createTask")
+    public RedirectView createTask(WebRequest request) throws ExamProjectException {
+        String taskName = request.getParameter("taskName");
+        String deadlineDate = request.getParameter("deadline");
+
+        String date = deadlineDate.substring(0,10).concat(" ");
+        String time = deadlineDate.substring(11);
+        String dt = date.concat(time);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime localDateTime = LocalDateTime.parse(dt, formatter);
+
+        User user = (User) request.getAttribute("user", WebRequest.SCOPE_SESSION);
+        SubProject subProject = (SubProject) request.getAttribute("parentSubProject", WebRequest.SCOPE_SESSION);
+        assert user != null;
+        assert subProject != null;
+        Task task = taskService.createTask(taskName, user.getUserID(), subProject.getSubprojectID(), localDateTime);
+        request.setAttribute("task", task, WebRequest.SCOPE_SESSION);
+        //need to figure out a way to return to the last visited page, something about "referer" maybe?
+        return new RedirectView("tasksPage");
     }
 
 }

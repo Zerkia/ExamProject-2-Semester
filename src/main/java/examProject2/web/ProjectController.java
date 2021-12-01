@@ -120,7 +120,7 @@ public class ProjectController {
     }
 
     @PostMapping("/createSubproject")
-    public RedirectView createSubrpoject(WebRequest request) throws ExamProjectException {
+    public RedirectView createSubproject(WebRequest request) throws ExamProjectException {
         String subprojectName = request.getParameter("subprojectName");
         String deadlineDate = request.getParameter("deadline");
 
@@ -138,7 +138,7 @@ public class ProjectController {
         SubProject subProject = projectService.createSubproject(subprojectName, project.getProjectID(), user.getUserID(), localDateTime);
         request.setAttribute("subproject", subProject, WebRequest.SCOPE_SESSION);
         //need to figure out a way to return to the last visited page, something about "referer" maybe?
-        return new RedirectView("mainPage");
+        return new RedirectView("subprojectsPage");
     }
 
 
