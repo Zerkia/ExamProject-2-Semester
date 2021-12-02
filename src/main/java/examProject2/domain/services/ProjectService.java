@@ -7,6 +7,7 @@ import examProject2.domain.models.User;
 import examProject2.repositories.ProjectRepository;
 
 import java.sql.Date;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -25,7 +26,9 @@ public class ProjectService {
         return projectRepository.fetchAllProjects();
     }
     public String deleteProject(int projectID){ return projectRepository.deleteProject(projectID); }
-
+    public String editProject(int projectID, String projectName, LocalDateTime deadline) throws SQLException {
+        return projectRepository.editProject(projectID, projectName, deadline);
+    }
 
     public List<SubProject> fetchSubprojects(int projectID){return projectRepository.fetchSubProjects(projectID);}
     public SubProject createSubproject(String projectName, int userID, int projectID, LocalDateTime deadline) throws ExamProjectException {

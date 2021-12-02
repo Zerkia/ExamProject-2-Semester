@@ -15,6 +15,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.sql.Date;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -66,10 +67,56 @@ public class ProjectController {
         return new RedirectView("mainPage");
     }
 
-    @GetMapping("/updateProject")
-    public String updateProject(Model model, WebRequest webRequest) {
+    @GetMapping("/updateProjectRedirect")
+    public RedirectView updateProjectRedirect(int projectID, WebRequest request) {
+        List<Project> lst = (List<Project>) request.getAttribute("projects",1);
+        for(Project pro : lst){
+            if(pro.getProjectID() == projectID){
+                request.setAttribute("projectInEditing", pro,1);
+                Project test = (Project) request.getAttribute("projectInEditing",1);
+                System.out.println(test.getProjectID());
+            }
+        }
         //needs to use model and potentially webrequest due to ID being in URL
-        return "updateProject";
+        return new RedirectView("updateProject");
+    }
+
+    @GetMapping("/updateProject")
+    public String updateProject(WebRequest request){
+        User user = (User) request.getAttribute("user", 1);
+        assert user != null;
+        String username = user.getUsername();
+        int userRoleID = user.getUserroleID();
+        Project project = (Project) request.getAttribute("projectInEditing",1);
+        assert project != null;
+        String ownerID = project.getProjectOwner();
+        if(username.equals(ownerID)) {
+            return "updateProject";
+        } else if(userRoleID <= 2) {
+            return "updateProject";
+        } else {
+            return "/error";
+        }
+    }
+
+    @PostMapping("/editProject")
+    public RedirectView editProject(WebRequest request) throws SQLException {
+        String projectName = request.getParameter("projectName");
+        String deadlineDate = request.getParameter("deadline");
+        Project project = (Project) request.getAttribute("projectInEditing", 1);
+        assert project != null;
+        int projectID = project.getProjectID();
+
+        String date = deadlineDate.substring(0,10).concat(" ");
+        String time = deadlineDate.substring(11);
+        String dt = date.concat(time);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime deadline = LocalDateTime.parse(dt, formatter);
+
+        String res = projectService.editProject(projectID, projectName, deadline);
+        return new RedirectView(res);
+
     }
 
     @GetMapping("/deleteProject")

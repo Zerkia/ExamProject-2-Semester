@@ -35,6 +35,19 @@ public class ProjectRepositoryImplemented implements ProjectRepository{
         }
     }
 
+    public String editProject(int projectID, String projectName, LocalDateTime deadline) throws SQLException {
+        String sqlStr = "UPDATE projects SET projectName = ?, deadline = ? WHERE projectID = ?;";
+        Connection conn = DBManager.getConnection();
+        PreparedStatement ps = conn.prepareStatement(sqlStr);
+        ps.setString(1, projectName);
+        ps.setObject(2, deadline);
+        ps.setInt(3, projectID);
+        ps.executeUpdate();
+
+        return "mainPage";
+
+    }
+
     public SubProject createSubproject(SubProject subProject) throws ExamProjectException {
         try {
             int userID = subProject.getUserID();
