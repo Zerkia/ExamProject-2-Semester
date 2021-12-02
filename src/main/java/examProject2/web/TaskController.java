@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.sql.Time;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -124,20 +125,30 @@ public class TaskController {
     @PostMapping("/createSubTask")
     public RedirectView createSubTask(WebRequest request) throws ExamProjectException {
         String subtaskName = request.getParameter("subtaskName");
-        String deadlineDate = request.getParameter("deadline");
-
+        String timeRequired = request.getParameter("timeRequired");
+        /*
         String date = deadlineDate.substring(0,10).concat(" ");
         String time = deadlineDate.substring(11);
         String dt = date.concat(time);
+        */
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        LocalDateTime localDateTime = LocalDateTime.parse(dt, formatter);
+
+        assert timeRequired != null;
+        int hours = Integer.valueOf(timeRequired.substring(0,2));
+        int minutes = Integer.valueOf(timeRequired.substring(3,5));
+
+        //LocalDateTime localDateTime = LocalDateTime.parse(dt, formatter);
+
+
+        System.out.println("hours: " + hours + " minutes: " + minutes);
+
+
 
         User user = (User) request.getAttribute("user", WebRequest.SCOPE_SESSION);
         Task task = (Task) request.getAttribute("parentTask", WebRequest.SCOPE_SESSION);
         assert user != null;
         assert task != null;
-        SubTask subTask = taskService.createSubTask(subtaskName, user.getUserID(), task.getTaskID(), localDateTime);
+        SubTask subTask = taskService.createSubTask(subtaskName, user.getUserID(), task.getTaskID(), hours, minutes);
         request.setAttribute("subtask", subTask, WebRequest.SCOPE_SESSION);
         //need to figure out a way to return to the last visited page, something about "referer" maybe?
         return new RedirectView("subtasksPage");

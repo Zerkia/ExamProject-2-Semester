@@ -1,5 +1,6 @@
 package examProject2.domain.models;
 
+import java.sql.Time;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -10,23 +11,43 @@ public class SubTask {
     private int subtaskID;
     private int userID;
     private int taskID;
-    private LocalDateTime deadline;
+
+    public int getHours() {
+        return hours;
+    }
+
+    public void setHours(int hours) {
+        this.hours = hours;
+    }
+
+    public int getMinutes() {
+        return minutes;
+    }
+
+    public void setMinutes(int minutes) {
+        this.minutes = minutes;
+    }
+
+    private int hours;
+    private int minutes;
     private String deadlineFormatted;
 
-    public SubTask(String subtaskName, int userID, int taskID, LocalDateTime deadline) {
+    public SubTask(String subtaskName, int userID, int taskID, int hours, int minutes) {
         this.subtaskName = subtaskName;
         this.userID = userID;
         this.taskID = taskID;
-        this.deadline = deadline;
-        this.deadlineFormatted = formatDate(deadline);
+        this.hours = hours;
+        this.minutes = minutes;
+        //this.deadlineFormatted = formatDate(deadline);
     }
 
-    public SubTask(String subtaskName, String subtaskOwner, int subtaskID, LocalDateTime deadline) {
+    public SubTask(String subtaskName, String subtaskOwner, int subtaskID, int hours, int minutes) {
         this.subtaskName = subtaskName;
         this.subtaskOwner = subtaskOwner;
         this.subtaskID = subtaskID;
-        this.deadline = deadline;
-        this.deadlineFormatted = formatDate(deadline);
+        this.hours = hours;
+        this.minutes = minutes;
+        //this.deadlineFormatted = formatDate(deadline);
     }
 
     public String getSubtaskName() {
@@ -53,18 +74,15 @@ public class SubTask {
         this.subtaskID = subtaskID;
     }
 
-    public LocalDateTime getDeadline() {
-        return deadline;
+    public String getTime() {
+        return hours + ":" + minutes;
     }
 
-    public void setDeadline(LocalDateTime deadline) {
-        this.deadline = deadline;
-    }
 
     public String getDeadlineFormatted() {
         return deadlineFormatted;
     }
-
+/*
     public String formatDate(LocalDateTime deadline){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         String str = deadline.format(formatter);
@@ -72,7 +90,7 @@ public class SubTask {
         String time = str.substring(11);
         return date.concat(time);
     }
-
+*/
     public int getUserID() {
         return userID;
     }

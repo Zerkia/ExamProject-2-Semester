@@ -6,10 +6,7 @@ import examProject2.domain.models.SubTask;
 import examProject2.domain.models.Task;
 import org.apache.tomcat.jni.Local;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,14 +39,16 @@ public class TaskRepositoryImplemented implements TaskRepository{
             int userID = subTask.getUserID();
             int taskID = subTask.getTaskID();
             String subtaskName = subTask.getSubtaskName();
-            LocalDateTime deadline = subTask.getDeadline();
-            String sqlStr = "INSERT INTO subtasks(taskID, userID, subtaskName, deadline) VALUES (?, ?, ?, ?)";
+            int hours = subTask.getHours();
+            int minutes = subTask.getMinutes();
+            String sqlStr = "INSERT INTO subtasks(taskID, userID, subtaskName, hours, minutes) VALUES (?, ?, ?, ?, ?)";
             Connection conn = DBManager.getConnection();
             PreparedStatement ps = conn.prepareStatement(sqlStr);
             ps.setInt(1, taskID);
             ps.setInt(2, userID);
             ps.setString(3, subtaskName);
-            ps.setObject(4, deadline);
+            ps.setInt(4, hours);
+            ps.setInt(5, minutes);
             ps.executeUpdate();
 
             return subTask;
@@ -102,7 +101,8 @@ public class TaskRepositoryImplemented implements TaskRepository{
                         rs.getString("subtaskName"),
                         rs.getString("username"),
                         rs.getInt("subtaskID"),
-                        rs.getObject("deadline", LocalDateTime.class)
+                        rs.getInt("hours"),
+                        rs.getInt("minutes")
                 );
                 list.add(subTask);
             }

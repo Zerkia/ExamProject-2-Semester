@@ -34,7 +34,7 @@
             <tr th:each="subtask : ${subtasks}">
                 <td th:text="${subtask.subtaskName}"></td>
                 <td style="text-align:center" th:text="${subtask.subtaskOwner}"></td>
-                <td style="text-align:center" th:text="${subtask.getDeadlineFormatted}" ></td>
+                <td style="text-align:center" th:text="${subtask.getTime}" ></td>
                 <td>
                     <a th:href="@{/updateSubtask(subtaskID=${subtask.subtaskID})}">
                         <p class="center">Update Subtask</p>

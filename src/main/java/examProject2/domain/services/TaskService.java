@@ -6,6 +6,7 @@ import examProject2.domain.models.SubTask;
 import examProject2.domain.models.Task;
 import examProject2.repositories.TaskRepository;
 
+import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,8 +23,8 @@ public class TaskService {
         return taskRepository.createTask(task);
     }
 
-    public SubTask createSubTask(String subtaskName, int userID, int taskID, LocalDateTime deadline) throws ExamProjectException{
-        SubTask subTask = new SubTask(subtaskName, userID, taskID, deadline);
+    public SubTask createSubTask(String subtaskName, int userID, int taskID, int hours, int minutes) throws ExamProjectException{
+        SubTask subTask = new SubTask(subtaskName, userID, taskID, hours, minutes);
         return taskRepository.createSubTask(subTask);
     }
 }
