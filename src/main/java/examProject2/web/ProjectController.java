@@ -74,7 +74,6 @@ public class ProjectController {
             if(pro.getProjectID() == projectID){
                 request.setAttribute("projectInEditing", pro,1);
                 Project test = (Project) request.getAttribute("projectInEditing",1);
-                System.out.println(test.getProjectID());
             }
         }
         //needs to use model and potentially webrequest due to ID being in URL
