@@ -147,9 +147,6 @@ public class ProjectController {
 
         String ownerID = owner.getProjectOwner();
         int projectID = owner.getProjectID();
-        System.out.println(userRoleID);
-        System.out.println(username);
-        System.out.println(ownerID);
 
         if(username.equalsIgnoreCase(ownerID)) {
             model.addAttribute("subprojects", projectService.fetchSubprojects(projectID));
@@ -160,9 +157,6 @@ public class ProjectController {
             request.setAttribute("subprojects", projectService.fetchSubprojects(projectID),1);
             return "subprojectsPage";
         } else {
-            System.out.println(userRoleID);
-            System.out.println(username);
-            System.out.println(ownerID);
             return "/error500";
         }
     }
