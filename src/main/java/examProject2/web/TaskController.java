@@ -125,24 +125,8 @@ public class TaskController {
     @PostMapping("/createSubTask")
     public RedirectView createSubTask(WebRequest request) throws ExamProjectException {
         String subtaskName = request.getParameter("subtaskName");
-        String timeRequired = request.getParameter("timeRequired");
-        /*
-        String date = deadlineDate.substring(0,10).concat(" ");
-        String time = deadlineDate.substring(11);
-        String dt = date.concat(time);
-        */
-
-
-        assert timeRequired != null;
-        int hours = Integer.valueOf(timeRequired.substring(0,2));
-        int minutes = Integer.valueOf(timeRequired.substring(3,5));
-
-        //LocalDateTime localDateTime = LocalDateTime.parse(dt, formatter);
-
-
-        System.out.println("hours: " + hours + " minutes: " + minutes);
-
-
+        int hours = Integer.valueOf(request.getParameter("hoursRequired"));
+        int minutes = Integer.valueOf(request.getParameter("minutesRequired"));
 
         User user = (User) request.getAttribute("user", WebRequest.SCOPE_SESSION);
         Task task = (Task) request.getAttribute("parentTask", WebRequest.SCOPE_SESSION);
