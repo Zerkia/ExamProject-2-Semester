@@ -31,7 +31,7 @@ public class TaskController {
         assert owner != null;
         String ownerID = owner.getSubprojectOwner();
         int subprojectID = owner.getSubprojectID();
-        if(username.equals(ownerID)) {
+        if(username.equalsIgnoreCase(ownerID)) {
             model.addAttribute("tasks", taskService.fetchTasks(subprojectID));
             request.setAttribute("tasks", taskService.fetchTasks(subprojectID),1);
             return "tasksPage";
@@ -66,7 +66,7 @@ public class TaskController {
         String ownerID = owner.getTaskOwner();
         int taskID = owner.getTaskID();
 
-        if(username.equals(ownerID)) {
+        if(username.equalsIgnoreCase(ownerID)) {
             model.addAttribute("subtasks", taskService.fetchSubTasks(taskID));
             return "subtasksPage";
         } else if(userRoleID <= 2) {

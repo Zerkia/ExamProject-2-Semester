@@ -81,17 +81,26 @@ public class ProjectController {
     }
 
     @GetMapping("/updateProject")
-    public String updateProject(WebRequest request){
+    public String updateProject(WebRequest request, Model model){
         User user = (User) request.getAttribute("user", 1);
         assert user != null;
+
         String username = user.getUsername();
         int userRoleID = user.getUserroleID();
         Project project = (Project) request.getAttribute("projectInEditing",1);
         assert project != null;
+
         String ownerID = project.getProjectOwner();
-        if(username.equals(ownerID)) {
+
+        if(username.equalsIgnoreCase(ownerID)) {
+            //Test, Code lab help pls
+            //model.addAttribute("projectInEditing", projectService.fetchSpecificProject);
+            //request.setAttribute("projectInEditing", projectService.fetchSpecificProject);
+
             return "updateProject";
         } else if(userRoleID <= 2) {
+            //model.addAttribute("projectInEditing", projectService.fetchSpecificProject);
+            //request.setAttribute("projectInEditing", projectService.fetchSpecificProject);
             return "updateProject";
         } else {
             return "/error";
@@ -124,18 +133,25 @@ public class ProjectController {
         return new RedirectView("mainPage");
     }
 
+    //Space between main and subprojects
 
     @GetMapping("/subprojectsPage")
     public String subprojectsPage(Model model, WebRequest request){
         User user = (User) request.getAttribute("user", 1);
         assert user != null;
+
         String username = user.getUsername();
         int userRoleID = user.getUserroleID();
         Project owner = (Project) request.getAttribute("parentProject",1);
         assert owner != null;
+
         String ownerID = owner.getProjectOwner();
         int projectID = owner.getProjectID();
-        if(username.equals(ownerID)) {
+        System.out.println(userRoleID);
+        System.out.println(username);
+        System.out.println(ownerID);
+
+        if(username.equalsIgnoreCase(ownerID)) {
             model.addAttribute("subprojects", projectService.fetchSubprojects(projectID));
             request.setAttribute("subprojects", projectService.fetchSubprojects(projectID),1);
             return "subprojectsPage";
@@ -144,14 +160,17 @@ public class ProjectController {
             request.setAttribute("subprojects", projectService.fetchSubprojects(projectID),1);
             return "subprojectsPage";
         } else {
-            return "/error";
+            System.out.println(userRoleID);
+            System.out.println(username);
+            System.out.println(ownerID);
+            return "/error500";
         }
-
     }
 
     @GetMapping("/subprojectsRedirect")
     public RedirectView subprojectRedirect(WebRequest request, int projectID){
         List<Project> lst = (List<Project>) request.getAttribute("projects",1);
+        assert lst != null;
         for(Project pro : lst){
             if(pro.getProjectID() == projectID){
                 request.setAttribute("parentProject", pro,1);
@@ -186,7 +205,4 @@ public class ProjectController {
         //need to figure out a way to return to the last visited page, something about "referer" maybe?
         return new RedirectView("subprojectsPage");
     }
-
-
-
 }
