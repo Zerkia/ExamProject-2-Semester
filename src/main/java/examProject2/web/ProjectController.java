@@ -10,19 +10,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.sql.Date;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Objects;
 
 @Controller
 public class ProjectController {
@@ -67,21 +61,21 @@ public class ProjectController {
         return new RedirectView("mainPage");
     }
 
-    @GetMapping("/updateProjectRedirect")
-    public RedirectView updateProjectRedirect(int projectID, WebRequest request) {
+    @GetMapping("/editProjectRedirect")
+    public RedirectView editProjectRedirect(int projectID, WebRequest request, Model model) {
         List<Project> lst = (List<Project>) request.getAttribute("projects",1);
         for(Project pro : lst){
             if(pro.getProjectID() == projectID){
                 request.setAttribute("projectInEditing", pro,1);
-                Project test = (Project) request.getAttribute("projectInEditing",1);
+                model.addAttribute("projectInEditing", pro);
             }
         }
         //needs to use model and potentially webrequest due to ID being in URL
-        return new RedirectView("updateProject");
+        return new RedirectView("editProject");
     }
 
-    @GetMapping("/updateProject")
-    public String updateProject(WebRequest request, Model model){
+    @GetMapping("/editProject")
+    public String editProject(WebRequest request, Model model){
         User user = (User) request.getAttribute("user", 1);
         assert user != null;
 
@@ -93,22 +87,18 @@ public class ProjectController {
         String ownerID = project.getProjectOwner();
 
         if(username.equalsIgnoreCase(ownerID)) {
-            //Test, Code lab help pls
-            //model.addAttribute("projectInEditing", projectService.fetchSpecificProject);
-            //request.setAttribute("projectInEditing", projectService.fetchSpecificProject);
-
-            return "updateProject";
+            model.addAttribute("projectInEditing", project);
+            return "editProject";
         } else if(userRoleID <= 2) {
-            //model.addAttribute("projectInEditing", projectService.fetchSpecificProject);
-            //request.setAttribute("projectInEditing", projectService.fetchSpecificProject);
-            return "updateProject";
+            model.addAttribute("projectInEditing", project);
+            return "editProject";
         } else {
-            return "/error";
+            return "/error500";
         }
     }
 
-    @PostMapping("/editProject")
-    public RedirectView editProject(WebRequest request) throws SQLException {
+    @PostMapping("/updateProject")
+    public RedirectView updateProject(WebRequest request) {
         String projectName = request.getParameter("projectName");
         String deadlineDate = request.getParameter("deadline");
         Project project = (Project) request.getAttribute("projectInEditing", 1);
@@ -122,9 +112,8 @@ public class ProjectController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime deadline = LocalDateTime.parse(dt, formatter);
 
-        String res = projectService.editProject(projectID, projectName, deadline);
-        return new RedirectView(res);
-
+        String result = projectService.updateProject(projectID, projectName, deadline);
+        return new RedirectView(result);
     }
 
     @GetMapping("/deleteProject")
@@ -198,5 +187,60 @@ public class ProjectController {
         request.setAttribute("subproject", subProject, WebRequest.SCOPE_SESSION);
         //need to figure out a way to return to the last visited page, something about "referer" maybe?
         return new RedirectView("subprojectsPage");
+    }
+
+    @GetMapping("/editSubprojectRedirect")
+    public RedirectView editSubprojectRedirect(int subprojectID, WebRequest request, Model model) {
+        List<SubProject> lst = (List<SubProject>) request.getAttribute("subprojects",1);
+        for(SubProject subProject : lst){
+            if(subProject.getSubprojectID() == subprojectID){
+                request.setAttribute("subprojectInEditing", subProject,1);
+                model.addAttribute("subprojectInEditing", subProject);
+            }
+        }
+        //needs to use model and potentially webrequest due to ID being in URL
+        return new RedirectView("editSubproject");
+    }
+
+    @GetMapping("/editSubproject")
+    public String editSubproject(WebRequest request, Model model){
+        User user = (User) request.getAttribute("user", 1);
+        assert user != null;
+
+        String username = user.getUsername();
+        int userRoleID = user.getUserroleID();
+        SubProject subProject = (SubProject) request.getAttribute("subprojectInEditing",1);
+        assert subProject != null;
+
+        String ownerID = subProject.getSubprojectOwner();
+
+        if(username.equalsIgnoreCase(ownerID)) {
+            model.addAttribute("subprojectInEditing", subProject);
+            return "editSubproject";
+        } else if(userRoleID <= 2) {
+            model.addAttribute("subprojectInEditing", subProject);
+            return "editSubproject";
+        } else {
+            return "/error500";
+        }
+    }
+
+    @PostMapping("/updateSubproject")
+    public RedirectView updateSubproject(WebRequest request) {
+        String subprojectName = request.getParameter("subprojectName");
+        String deadlineDate = request.getParameter("deadline");
+        SubProject subProject = (SubProject) request.getAttribute("subprojectInEditing",1);
+        assert subProject != null;
+        int subprojectID = subProject.getSubprojectID();
+
+        String date = deadlineDate.substring(0,10).concat(" ");
+        String time = deadlineDate.substring(11);
+        String dt = date.concat(time);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime deadline = LocalDateTime.parse(dt, formatter);
+
+        String result = projectService.updateSubproject(subprojectID, subprojectName, deadline);
+        return new RedirectView(result);
     }
 }

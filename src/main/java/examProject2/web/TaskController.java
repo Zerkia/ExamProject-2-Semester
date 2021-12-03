@@ -40,7 +40,7 @@ public class TaskController {
             request.setAttribute("tasks", taskService.fetchTasks(subprojectID),1);
             return "tasksPage";
         } else {
-            return "/error";
+            return "/error500";
         }
     }
 
@@ -74,7 +74,7 @@ public class TaskController {
 
             return "subtasksPage";
         } else {
-            return "/error";
+            return "/error500";
         }
     }
 

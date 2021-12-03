@@ -13,8 +13,12 @@ public interface ProjectRepository {
         Project createProject(Project project) throws ExamProjectException;
         List<Project> fetchProjects(User user);
         List<Project> fetchAllProjects();
+        String updateProject(int projectID, String projectName, LocalDateTime deadline);
         String deleteProject(int projectID);
-        String editProject(int projectID, String projectName, LocalDateTime deadline) throws SQLException;
-        List<SubProject> fetchSubProjects(int projectID);
+
+        //space between main and sub
+
         SubProject createSubproject(SubProject subProject) throws ExamProjectException;
+        List<SubProject> fetchSubProjects(int projectID);
+        String updateSubproject(int subprojectID, String subprojectName, LocalDateTime deadline);
 }

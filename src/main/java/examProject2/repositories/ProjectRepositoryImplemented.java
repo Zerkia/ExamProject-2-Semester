@@ -35,41 +35,6 @@ public class ProjectRepositoryImplemented implements ProjectRepository{
         }
     }
 
-    public String editProject(int projectID, String projectName, LocalDateTime deadline) throws SQLException {
-        String sqlStr = "UPDATE projects SET projectName = ?, deadline = ? WHERE projectID = ?;";
-        Connection conn = DBManager.getConnection();
-        PreparedStatement ps = conn.prepareStatement(sqlStr);
-        ps.setString(1, projectName);
-        ps.setObject(2, deadline);
-        ps.setInt(3, projectID);
-        ps.executeUpdate();
-
-        return "mainPage";
-
-    }
-
-    public SubProject createSubproject(SubProject subProject) throws ExamProjectException {
-        try {
-            int userID = subProject.getUserID();
-            int projectID = subProject.getProjectID();
-            String subprojectName = subProject.getSubprojectName();
-            LocalDateTime deadline = subProject.getDeadline();
-            String sqlStr = "INSERT INTO subprojects(projectID, userID, subprojectName, deadline) VALUES (?, ?, ?, ?)";
-            Connection conn = DBManager.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sqlStr);
-            ps.setInt(1, userID);
-            ps.setInt(2, projectID);
-            ps.setString(3, subprojectName);
-            ps.setObject(4, deadline);
-            ps.executeUpdate();
-
-            return subProject;
-        } catch (SQLException regErr) {
-            System.out.println("Error in creating Subproject");
-            throw new ExamProjectException(regErr.getMessage());
-        }
-    }
-
     public List<Project> fetchProjects(User user) {
         List<Project> list = new ArrayList<>();
         int userID = user.getUserID();
@@ -127,6 +92,22 @@ public class ProjectRepositoryImplemented implements ProjectRepository{
         return list;
     }
 
+    public String updateProject(int projectID, String projectName, LocalDateTime deadline) {
+        try {
+            String sqlStr = "UPDATE projects SET projectName = ?, deadline = ? WHERE projectID = ?;";
+            Connection conn = DBManager.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sqlStr);
+            ps.setString(1, projectName);
+            ps.setObject(2, deadline);
+            ps.setInt(3, projectID);
+            ps.executeUpdate();
+        } catch (SQLException editErr) {
+            System.out.println("Error in editing");
+            System.out.println(editErr.getMessage());
+        }
+        return "mainPage";
+    }
+
     public String deleteProject(int projectID) {
         try{
             String sqlStr = "DELETE projects.* FROM projects WHERE projectID = ?";
@@ -141,6 +122,29 @@ public class ProjectRepositoryImplemented implements ProjectRepository{
             System.out.println(delErr.getMessage());
         }
         return "redirect:/mainPage";
+    }
+
+    //space between main and sub
+    public SubProject createSubproject(SubProject subProject) throws ExamProjectException {
+        try {
+            int userID = subProject.getUserID();
+            int projectID = subProject.getProjectID();
+            String subprojectName = subProject.getSubprojectName();
+            LocalDateTime deadline = subProject.getDeadline();
+            String sqlStr = "INSERT INTO subprojects(projectID, userID, subprojectName, deadline) VALUES (?, ?, ?, ?)";
+            Connection conn = DBManager.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sqlStr);
+            ps.setInt(1, userID);
+            ps.setInt(2, projectID);
+            ps.setString(3, subprojectName);
+            ps.setObject(4, deadline);
+            ps.executeUpdate();
+
+            return subProject;
+        } catch (SQLException regErr) {
+            System.out.println("Error in creating Subproject");
+            throw new ExamProjectException(regErr.getMessage());
+        }
     }
 
     public List<SubProject> fetchSubProjects(int projectID) {
@@ -168,5 +172,21 @@ public class ProjectRepositoryImplemented implements ProjectRepository{
             System.out.println(subfetchErr.getMessage());
         }
         return list;
+    }
+
+    public String updateSubproject(int subprojectID, String subprojectName, LocalDateTime deadline) {
+        try {
+            String sqlStr = "UPDATE subprojects SET subprojectName = ?, deadline = ? WHERE subprojectID = ?;";
+            Connection conn = DBManager.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sqlStr);
+            ps.setString(1, subprojectName);
+            ps.setObject(2, deadline);
+            ps.setInt(3, subprojectID);
+            ps.executeUpdate();
+        } catch (SQLException editErr) {
+            System.out.println("Error in editing");
+            System.out.println(editErr.getMessage());
+        }
+        return "mainPage";
     }
 }
