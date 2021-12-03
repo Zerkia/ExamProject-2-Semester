@@ -34,7 +34,37 @@ public class TaskRepositoryImplemented implements TaskRepository{
             throw new ExamProjectException(regErr.getMessage());
         }
     }
-    public SubTask createSubTask(SubTask subTask) throws ExamProjectException {
+
+    public List<Task> fetchTasks(int subprojectID) {
+        List<Task> list = new ArrayList<>();
+
+        try {
+            String sqlStr = "SELECT users.username, tasks.* FROM tasks " +
+                    "INNER JOIN users ON users.userID = tasks.userID WHERE subprojectID = ?";
+            Connection conn = DBManager.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sqlStr);
+            ps.setInt(1, subprojectID);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Task task = new Task(
+                        rs.getString("taskName"),
+                        rs.getString("username"),
+                        rs.getInt("taskID"),
+                        rs.getObject("deadline", LocalDateTime.class)
+                );
+                list.add(task);
+            }
+        } catch (SQLException subfetchErr) {
+            System.out.println("Error in fetch");
+            System.out.println(subfetchErr.getMessage());
+        }
+        return list;
+    }
+
+    //space between main and sub
+
+    public SubTask createSubtask(SubTask subTask) throws ExamProjectException {
         try {
             int userID = subTask.getUserID();
             int taskID = subTask.getTaskID();
@@ -58,34 +88,7 @@ public class TaskRepositoryImplemented implements TaskRepository{
         }
     }
 
-    public List<Task> fetchTasks(int subprojectID) {
-        List<Task> list = new ArrayList<>();
-
-        try {
-            String sqlStr = "SELECT users.username, tasks.* FROM tasks " +
-                    "INNER JOIN users ON users.userID = tasks.userID WHERE subprojectID = ?";
-            Connection conn = DBManager.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sqlStr);
-            ps.setInt(1, subprojectID);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                Task task = new Task(
-                        rs.getString("taskName"),
-                        rs.getString("username"),
-                        rs.getInt("taskID"),
-                        rs.getObject("deadline", LocalDateTime.class)
-                );
-                list.add(task);
-            }
-        } catch (SQLException subfetchErr) {
-            System.out.println("Error in subFetch");
-            System.out.println(subfetchErr.getMessage());
-        }
-        return list;
-    }
-
-    public List<SubTask> fetchSubTasks(int taskID) {
+    public List<SubTask> fetchSubtasks(int taskID) {
         List<SubTask> list = new ArrayList<>();
 
         try {
@@ -111,5 +114,22 @@ public class TaskRepositoryImplemented implements TaskRepository{
             System.out.println(subfetchErr.getMessage());
         }
         return list;
+    }
+
+    public String updateSubtask(int subtaskID, String subtaskName, int hours, int minutes) {
+        try {
+            String sqlStr = "UPDATE subtasks SET subtaskName = ?, hours = ?, minutes = ? WHERE subtaskID = ?;";
+            Connection conn = DBManager.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sqlStr);
+            ps.setString(1, subtaskName);
+            ps.setInt(2, hours);
+            ps.setInt(3, minutes);
+            ps.setInt(4, subtaskID);
+            ps.executeUpdate();
+        } catch (SQLException editErr) {
+            System.out.println("Error in editing");
+            System.out.println(editErr.getMessage());
+        }
+        return "mainPage";
     }
 }

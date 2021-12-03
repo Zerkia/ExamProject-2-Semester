@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Subtasks</title>
     <link href="style.css" rel="stylesheet">
 </head>
 <body>
@@ -10,11 +10,6 @@
         <div class="center">
             <h1>Welcome to the subtasks page!</h1>
             <h2>Here you can start a new subtask, mark them finished or delete them!</h2>
-
-            <!--
-            In case of userroleID = 1 or 2, display the following h2:
-            </h2>Since you're a Super Admin / admin, you can delete anyones subtasks</h2>
-            -->
 
             <button onclick="location.href='/newSubtask'" type="button" class="button">Start a new subtask</button>
             <br><br>
@@ -36,7 +31,7 @@
                 <td style="text-align:center" th:text="${subtask.subtaskOwner}"></td>
                 <td style="text-align:center" th:text="${subtask.getTime}" ></td>
                 <td>
-                    <a th:href="@{/updateSubtask(subtaskID=${subtask.subtaskID})}">
+                    <a th:href="@{/editSubtaskRedirect(subtaskID=${subtask.subtaskID})}">
                         <p class="center">Update Subtask</p>
                     </a>
                 </td>

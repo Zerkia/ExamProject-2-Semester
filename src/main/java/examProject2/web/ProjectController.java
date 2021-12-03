@@ -30,9 +30,11 @@ public class ProjectController {
         if(user.getUserroleID() <= 2){
             model.addAttribute("projects", projectService.fetchAllProjects());
             request.setAttribute("projects", projectService.fetchAllProjects(), 1);
+            model.addAttribute("hidden", false);
         } else {
             model.addAttribute("projects", projectService.fetchProjects(user));
             request.setAttribute("projects", projectService.fetchProjects(user), 1);
+            model.addAttribute("hidden", true);
         }
 
         return "mainPage";
@@ -70,7 +72,6 @@ public class ProjectController {
                 model.addAttribute("projectInEditing", pro);
             }
         }
-        //needs to use model and potentially webrequest due to ID being in URL
         return new RedirectView("editProject");
     }
 

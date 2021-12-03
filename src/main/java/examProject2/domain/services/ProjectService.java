@@ -12,8 +12,8 @@ import java.util.List;
 
 public class ProjectService {
     private ProjectRepository projectRepository;
-
     public ProjectService(ProjectRepository projectRepository){this.projectRepository = projectRepository;}
+
     public Project createProject(String projectName, int userID, LocalDateTime deadline) throws ExamProjectException {
         Project project = new Project(projectName,userID,deadline);
         return projectRepository.createProject(project);
@@ -29,6 +29,8 @@ public class ProjectService {
         return projectRepository.updateProject(projectID, projectName, deadline);
     }
 
+    //space between main and sub
+
     public List<SubProject> fetchSubprojects(int projectID){return projectRepository.fetchSubProjects(projectID);}
     public SubProject createSubproject(String projectName, int userID, int projectID, LocalDateTime deadline) throws ExamProjectException {
         SubProject subProject = new SubProject(projectName, userID, projectID, deadline);
@@ -37,4 +39,6 @@ public class ProjectService {
     public String updateSubproject(int subprojectID, String subprojectName, LocalDateTime deadline) {
         return projectRepository.updateSubproject(subprojectID, subprojectName, deadline);
     }
+
+
 }

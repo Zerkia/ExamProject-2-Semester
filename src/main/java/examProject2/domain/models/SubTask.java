@@ -11,26 +11,8 @@ public class SubTask {
     private int subtaskID;
     private int userID;
     private int taskID;
-
-    public int getHours() {
-        return hours;
-    }
-
-    public void setHours(int hours) {
-        this.hours = hours;
-    }
-
-    public int getMinutes() {
-        return minutes;
-    }
-
-    public void setMinutes(int minutes) {
-        this.minutes = minutes;
-    }
-
     private int hours;
     private int minutes;
-    private String deadlineFormatted;
 
     public SubTask(String subtaskName, int userID, int taskID, int hours, int minutes) {
         this.subtaskName = subtaskName;
@@ -38,7 +20,6 @@ public class SubTask {
         this.taskID = taskID;
         this.hours = hours;
         this.minutes = minutes;
-        //this.deadlineFormatted = formatDate(deadline);
     }
 
     public SubTask(String subtaskName, String subtaskOwner, int subtaskID, int hours, int minutes) {
@@ -47,7 +28,13 @@ public class SubTask {
         this.subtaskID = subtaskID;
         this.hours = hours;
         this.minutes = minutes;
-        //this.deadlineFormatted = formatDate(deadline);
+    }
+
+    public SubTask(String subtaskName, int subtaskID, int hours, int minutes) {
+        this.subtaskName = subtaskName;
+        this.subtaskID = subtaskID;
+        this.hours = hours;
+        this.minutes = minutes;
     }
 
     public String getSubtaskName() {
@@ -74,29 +61,39 @@ public class SubTask {
         this.subtaskID = subtaskID;
     }
 
-    public String getTime() {
-        return hours + ":" + minutes;
-    }
-
-
-    public String getDeadlineFormatted() {
-        return deadlineFormatted;
-    }
-/*
-    public String formatDate(LocalDateTime deadline){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        String str = deadline.format(formatter);
-        String date = str.substring(0,10).concat(" ");
-        String time = str.substring(11);
-        return date.concat(time);
-    }
-*/
     public int getUserID() {
         return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 
     public int getTaskID() {
         return taskID;
     }
 
+    public void setTaskID(int taskID) {
+        this.taskID = taskID;
+    }
+
+    public int getMinutes() {
+        return minutes;
+    }
+
+    public void setMinutes(int minutes) {
+        this.minutes = minutes;
+    }
+
+    public int getHours() {
+        return hours;
+    }
+
+    public void setHours(int hours) {
+        this.hours = hours;
+    }
+
+    public String getTime() {
+        return hours + ":" + minutes;
+    }
 }
