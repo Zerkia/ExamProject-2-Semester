@@ -24,21 +24,21 @@ public class ProjectService {
     public List<Project> fetchAllProjects(){
         return projectRepository.fetchAllProjects();
     }
-    public String deleteProject(int projectID){ return projectRepository.deleteProject(projectID); }
     public String updateProject(int projectID, String projectName, LocalDateTime deadline) {
         return projectRepository.updateProject(projectID, projectName, deadline);
     }
+    public String deleteProject(int projectID){ return projectRepository.deleteProject(projectID); }
 
     //space between main and sub
 
-    public List<SubProject> fetchSubprojects(int projectID){return projectRepository.fetchSubProjects(projectID);}
     public SubProject createSubproject(String projectName, int userID, int projectID, LocalDateTime deadline) throws ExamProjectException {
         SubProject subProject = new SubProject(projectName, userID, projectID, deadline);
         return projectRepository.createSubproject(subProject);
     }
+    public List<SubProject> fetchSubprojects(int projectID){return projectRepository.fetchSubProjects(projectID);}
     public String updateSubproject(int subprojectID, String subprojectName, LocalDateTime deadline) {
         return projectRepository.updateSubproject(subprojectID, subprojectName, deadline);
     }
-
+    public String deleteSubproject(int subprojectID){ return projectRepository.deleteSubproject(subprojectID); }
 
 }

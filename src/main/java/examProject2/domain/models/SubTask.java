@@ -30,13 +30,6 @@ public class SubTask {
         this.minutes = minutes;
     }
 
-    public SubTask(String subtaskName, int subtaskID, int hours, int minutes) {
-        this.subtaskName = subtaskName;
-        this.subtaskID = subtaskID;
-        this.hours = hours;
-        this.minutes = minutes;
-    }
-
     public String getSubtaskName() {
         return subtaskName;
     }

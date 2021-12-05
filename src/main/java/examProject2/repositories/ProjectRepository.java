@@ -10,15 +10,16 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ProjectRepository {
-        Project createProject(Project project) throws ExamProjectException;
         List<Project> fetchProjects(User user);
         List<Project> fetchAllProjects();
+        Project createProject(Project project) throws ExamProjectException;
         String updateProject(int projectID, String projectName, LocalDateTime deadline);
         String deleteProject(int projectID);
 
         //space between main and sub
 
-        SubProject createSubproject(SubProject subProject) throws ExamProjectException;
         List<SubProject> fetchSubProjects(int projectID);
+        SubProject createSubproject(SubProject subProject) throws ExamProjectException;
         String updateSubproject(int subprojectID, String subprojectName, LocalDateTime deadline);
+        String deleteSubproject(int subprojectID);
 }

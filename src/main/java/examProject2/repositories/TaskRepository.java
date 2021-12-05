@@ -10,11 +10,13 @@ import java.util.List;
 public interface TaskRepository {
     Task createTask(Task task) throws ExamProjectException;
     List<Task> fetchTasks(int subProjectID);
+    String updateTask(int taskID, String taskName, LocalDateTime deadline);
+    String deleteTask(int taskID);
 
     //space between main and sub
 
     SubTask createSubtask(SubTask subTask) throws ExamProjectException;
     List<SubTask> fetchSubtasks(int taskID);
     String updateSubtask(int subtaskID, String subtaskName, int hours, int minutes);
-
+    String deleteSubtask(int subtaskID);
 }

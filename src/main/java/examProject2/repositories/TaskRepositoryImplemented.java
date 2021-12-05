@@ -62,6 +62,36 @@ public class TaskRepositoryImplemented implements TaskRepository{
         return list;
     }
 
+    public String updateTask(int taskID, String taskName, LocalDateTime deadline) {
+        try {
+            String sqlStr = "UPDATE tasks SET taskName = ?, deadline = ? WHERE taskID = ?";
+            Connection conn = DBManager.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sqlStr);
+            ps.setString(1, taskName);
+            ps.setObject(2, deadline);
+            ps.setInt(3, taskID);
+            ps.executeUpdate();
+        } catch (SQLException editErr) {
+            System.out.println("Error in editing");
+            System.out.println(editErr.getMessage());
+        }
+        return "tasksPage";
+    }
+
+    public String deleteTask(int taskID) {
+        try {
+            String sqlStr = "Delete tasks.* FROM tasks WHERE taskID = ?";
+            Connection conn = DBManager.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sqlStr);
+            ps.setInt(1, taskID);
+            ps.executeUpdate();
+        } catch (SQLException delErr) {
+            System.out.println("Couldn't delete item, Error");
+            System.out.println(delErr.getMessage());
+        }
+        return "redirect:/tasksPage";
+    }
+
     //space between main and sub
 
     public SubTask createSubtask(SubTask subTask) throws ExamProjectException {
@@ -130,6 +160,20 @@ public class TaskRepositoryImplemented implements TaskRepository{
             System.out.println("Error in editing");
             System.out.println(editErr.getMessage());
         }
-        return "mainPage";
+        return "subtasksPage";
+    }
+
+    public String deleteSubtask(int subtaskID) {
+        try {
+            String sqlStr = "DELETE subtasks.* FROM subtasks WHERE subtaskID = ?";
+            Connection conn = DBManager.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sqlStr);
+            ps.setInt(1, subtaskID);
+            ps.executeUpdate();
+        } catch(SQLException delErr) {
+            System.out.println("Couldn't delete item, Error");
+            System.out.println(delErr.getMessage());
+        }
+        return "redirect:/subtasksPage";
     }
 }

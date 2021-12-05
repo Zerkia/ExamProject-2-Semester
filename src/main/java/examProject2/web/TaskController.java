@@ -58,7 +58,6 @@ public class TaskController {
         return "newTask";
     }
 
-
     @PostMapping("/createTask")
     public RedirectView createTask(WebRequest request) throws ExamProjectException {
         String taskName = request.getParameter("taskName");
@@ -78,6 +77,66 @@ public class TaskController {
         Task task = taskService.createTask(taskName, user.getUserID(), subProject.getSubprojectID(), localDateTime);
         request.setAttribute("task", task, WebRequest.SCOPE_SESSION);
         //need to figure out a way to return to the last visited page, something about "referer" maybe?
+        return new RedirectView("tasksPage");
+    }
+
+    @GetMapping("/editTaskRedirect")
+    public RedirectView editTaskRedirect(int taskID, WebRequest request, Model model) {
+        List<Task> lst = (List<Task>) request.getAttribute("tasks", 1);
+        for(Task task : lst){
+            if(task.getTaskID() == taskID) {
+                request.setAttribute("taskInEditing", task, 1);
+                model.addAttribute("taskInEditing", task);
+            }
+        }
+        return new RedirectView("editTask");
+    }
+
+    @GetMapping("/editTask")
+    public String editTask(WebRequest request, Model model) {
+        User user = (User) request.getAttribute("user", 1);
+        assert user != null;
+
+        String username = user.getUsername();
+        int userRoleID = user.getUserroleID();
+        Task task = (Task) request.getAttribute("taskInEditing", 1);
+        assert task != null;
+
+        String ownerID = task.getTaskOwner();
+
+        if(username.equalsIgnoreCase(ownerID)) {
+            model.addAttribute("taskInEditing", task);
+            return "editTask";
+        } else if(userRoleID <= 2) {
+            model.addAttribute("taskInEditing", task);
+            return "editTask";
+        } else {
+            return "/error500";
+        }
+    }
+
+    @PostMapping("/updateTask")
+    public RedirectView updateTask(WebRequest request) {
+        String taskName = request.getParameter("taskName");
+        String deadlineDate = request.getParameter("deadline");
+        Task task = (Task) request.getAttribute("taskInEditing", 1);
+        assert task != null;
+        int taskID = task.getTaskID();
+
+        String date = deadlineDate.substring(0,10).concat(" ");
+        String time = deadlineDate.substring(11);
+        String dt = date.concat(time);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime deadline = LocalDateTime.parse(dt, formatter);
+
+        String result = taskService.updateTask(taskID, taskName, deadline);
+        return new RedirectView(result);
+    }
+
+    @GetMapping("/deleteTask")
+    public RedirectView deleteTask(int taskID){
+        taskService.deleteTask(taskID);
         return new RedirectView("tasksPage");
     }
 
@@ -139,20 +198,6 @@ public class TaskController {
         return new RedirectView("subtasksPage");
     }
 
-    @PostMapping("/updateSubtask")
-    public RedirectView updateSubtask(WebRequest request) {
-        String subtaskName = request.getParameter("subtaskName");
-        int hours = Integer.valueOf(request.getParameter("hoursRequired"));
-        int minutes = Integer.valueOf(request.getParameter("minutesRequired"));
-
-        SubTask subTask = (SubTask) request.getAttribute("subtaskInEditing",1);
-        assert subTask != null;
-        int subtaskID = subTask.getSubtaskID();
-
-        String result = taskService.updateSubtask(subtaskID, subtaskName, hours, minutes);
-        return new RedirectView(result);
-    }
-
     @GetMapping("/editSubtaskRedirect")
     public RedirectView editSubtaskRedirect(int subtaskID, WebRequest request, Model model) {
         List<SubTask> lst = (List<SubTask>) request.getAttribute("subtasks",1);
@@ -186,5 +231,25 @@ public class TaskController {
         } else {
             return "/error500";
         }
+    }
+
+    @PostMapping("/updateSubtask")
+    public RedirectView updateSubtask(WebRequest request) {
+        String subtaskName = request.getParameter("subtaskName");
+        int hours = Integer.valueOf(request.getParameter("hoursRequired"));
+        int minutes = Integer.valueOf(request.getParameter("minutesRequired"));
+
+        SubTask subTask = (SubTask) request.getAttribute("subtaskInEditing",1);
+        assert subTask != null;
+        int subtaskID = subTask.getSubtaskID();
+
+        String result = taskService.updateSubtask(subtaskID, subtaskName, hours, minutes);
+        return new RedirectView(result);
+    }
+
+    @GetMapping("/deleteSubtask")
+    public RedirectView deleteSubtask(int subtaskID) {
+        taskService.deleteSubtask(subtaskID);
+        return new RedirectView("subtasksPage");
     }
 }

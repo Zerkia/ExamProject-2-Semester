@@ -2,9 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title th:text="'Edit Task (taskID = ' + ${taskInEditing.taskID} + ')'"></title>
 </head>
 <body>
-
+<div id="wrapper" class="center">
+    <form action="/updateTask" method="post">
+        <h1>Update Task</h1>
+        Task name: <input type="text" name="taskName" th:value="${taskInEditing.taskName}"/>
+        <br><br>
+        Deadline: <input type="datetime-local" name="deadline" th:value="${taskInEditing.deadlineFormatted}"/>
+        <br><br>
+        <button onclick="history.back()" type="button">Back</button>
+        <button name="create" type="submit">Update</button>
+    </form>
+</div>
 </body>
 </html>

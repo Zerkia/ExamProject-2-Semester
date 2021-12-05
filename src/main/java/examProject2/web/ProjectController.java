@@ -125,6 +125,18 @@ public class ProjectController {
 
     //Space between main and subprojects
 
+    @GetMapping("/subprojectsRedirect")
+    public RedirectView subprojectRedirect(WebRequest request, int projectID){
+        List<Project> lst = (List<Project>) request.getAttribute("projects",1);
+        assert lst != null;
+        for(Project pro : lst){
+            if(pro.getProjectID() == projectID){
+                request.setAttribute("parentProject", pro,1);
+            }
+        }
+        return new RedirectView("subprojectsPage");
+    }
+
     @GetMapping("/subprojectsPage")
     public String subprojectsPage(Model model, WebRequest request){
         User user = (User) request.getAttribute("user", 1);
@@ -149,18 +161,6 @@ public class ProjectController {
         } else {
             return "/error500";
         }
-    }
-
-    @GetMapping("/subprojectsRedirect")
-    public RedirectView subprojectRedirect(WebRequest request, int projectID){
-        List<Project> lst = (List<Project>) request.getAttribute("projects",1);
-        assert lst != null;
-        for(Project pro : lst){
-            if(pro.getProjectID() == projectID){
-                request.setAttribute("parentProject", pro,1);
-            }
-        }
-        return new RedirectView("subprojectsPage");
     }
 
     @GetMapping("/newSubproject")
@@ -199,7 +199,6 @@ public class ProjectController {
                 model.addAttribute("subprojectInEditing", subProject);
             }
         }
-        //needs to use model and potentially webrequest due to ID being in URL
         return new RedirectView("editSubproject");
     }
 
@@ -243,5 +242,11 @@ public class ProjectController {
 
         String result = projectService.updateSubproject(subprojectID, subprojectName, deadline);
         return new RedirectView(result);
+    }
+
+    @GetMapping("/deleteSubproject")
+    public RedirectView deleteSubproject(int subprojectID) {
+        projectService.deleteSubproject(subprojectID);
+        return new RedirectView("subprojectsPage");
     }
 }

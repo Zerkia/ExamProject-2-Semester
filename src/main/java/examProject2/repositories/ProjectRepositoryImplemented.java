@@ -115,8 +115,6 @@ public class ProjectRepositoryImplemented implements ProjectRepository{
             PreparedStatement ps = conn.prepareStatement(sqlStr);
             ps.setInt(1, projectID);
             ps.executeUpdate();
-
-            return "Success!";
         } catch (SQLException delErr) {
             System.out.println("Couldn't delete item, Error");
             System.out.println(delErr.getMessage());
@@ -125,6 +123,7 @@ public class ProjectRepositoryImplemented implements ProjectRepository{
     }
 
     //space between main and sub
+
     public SubProject createSubproject(SubProject subProject) throws ExamProjectException {
         try {
             int userID = subProject.getUserID();
@@ -187,6 +186,20 @@ public class ProjectRepositoryImplemented implements ProjectRepository{
             System.out.println("Error in editing");
             System.out.println(editErr.getMessage());
         }
-        return "mainPage";
+        return "subprojectsPage";
+    }
+
+    public String deleteSubproject(int subprojectID) {
+        try {
+            String sqlStr = "DELETE subprojects.* FROM subprojects WHERE subprojectID = ?";
+            Connection conn = DBManager.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sqlStr);
+            ps.setInt(1, subprojectID);
+            ps.executeUpdate();
+        } catch (SQLException delErr) {
+            System.out.println("Couldn't delete item, Error");
+            System.out.println(delErr.getMessage());
+        }
+        return "redirect:/subprojectsPage";
     }
 }
