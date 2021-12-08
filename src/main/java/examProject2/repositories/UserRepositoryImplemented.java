@@ -27,6 +27,22 @@ public class UserRepositoryImplemented implements UserRepository{
         }
     }
 
+    public boolean checkUser(String username) {
+        try {
+            String sqlStr = "SELECT * FROM users WHERE username = " + username;
+            Connection conn = DBManager.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sqlStr);
+            ps.executeUpdate();
+        } catch (SQLException checkErr) {
+            System.out.println("Error in checking usernames or username already exists for username: " + username);
+        }
+        if(username == null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public User login(String username, String password) throws ExamProjectException {
         try{
             Connection conn = DBManager.getConnection();

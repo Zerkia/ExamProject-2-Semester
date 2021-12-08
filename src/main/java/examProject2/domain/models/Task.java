@@ -37,6 +37,14 @@ public class Task {
         this.taskName = taskName;
     }
 
+    public String getTaskOwner() {
+        return taskOwner;
+    }
+
+    public void setTaskOwner(String taskOwner) {
+        this.taskOwner = taskOwner;
+    }
+
     public int getTaskID() {
         return taskID;
     }
@@ -45,12 +53,20 @@ public class Task {
         this.taskID = taskID;
     }
 
-    public String getTaskOwner() {
-        return taskOwner;
+    public int getUserID() {
+        return userID;
     }
 
-    public void setTaskOwner(String taskOwner) {
-        this.taskOwner = taskOwner;
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
+
+    public int getSubprojectID() {
+        return subprojectID;
+    }
+
+    public void setSubprojectID(int subprojectID) {
+        this.subprojectID = subprojectID;
     }
 
     public LocalDateTime getDeadline() {
@@ -65,18 +81,15 @@ public class Task {
         return deadlineFormatted;
     }
 
+    public void setDeadlineFormatted(String deadlineFormatted) {
+        this.deadlineFormatted = deadlineFormatted;
+    }
+
     public String formatDate(LocalDateTime deadline){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         String str = deadline.format(formatter);
         String date = str.substring(0,10).concat(" ");
         String time = str.substring(11);
         return date.concat(time);
-    }
-
-    public int getUserID() {
-        return userID;
-    }
-    public int getSubprojectID() {
-        return subprojectID;
     }
 }

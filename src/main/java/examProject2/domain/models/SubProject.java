@@ -37,14 +37,6 @@ public class SubProject {
         this.subprojectName = subprojectName;
     }
 
-    public int getSubprojectID() {
-        return subprojectID;
-    }
-
-    public void setSubprojectID(int subprojectID) {
-        this.subprojectID = subprojectID;
-    }
-
     public String getSubprojectOwner() {
         return subprojectOwner;
     }
@@ -53,20 +45,12 @@ public class SubProject {
         this.subprojectOwner = subprojectOwner;
     }
 
-    public LocalDateTime getDeadline() {
-        return deadline;
+    public int getSubprojectID() {
+        return subprojectID;
     }
 
-    public void setDeadline(LocalDateTime deadline) {
-        this.deadline = deadline;
-    }
-
-    public String getDeadlineFormatted() {
-        return deadlineFormatted;
-    }
-
-    public void setDeadlineFormatted(String deadlineFormatted) {
-        this.deadlineFormatted = deadlineFormatted;
+    public void setSubprojectID(int subprojectID) {
+        this.subprojectID = subprojectID;
     }
 
     public int getUserID() {
@@ -83,6 +67,22 @@ public class SubProject {
 
     public void setProjectID(int projectID) {
         this.projectID = projectID;
+    }
+
+    public LocalDateTime getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(LocalDateTime deadline) {
+        this.deadline = deadline;
+    }
+
+    public String getDeadlineFormatted() {
+        return deadlineFormatted;
+    }
+
+    public void setDeadlineFormatted(String deadlineFormatted) {
+        this.deadlineFormatted = deadlineFormatted;
     }
 
     public String formatDate(LocalDateTime deadline){

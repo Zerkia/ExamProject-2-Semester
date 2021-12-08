@@ -10,15 +10,40 @@
         <form action="/createUser" method="post">
             <h1>Register</h1>
 
-            Username: <input type="text" name="username"/>
+            <script>
+                function check() {
+                    var registerButton = document.getElementById('register');
+                    if (document.getElementById('password').value ===
+                        document.getElementById('confirm_password').value) {
+                        registerButton.disabled = false;
+                        document.getElementById('message').hidden = true;
+                        //For some reason, getElementsByClassName doesn't work, so have to use 2 Id's
+                        document.getElementById('brHidden').hidden = true;
+                        document.getElementById('brHidden2').hidden = true;
+                    } else {
+                        document.getElementById('message').style.color = 'red';
+                        document.getElementById('message').innerHTML = 'passwords do not match';
+                        registerButton.disabled = true;
+                        document.getElementById('message').hidden = false;
+                        document.getElementById('brHidden').hidden = false;
+                        document.getElementById('brHidden2').hidden = false;
+                    }
+                }
+            </script>
+
+            Username: <input type="text" name="username" th:value="${usernameError}"/>
             <br><br>
-            Password: <input type="password" name="password"/>
+            Password: <input type="password" name="password" id="password" onkeyup="check()"/>
             <br><br>
-            Confirm Password: <input type="password" name="password2"/>
-            <br><br>
+            Confirm Password: <input type="password" name="confirm_password" id="confirm_password" onkeyup="check()"/>
+            <br>
+            <br id="brHidden" hidden>
+            <span id="message"></span>
+            <br id="brHidden2" hidden>
+            <br>
 
             <button onclick="location.href='/'" type="button">Back</button>
-            <button name="create" type="submit">Register</button>
+            <button name="create" type="submit" id="register" disabled>Register</button>
         </form>
     </div>
 </body>
