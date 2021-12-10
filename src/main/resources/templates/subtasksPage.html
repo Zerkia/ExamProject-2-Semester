@@ -6,44 +6,46 @@
     <link href="style.css" rel="stylesheet">
 </head>
 <body>
-    <div id="wrapper">
-        <div class="center">
-            <h1>Welcome to the subtasks page!</h1>
-            <h2>Here you can start a new subtask, mark them finished or delete them!</h2>
+    <div class="background">
+        <div id="wrapper">
+            <div class="center">
+                <h1>Welcome to the subtasks page!</h1>
+                <h2>Here you can start a new subtask, mark them finished or delete them!</h2>
 
-            <button onclick="location.href='/newSubtask'" type="button" class="button">Start a new subtask</button>
-            <br><br>
-            <button onclick="location.href='/mainPage'" type="button" class="button">Back to Projects Page</button>
-            <br><br>
-        </div>
+                <button onclick="location.href='/newSubtask'" type="button" class="button">Start a new subtask</button>
+                <br><br>
+                <button onclick="location.href='/tasksPage'" type="button" class="button">Back to Tasks Page</button>
+                <br><br>
+            </div>
 
-        <table id="customers">
-            <tr>
-                <th style="width: 40%">Subtask Name</th>
-                <th style="width: 15%">Subtask Owner</th>
-                <th style="width: 15%">Time Required (hours:minutes)</th>
-                <th style="width: 10%">Subtask Changes</th>
-                <th style="width: 10%">Delete?</th>
-            </tr>
+            <table id="customers">
+                <tr>
+                    <th style="width: 40%">Subtask Name</th>
+                    <th style="width: 15%">Subtask Owner</th>
+                    <th style="width: 15%">Time Required (hours:minutes)</th>
+                    <th style="width: 10%">Subtask Changes</th>
+                    <th style="width: 10%">Delete?</th>
+                </tr>
 
-            <tr th:each="subtask : ${subtasks}">
-                <td th:text="${subtask.subtaskName}"></td>
-                <td style="text-align:center" th:text="${subtask.subtaskOwner}"></td>
-                <td style="text-align:center" th:text="${subtask.getTime}" ></td>
-                <td>
-                    <a th:href="@{/editSubtaskRedirect(subtaskID=${subtask.subtaskID})}">
-                        <p class="center">Update Subtask</p>
-                    </a>
-                </td>
-                <td>
-                    <a onclick="
+                <tr th:each="subtask : ${subtasks}">
+                    <td th:text="${subtask.subtaskName}"></td>
+                    <td style="text-align:center" th:text="${subtask.subtaskOwner}"></td>
+                    <td style="text-align:center" th:text="${subtask.getTime}" ></td>
+                    <td>
+                        <a th:href="@{/editSubtaskRedirect(subtaskID=${subtask.subtaskID})}">
+                            <p class="center">Update Subtask</p>
+                        </a>
+                    </td>
+                    <td>
+                        <a onclick="
                             return confirm('Are you sure you want to delete this subtask?');"
-                       th:href="@{/deleteSubtask(subtaskID=${subtask.subtaskID})}">
-                        <img class="icon center" src="trash.png" alt="delete item">
-                    </a>
-                </td>
-            </tr>
-        </table>
+                           th:href="@{/deleteSubtask(subtaskID=${subtask.subtaskID})}">
+                            <img class="icon center" src="trash.png" alt="delete item">
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
 </body>
 </html>

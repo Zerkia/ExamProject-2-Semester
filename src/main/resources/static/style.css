@@ -2,6 +2,28 @@ a{
     color:blue;
     text-decoration: none;
     opacity: 0.75;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.background {
+    position:relative;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.background::before {
+    content: '';
+    position:absolute;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+    left: 0px;
+    background-color: lightgrey;
+    background-size: cover;
+    background-position: top center;
+    opacity: 0.75;
 }
 
 .button{
@@ -19,6 +41,7 @@ a{
 #wrapper {
     margin: 0 auto;
     width: 1024px;
+    position:relative;
 }
 
 #customers {
@@ -28,7 +51,7 @@ a{
 }
 
 #customers td, #customers th {
-    border: 1px solid #ddd;
+    border: 1px solid #000;
     padding: 8px;
 }
 

@@ -5,17 +5,32 @@
     <title>Title</title>
     <link href="style.css" rel="stylesheet">
 </head>
-<div id="wrapper" class="center">
-    <form action="/login" method="post">
-        <h1>Login</h1>
+    <div class="background">
+        <div id="wrapper" class="center">
+            <form action="/login" method="post">
+                <h1>Login</h1>
 
-        Username: <input type="text" name="username"/>
-        <br><br>
-        Password: <input type="password" name="password"/>
-        <br><br>
+                <script>
+                    function check() {
+                        var loginButton = document.getElementById('login');
+                        var username = document.getElementById('username');
+                        var password = document.getElementById('password');
+                        if (username.value.length > 0 && password.value.length > 0) {
+                            loginButton.disabled = false;
+                        } else {
+                            loginButton.disabled = true;
+                        }
+                    }
+                </script>
 
-        <button onclick="location.href='/'" type="button">Back</button>
-        <button name="create" type="submit">Login</button>
-    </form>
-</div>
+                Username: <input type="text" name="username" id="username" onkeyup="check()" onchange="check()"/>
+                <br><br>
+                Password: <input type="password" name="password" id="password" onkeyup="check()"/>
+                <br><br>
+
+                <button onclick="location.href='/'" type="button">Back</button>
+                <button name="login" type="submit" id="login" disabled>Login</button>
+            </form>
+        </div>
+    </div>
 </html>

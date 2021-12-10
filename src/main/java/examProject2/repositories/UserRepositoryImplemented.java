@@ -7,6 +7,7 @@ import java.util.List;
 import examProject2.domain.ExamProjectException;
 import examProject2.domain.models.Project;
 import examProject2.domain.models.User;
+import org.springframework.web.servlet.view.RedirectView;
 
 
 public class UserRepositoryImplemented implements UserRepository{

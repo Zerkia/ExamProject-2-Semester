@@ -3,18 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="'Edit Subproject (subprojectID = ' + ${subprojectInEditing.subprojectID} + ')'"></title>
+    <link href="style.css" rel="stylesheet">
 </head>
 <body>
-    <div id="wrapper" class="center">
-        <form action="/updateSubproject" method="post">
-            <h1>Update Subproject</h1>
-            Subproject name: <input type="text" name="subprojectName" th:value="${subprojectInEditing.subprojectName}"/>
-            <br><br>
-            Deadline: <input type="datetime-local" name="deadline" th:value="${subprojectInEditing.deadlineFormatted}"/>
-            <br><br>
-            <button onclick="history.back()" type="button">Back</button>
-            <button name="create" type="submit">Update</button>
-        </form>
+    <div class="background">
+        <div id="wrapper" class="center">
+            <form action="/updateSubproject" method="post">
+                <h1>Update Subproject</h1>
+                Subproject name: <input type="text" name="subprojectName" th:value="${subprojectInEditing.subprojectName}"/>
+                <br><br>
+                Deadline: <input type="datetime-local" name="deadline" th:value="${subprojectInEditing.deadlineFormatted}"/>
+                <br><br>
+                <button onclick="history.back()" type="button">Back</button>
+                <button name="create" type="submit">Update</button>
+            </form>
+        </div>
     </div>
 </body>
 </html>
