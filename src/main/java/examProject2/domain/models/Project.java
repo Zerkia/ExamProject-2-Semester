@@ -10,6 +10,28 @@ public class Project {
     private String projectOwner;
     private int userID;
     private int projectID;
+
+    public int getDays() {
+        return days;
+    }
+    public String getTime() {
+        return "days: " + days + " hours: " + hours;
+    }
+
+    public void setDays(int days) {
+        this.days = days;
+    }
+
+    public int getHours() {
+        return hours;
+    }
+
+    public void setHours(int hours) {
+        this.hours = hours;
+    }
+
+    private int days;
+    private int hours;
     private LocalDateTime deadline;
     private String deadlineFormatted;
 
@@ -29,12 +51,14 @@ public class Project {
         this.projectID = projectID;
     }
 
-    public Project(String projectName, String projectOwner, int projectID, LocalDateTime deadline) {
+    public Project(String projectName, String projectOwner, int projectID, LocalDateTime deadline, int days, int hours) {
         this.projectName = projectName;
         this.projectOwner = projectOwner;
         this.projectID = projectID;
         this.deadline = deadline;
         this.deadlineFormatted = formatDate(this.deadline);
+        this.days = days;
+        this.hours = hours;
     }
 
     public String getProjectName() {

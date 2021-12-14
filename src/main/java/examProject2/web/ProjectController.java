@@ -1,11 +1,11 @@
 package examProject2.web;
 
 import examProject2.domain.ExamProjectException;
-import examProject2.domain.models.Project;
-import examProject2.domain.models.SubProject;
-import examProject2.domain.models.User;
+import examProject2.domain.models.*;
 import examProject2.domain.services.ProjectService;
+import examProject2.domain.services.TaskService;
 import examProject2.repositories.ProjectRepositoryImplemented;
+import examProject2.repositories.TaskRepositoryImplemented;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -245,7 +244,20 @@ public class ProjectController {
     }
 
     @GetMapping("/deleteSubproject")
-    public RedirectView deleteSubproject(int subprojectID) {
+    public RedirectView deleteSubproject(int subprojectID, WebRequest request) {
+        int hours = 0;
+        TaskService taskService = new TaskService(new TaskRepositoryImplemented());
+        Project project = (Project) request.getAttribute("parentProject", 1);
+        List<Task> taskList = taskService.fetchTasks(subprojectID);
+        for(Task task : taskList){
+            List<SubTask> subTaskList = taskService.fetchSubtasks(task.getTaskID());
+            for(SubTask subTask : subTaskList) {
+                hours = subTask.getHours();
+                Project project1 = taskService.updateProjectTimeDeleteSubtask(project, hours);
+                request.setAttribute("parentProject", project1, 1);
+            }
+        }
+
         projectService.deleteSubproject(subprojectID);
         return new RedirectView("subprojectsPage");
     }
