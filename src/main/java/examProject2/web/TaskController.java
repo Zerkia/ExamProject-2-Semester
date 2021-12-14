@@ -135,7 +135,19 @@ public class TaskController {
     }
 
     @GetMapping("/deleteTask")
-    public RedirectView deleteTask(int taskID){
+    public RedirectView deleteTask(int taskID, WebRequest request){
+        int hours = 0;
+        Project project = (Project) request.getAttribute("parentProject", 1);
+        List<SubTask> lst = taskService.fetchSubtasks(taskID);
+        System.out.println(lst.get(0).getSubtaskName());
+        SubProject subProject = (SubProject) request.getAttribute("parentSubProject", WebRequest.SCOPE_SESSION);
+
+        for(SubTask subTask : lst){
+            hours = subTask.getHours();
+            System.out.println(hours);
+            taskService.updateSubProjectTimeDeleteSubtask(subProject, hours);
+            taskService.updateProjectTimeDeleteSubtask(project, hours);
+        }
         taskService.deleteTask(taskID);
         return new RedirectView("tasksPage");
     }
@@ -183,7 +195,7 @@ public class TaskController {
     }
 
     @PostMapping("/createSubTask")
-    public RedirectView createSubtask(WebRequest request) throws ExamProjectException {
+    public RedirectView createSubtask(WebRequest request, Model model) throws ExamProjectException {
         String subtaskName = request.getParameter("subtaskName");
         int hours = Integer.valueOf(request.getParameter("hoursRequired"));
         int minutes = Integer.valueOf(request.getParameter("minutesRequired"));
@@ -194,6 +206,18 @@ public class TaskController {
         assert task != null;
         SubTask subTask = taskService.createSubtask(subtaskName, user.getUserID(), task.getTaskID(), hours, minutes);
         request.setAttribute("subtask", subTask, WebRequest.SCOPE_SESSION);
+
+        Task newTask = taskService.updateTaskTimeCreateSubtask(task, hours);
+        request.setAttribute("parentTask", newTask, 1);
+
+        SubProject subProject = (SubProject) request.getAttribute("parentSubProject", WebRequest.SCOPE_SESSION);
+        SubProject updatedSubProject = taskService.updateSubProjectTimeCreateSubtask(subProject, hours);
+        request.setAttribute("parentSubProject", updatedSubProject, 1);
+
+        Project project = (Project) request.getAttribute("parentProject", WebRequest.SCOPE_SESSION);
+        Project projectUpdated = taskService.updateProjectTimeCreateSubtask(project, hours);
+        request.setAttribute("parentProject", projectUpdated, 1);
+
         //need to figure out a way to return to the last visited page, something about "referer" maybe?
         return new RedirectView("subtasksPage");
     }
@@ -242,13 +266,43 @@ public class TaskController {
         SubTask subTask = (SubTask) request.getAttribute("subtaskInEditing",1);
         assert subTask != null;
         int subtaskID = subTask.getSubtaskID();
+        int oldHours = subTask.getHours();
 
         String result = taskService.updateSubtask(subtaskID, subtaskName, hours, minutes);
+
+        Task task = (Task) request.getAttribute("parentTask", WebRequest.SCOPE_SESSION);
+        Task taskUpdated = taskService.updateTaskTimeUpdateSubtask(task, hours, oldHours);
+        request.setAttribute("parentTask", taskUpdated, 1);
+
+        SubProject subProject = (SubProject) request.getAttribute("parentSubProject", WebRequest.SCOPE_SESSION);
+        SubProject subProjectUpdated = taskService.updateSubProjectTimeUpdateSubtask(subProject, hours, oldHours);
+        request.setAttribute("parentSubProject", subProjectUpdated, 1);
+
+        Project project = (Project) request.getAttribute("parentProject", WebRequest.SCOPE_SESSION);
+        Project projectUpdated = taskService.updateProjectTimeUpdateSubtask(project, hours, oldHours);
+        request.setAttribute("parentProject", projectUpdated, 1);
+
         return new RedirectView(result);
     }
 
     @GetMapping("/deleteSubtask")
-    public RedirectView deleteSubtask(int subtaskID) {
+    public RedirectView deleteSubtask(int subtaskID, WebRequest request) {
+        int hours = 0;
+        Project project = (Project) request.getAttribute("parentProject", 1);
+        List<SubTask> lst = (List<SubTask>) request.getAttribute("subtasks",1);
+        for(SubTask subTask : lst){
+            if(subTask.getSubtaskID() == subtaskID){
+                hours = subTask.getHours();
+            }
+        }
+        Task task = (Task) request.getAttribute("parentTask", 1);
+        SubProject subProject = (SubProject) request.getAttribute("parentSubProject", 1);
+        Task taskUpdated = taskService.updateTaskTimeDeleteSubtask(task, hours);
+        request.setAttribute("parentTask", taskUpdated, 1);
+        SubProject subProjectUpdated = taskService.updateSubProjectTimeDeleteSubtask(subProject, hours);
+        request.setAttribute("parentSubProject", subProjectUpdated, 1);
+        Project projectUpdated =  taskService.updateProjectTimeDeleteSubtask(project, hours);
+        request.setAttribute("parentProject", projectUpdated, 1);
         taskService.deleteSubtask(subtaskID);
         return new RedirectView("subtasksPage");
     }

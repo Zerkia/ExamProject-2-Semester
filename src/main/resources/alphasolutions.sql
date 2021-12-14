@@ -27,6 +27,8 @@ CREATE TABLE `projects` (
   `userID` int NOT NULL,
   `projectName` varchar(100) NOT NULL,
   `deadline` datetime NOT NULL,
+  `days` int,
+  `hours` int,
   PRIMARY KEY (`projectID`),
   UNIQUE KEY `projectName_UNIQUE` (`projectName`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -38,7 +40,7 @@ CREATE TABLE `projects` (
 
 LOCK TABLES `projects` WRITE;
 /*!40000 ALTER TABLE `projects` DISABLE KEYS */;
-INSERT INTO `projects` VALUES (1,3,'adminProject','2021-11-02 00:00:00'),(3,4,'johnsProject','2021-02-12 00:00:01');
+INSERT INTO `projects` VALUES (1,3,'adminProject','2021-11-02 00:00:00',1,0),(3,4,'johnsProject','2021-02-12 00:00:01',0,0);
 /*!40000 ALTER TABLE `projects` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -55,6 +57,8 @@ CREATE TABLE `subprojects` (
   `userID` int NOT NULL,
   `subprojectName` varchar(100) NOT NULL,
   `deadline` datetime NOT NULL,
+  `days` int,
+  `hours`int,
   PRIMARY KEY (`subprojectID`),
   UNIQUE KEY `subprojectName_UNIQUE` (`subprojectName`),
   KEY `fkprojectsubproject_idx` (`projectID`),
@@ -68,7 +72,7 @@ CREATE TABLE `subprojects` (
 
 LOCK TABLES `subprojects` WRITE;
 /*!40000 ALTER TABLE `subprojects` DISABLE KEYS */;
-INSERT INTO `subprojects` VALUES (1,1,3,'Sub1','2021-02-02 00:00:00'),(2,1,3,'Sub2','2021-02-02 23:59:59'),(3,3,4,'sub3','2021-02-02 00:00:00');
+INSERT INTO `subprojects` VALUES (1,1,3,'Sub1','2021-02-02 00:00:00',1,0),(2,1,3,'Sub2','2021-02-02 23:59:59',0,0),(3,3,4,'sub3','2021-02-02 00:00:00',0,0);
 /*!40000 ALTER TABLE `subprojects` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -116,6 +120,8 @@ CREATE TABLE `tasks` (
   `userID` int NOT NULL,
   `taskName` varchar(100) NOT NULL,
   `deadline` datetime NOT NULL,
+  `days` int,
+  `hours` int,
   PRIMARY KEY (`taskID`),
   UNIQUE KEY `taskName_UNIQUE` (`taskName`),
   KEY `fktasksubproject_idx` (`subprojectID`),
@@ -129,7 +135,7 @@ CREATE TABLE `tasks` (
 
 LOCK TABLES `tasks` WRITE;
 /*!40000 ALTER TABLE `tasks` DISABLE KEYS */;
-INSERT INTO `tasks` VALUES (1,1,3,'task1','2021-02-02 00:00:00'),(2,1,3,'task2','2021-02-02 00:00:00'),(3,3,4,'task3','2021-02-02 00:00:00');
+INSERT INTO `tasks` VALUES (1,1,3,'task1','2021-02-02 00:00:00',0,4),(2,1,3,'task2','2021-02-02 00:00:00',0,3),(3,3,4,'task3','2021-02-02 00:00:00',0,0);
 /*!40000 ALTER TABLE `tasks` ENABLE KEYS */;
 UNLOCK TABLES;
 
