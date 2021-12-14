@@ -10,6 +10,29 @@ public class SubProject {
     private int subprojectID;
     private int userID;
     private int projectID;
+
+
+    public String getTime() {
+        return "days: " + days + " hours: " + hours;
+    }
+    public int getDays() {
+        return days;
+    }
+
+    public void setDays(int days) {
+        this.days = days;
+    }
+
+    public int getHours() {
+        return hours;
+    }
+
+    public void setHours(int hours) {
+        this.hours = hours;
+    }
+
+    private int days;
+    private int hours;
     private LocalDateTime deadline;
     private String deadlineFormatted;
 
@@ -21,12 +44,14 @@ public class SubProject {
         this.deadlineFormatted = formatDate(deadline);
     }
 
-    public SubProject(String subprojectName, String subprojectOwner, int subprojectID, LocalDateTime deadline) {
+    public SubProject(String subprojectName, String subprojectOwner, int subprojectID, LocalDateTime deadline, int days, int hours) {
         this.subprojectName = subprojectName;
         this.subprojectOwner = subprojectOwner;
         this.subprojectID = subprojectID;
         this.deadline = deadline;
         this.deadlineFormatted = formatDate(deadline);
+        this.days = days;
+        this.hours = hours;
     }
 
     public String getSubprojectName() {

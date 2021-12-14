@@ -23,9 +23,10 @@
 
         <table id="customers">
             <tr>
-                <th style="width: 40%">Project Name</th>
+                <th style="width: 25%">Project Name</th>
                 <th style="width: 15%">Project Owner</th>
                 <th style="width: 15%">Deadline</th>
+                <th style="width: 15%">Time Required</th>
                 <th style="width: 10%">Subtasks</th>
                 <th style="width: 10%">Project Changes</th>
                 <th style="width: 10%">Delete?</th>
@@ -35,6 +36,7 @@
                 <td th:text="${project.projectName}"></td>
                 <td style="text-align:center" th:text="${project.projectOwner}"></td>
                 <td style="text-align:center" th:text="${project.getDeadlineFormatted}" ></td>
+                <td style="text-align:center" th:text="${project.getTime}" ></td>
                 <td>
                     <a th:href="@{/subprojectsRedirect(projectID=${project.projectID})}">
                         <p class="center">View Subprojects</p>

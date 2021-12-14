@@ -19,9 +19,10 @@
 
     <table id="customers">
         <tr>
-            <th style="width: 40%">Task Name</th>
+            <th style="width: 25%">Task Name</th>
             <th style="width: 15%">Task Owner</th>
             <th style="width: 15%">Deadline</th>
+            <th style="width: 15%">Time Required</th>
             <th style="width: 10%">Subtasks</th>
             <th style="width: 10%">Task Changes</th>
             <th style="width: 10%">Delete?</th>
@@ -31,6 +32,7 @@
             <td th:text="${task.taskName}"></td>
             <td style="text-align:center" th:text="${task.taskOwner}"></td>
             <td style="text-align:center" th:text="${task.getDeadlineFormatted}" ></td>
+            <td style="text-align:center" th:text="${task.getTime}"></td>
             <td>
                 <a th:href="@{/subtasksRedirect(taskID=${task.taskID})}">
                     <p class="center">View Subtasks</p>

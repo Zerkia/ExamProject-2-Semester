@@ -1,10 +1,10 @@
 package examProject2.repositories;
 
 import examProject2.domain.ExamProjectException;
+import examProject2.domain.models.Project;
 import examProject2.domain.models.SubProject;
 import examProject2.domain.models.SubTask;
 import examProject2.domain.models.Task;
-import org.apache.tomcat.jni.Local;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -51,7 +51,9 @@ public class TaskRepositoryImplemented implements TaskRepository{
                         rs.getString("taskName"),
                         rs.getString("username"),
                         rs.getInt("taskID"),
-                        rs.getObject("deadline", LocalDateTime.class)
+                        rs.getObject("deadline", LocalDateTime.class),
+                        rs.getInt("days"),
+                        rs.getInt("hours")
                 );
                 list.add(task);
             }
@@ -59,6 +61,7 @@ public class TaskRepositoryImplemented implements TaskRepository{
             System.out.println("Error in fetch");
             System.out.println(subfetchErr.getMessage());
         }
+
         return list;
     }
 
@@ -146,6 +149,249 @@ public class TaskRepositoryImplemented implements TaskRepository{
         return list;
     }
 
+    public Task updateTaskTimeCreateSubtask(Task task, int hours){
+        try{
+            int extraDays = (hours + task.getHours())/8;
+            int extraHoursforReal = (hours + task.getHours())%8;
+            Task task1 = new Task(task.getTaskName(),task.getTaskOwner(),task.getTaskID(),task.getDeadline(),
+                    task.getDays()+extraDays, extraHoursforReal);
+            String sqlStr = "UPDATE tasks SET days = ?, hours = ? WHERE taskID = ?;";
+            Connection conn = DBManager.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sqlStr);
+            ps.setInt(1, task1.getDays());
+            ps.setInt(2, task1.getHours());
+            ps.setInt(3, task1.getTaskID());
+            ps.executeUpdate();
+            return task1;
+        } catch (SQLException err){
+            System.out.println("ErrorHere");
+        }
+        return task;
+    }
+    public Task updateTaskTimeUpdateSubtask(Task task, int hours, int oldHours){
+        try{
+            Task newTask;
+            int extraTaskHours = ((hours-oldHours) + task.getHours())%8;
+            if(task.getHours()+extraTaskHours < 0){
+                int newTaskDays = (((hours-oldHours) + task.getHours())/8)-1;
+                int newTaskHours = 8 - extraTaskHours;
+                newTask = new Task(task.getTaskName(), task.getTaskOwner(), task.getTaskID(),
+                        task.getDeadline(),task.getDays()+ newTaskDays, newTaskHours);
+            } else if(extraTaskHours > 7) {
+                int newTaskDays = (((hours-oldHours) + task.getHours())/8)+1;
+                int newTaskHours = 8 - extraTaskHours;
+                newTask = new Task(task.getTaskName(), task.getTaskOwner(), task.getTaskID(),
+                        task.getDeadline(),task.getDays()+ newTaskDays,newTaskHours);
+            } else {
+                int newTaskDays = ((hours-oldHours) + task.getHours())/8;
+                newTask = new Task(task.getTaskName(), task.getTaskOwner(), task.getTaskID(),
+                        task.getDeadline(),task.getDays()+newTaskDays,extraTaskHours);
+            }
+
+            String sqlStr = "UPDATE tasks SET days = ?, hours = ? WHERE taskID = ?;";
+            Connection conn = DBManager.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sqlStr);
+            ps.setInt(1, newTask.getDays());
+            ps.setInt(2, newTask.getHours());
+            ps.setInt(3, newTask.getTaskID());
+            ps.executeUpdate();
+            return newTask;
+        } catch (SQLException err){
+            System.out.println("ErrorHere");
+        }
+        return task;
+    }
+public Task updateTaskTimeDeleteSubtask(Task task, int hours){
+    try {
+        Task newTask;
+        int days = hours/8;
+        int newHours = hours%8;
+        if(task.getHours()-newHours < 0){
+            int newProDays = days+1;
+            int newProHours = 8 - newHours + task.getHours();
+            newTask = new Task(task.getTaskName(), task.getTaskOwner(), task.getTaskID(),
+                    task.getDeadline(),task.getDays()-newProDays,newProHours);
+        } else {
+            newTask = new Task(task.getTaskName(), task.getTaskOwner(), task.getTaskID(),
+                    task.getDeadline(),task.getDays()-days, task.getHours()-newHours);
+        }
+        String sqlStr = "UPDATE tasks SET days = ?, hours = ? WHERE taskID = ?;";
+        Connection conn = DBManager.getConnection();
+        PreparedStatement ps = conn.prepareStatement(sqlStr);
+        ps.setInt(1, newTask.getDays());
+        ps.setInt(2, newTask.getHours());
+        ps.setInt(3, newTask.getTaskID());
+        ps.executeUpdate();
+        return newTask;
+    } catch (SQLException throwables) {
+        throwables.printStackTrace();
+    }
+    return task;
+}
+
+    public SubProject updateSubprojectTimeCreateSubtask(SubProject subProject, int hours){
+        try{
+            int extraSubProHours = (hours + subProject.getHours())%8;
+            int extraSubProDays = (hours + subProject.getHours())/8;
+            SubProject newSubProject = new SubProject(subProject.getSubprojectName(), subProject.getSubprojectOwner(), subProject.getSubprojectID(),
+                    subProject.getDeadline(),subProject.getDays()+extraSubProDays,extraSubProHours);
+            String sqlStr = "UPDATE subprojects SET days = ?, hours = ? WHERE subprojectID = ?;";
+            Connection conn = DBManager.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sqlStr);
+            ps.setInt(1, newSubProject.getDays());
+            ps.setInt(2, newSubProject.getHours());
+            ps.setInt(3, newSubProject.getSubprojectID());
+            ps.executeUpdate();
+            return newSubProject;
+        } catch (SQLException err){
+            System.out.println("ErrorHere");
+        }
+        return subProject;
+    }
+    public SubProject updateSubprojectTimeUpdateSubtask(SubProject subProject, int hours, int oldhours){
+        try{
+            SubProject newSubProject;
+            int extraSubProHours = ((hours-oldhours) + subProject.getHours())%8;
+            if(subProject.getHours()+extraSubProHours < 0){
+                int newSubProDays = (((hours-oldhours) + subProject.getHours())/8)-1;
+                int newSubProHours = 8 - extraSubProHours;
+                newSubProject = new SubProject(subProject.getSubprojectName(), subProject.getSubprojectOwner(), subProject.getSubprojectID(),
+                        subProject.getDeadline(),subProject.getDays()+ newSubProDays,newSubProHours);
+            } else if(extraSubProHours > 7) {
+                int newSubProDays = (((hours-oldhours) + subProject.getHours())/8)+1;
+                int newSubProHours = 8 - extraSubProHours;
+                newSubProject = new SubProject(subProject.getSubprojectName(), subProject.getSubprojectOwner(), subProject.getSubprojectID(),
+                        subProject.getDeadline(),subProject.getDays()+ newSubProDays,newSubProHours);
+            } else {
+                int extraSubProDays = ((hours-oldhours) + subProject.getHours())/8;
+                newSubProject = new SubProject(subProject.getSubprojectName(), subProject.getSubprojectOwner(), subProject.getSubprojectID(),
+                        subProject.getDeadline(),subProject.getDays()+extraSubProDays,extraSubProHours);
+            }
+
+            String sqlStr = "UPDATE subprojects SET days = ?, hours = ? WHERE subprojectID = ?;";
+            Connection conn = DBManager.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sqlStr);
+            ps.setInt(1, newSubProject.getDays());
+            ps.setInt(2, newSubProject.getHours());
+            ps.setInt(3, newSubProject.getSubprojectID());
+            ps.executeUpdate();
+            return newSubProject;
+        } catch (SQLException err){
+            System.out.println("ErrorHere");
+        }
+        return subProject;
+    }
+    public SubProject updateSubProjectTimeDeleteSubtask(SubProject subProject, int hours){
+        try {
+            SubProject newSubProject;
+            int days = hours/8;
+            int newHours = hours%8;
+            if(subProject.getHours()-newHours < 0){
+                int newProDays = days+1;
+                int newProHours = 8 - newHours + subProject.getHours();
+                newSubProject = new SubProject(subProject.getSubprojectName(), subProject.getSubprojectOwner(), subProject.getSubprojectID(),
+                        subProject.getDeadline(),subProject.getDays()-newProDays,newProHours);
+            } else {
+                newSubProject = new SubProject(subProject.getSubprojectName(), subProject.getSubprojectOwner(), subProject.getSubprojectID(),
+                        subProject.getDeadline(),subProject.getDays()-days, subProject.getHours()-newHours);
+            }
+            String sqlStr = "UPDATE subprojects SET days = ?, hours = ? WHERE subprojectID = ?;";
+            Connection conn = DBManager.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sqlStr);
+            ps.setInt(1, newSubProject.getDays());
+            ps.setInt(2, newSubProject.getHours());
+            ps.setInt(3, newSubProject.getSubprojectID());
+            ps.executeUpdate();
+            return newSubProject;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return subProject;
+    }
+
+
+    public Project updateProjectTimeCreateSubtask(Project project, int hours){
+        try{
+            int extraProHours = (hours + project.getHours())%8;
+            int extraProDays = (hours + project.getHours())/8;
+            Project newProject = new Project(project.getProjectName(), project.getProjectOwner(),project.getProjectID(),
+                    project.getDeadline(), project.getDays()+extraProDays, extraProHours);
+            String sqlStr = "UPDATE projects SET days = ?, hours = ? WHERE projectID = ?;";
+            Connection conn = DBManager.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sqlStr);
+            ps.setInt(1, newProject.getDays());
+            ps.setInt(2, newProject.getHours());
+            ps.setInt(3, newProject.getProjectID());
+            ps.executeUpdate();
+            return newProject;
+        } catch (SQLException err){
+            System.out.println("ErrorHere");
+        }
+        return project;
+    }
+    public Project updateProjectTimeUpdateSubtask(Project project, int hours, int oldHours){
+        try{
+            Project newProject;
+            int extraProHours = ((hours-oldHours) + project.getHours())%8;
+            if(project.getHours()+extraProHours < 0){
+                int newSubProDays = (((hours-oldHours) + project.getHours())/8)-1;
+                int newSubProHours = 8 - extraProHours;
+                newProject = new Project(project.getProjectName(), project.getProjectOwner(), project.getProjectID(),
+                        project.getDeadline(),project.getDays()+ newSubProDays,newSubProHours);
+            } else if(extraProHours > 7) {
+                int newProDays = (((hours-oldHours) + project.getHours())/8)+1;
+                int newProHours = 8 - extraProHours;
+                newProject = new Project(project.getProjectName(), project.getProjectOwner(), project.getProjectID(),
+                        project.getDeadline(),project.getDays()+ newProDays,newProHours);
+            } else {
+                int extraProDays = ((hours-oldHours) + project.getHours())/8;
+                newProject = new Project(project.getProjectName(), project.getProjectOwner(), project.getProjectID(),
+                        project.getDeadline(),project.getDays()+extraProDays,extraProHours);
+            }
+
+
+            String sqlStr = "UPDATE projects SET days = ?, hours = ? WHERE projectID = ?;";
+            Connection conn = DBManager.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sqlStr);
+            ps.setInt(1, newProject.getDays());
+            ps.setInt(2, newProject.getHours());
+            ps.setInt(3, newProject.getProjectID());
+            ps.executeUpdate();
+            return newProject;
+        } catch (SQLException err){
+            System.out.println("ErrorHere");
+        }
+        return project;
+    }
+
+    public Project updateProjectTimeDeleteSubtask(Project project, int hours){
+        try {
+            Project newProject;
+            int days = hours/8;
+            int newHours = hours%8;
+            if(project.getHours()-newHours < 0){
+                int newProDays = days+1;
+                int newProHours = 8 - newHours + project.getHours();
+                newProject = new Project(project.getProjectName(), project.getProjectOwner(), project.getProjectID(),
+                        project.getDeadline(),project.getDays()-newProDays,newProHours);
+            } else {
+                newProject = new Project(project.getProjectName(), project.getProjectOwner(), project.getProjectID(),
+                        project.getDeadline(),project.getDays()-days, project.getHours()-newHours);
+            }
+            String sqlStr = "UPDATE projects SET days = ?, hours = ? WHERE projectID = ?;";
+            Connection conn = DBManager.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sqlStr);
+            ps.setInt(1, newProject.getDays());
+            ps.setInt(2, newProject.getHours());
+            ps.setInt(3, newProject.getProjectID());
+            ps.executeUpdate();
+            return newProject;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return project;
+    }
+
     public String updateSubtask(int subtaskID, String subtaskName, int hours, int minutes) {
         try {
             String sqlStr = "UPDATE subtasks SET subtaskName = ?, hours = ?, minutes = ? WHERE subtaskID = ?;";
@@ -176,4 +422,5 @@ public class TaskRepositoryImplemented implements TaskRepository{
         }
         return "redirect:/subtasksPage";
     }
+
 }

@@ -55,7 +55,9 @@ public class ProjectRepositoryImplemented implements ProjectRepository{
                         //If userID is connected to a non existent user, project won't show
                         rs.getString("username"),
                         rs.getInt("projectID"),
-                        rs.getObject("deadline", LocalDateTime.class)
+                        rs.getObject("deadline", LocalDateTime.class),
+                        rs.getInt("days"),
+                        rs.getInt("hours")
                 );
                 list.add(project);
             }
@@ -81,7 +83,9 @@ public class ProjectRepositoryImplemented implements ProjectRepository{
                         rs.getString("projectName"),
                         rs.getString("username"),
                         rs.getInt("projectID"),
-                        rs.getObject("deadline", LocalDateTime.class)
+                        rs.getObject("deadline", LocalDateTime.class),
+                        rs.getInt("days"),
+                        rs.getInt("hours")
                 );
                 list.add(project);
             }
@@ -162,7 +166,9 @@ public class ProjectRepositoryImplemented implements ProjectRepository{
                         rs.getString("subprojectName"),
                         rs.getString("username"),
                         rs.getInt("subprojectID"),
-                        rs.getObject("deadline", LocalDateTime.class)
+                        rs.getObject("deadline", LocalDateTime.class),
+                        rs.getInt("days"),
+                        rs.getInt("hours")
                 );
                 list.add(subProject);
             }
