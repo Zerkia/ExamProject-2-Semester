@@ -1,23 +1,17 @@
 package examProject2.web;
 
 import examProject2.domain.ExamProjectException;
-import examProject2.domain.models.Project;
-import examProject2.domain.services.ProjectService;
-import examProject2.repositories.ProjectRepositoryImplemented;
 import examProject2.repositories.UserRepositoryImplemented;
 import examProject2.domain.models.User;
 import examProject2.domain.services.UserService;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpSession;
-import java.util.Collection;
-import java.util.Map;
 
 
 @Controller
@@ -47,13 +41,13 @@ public class UserController {
                 throw new ExamProjectException("wrong");
             }
         } else {
-            return "redirect:/usernameExists";
+            return "redirect:/userCreationError";
         }
     }
 
-    @GetMapping("/usernameExists")
-    public String usernameExists(WebRequest request) {
-        return "usernameExists";
+    @GetMapping("/userCreationError")
+    public String userCreationError(WebRequest request) {
+        return "userCreationError";
     }
 
     @GetMapping("/login")
