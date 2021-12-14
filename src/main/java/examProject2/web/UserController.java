@@ -16,6 +16,8 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpSession;
+import java.util.Collection;
+import java.util.Map;
 
 
 @Controller
@@ -28,24 +30,30 @@ public class UserController {
     }
 
     @GetMapping("/register")
-    public String register(){
-        return "register";
-    }
+    public String register(){ return "register"; }
 
     @PostMapping("/createUser")
-    public RedirectView createUser(WebRequest request) throws ExamProjectException {
+    public String createUser(WebRequest request) throws ExamProjectException {
         String username = request.getParameter("username");
         String password1 = request.getParameter("password");
-        String password2 = request.getParameter("password2");
+        String password2 = request.getParameter("confirm_password");
 
-        if(password1.equals(password2)){
-            User user = userService.createUser(username, password1, 3);
-            request.setAttribute("user", user, WebRequest.SCOPE_SESSION);
-            return new RedirectView("login");
+        if(userService.checkUser(username)) {
+            if (password1.equals(password2)) {
+                User user = userService.createUser(username, password1, 3);
+                request.setAttribute("user", user, WebRequest.SCOPE_SESSION);
+                return "redirect:/login";
+            } else {
+                throw new ExamProjectException("wrong");
+            }
+        } else {
+            return "redirect:/usernameExists";
         }
-        else{
-            throw new ExamProjectException("wrong");
-        }
+    }
+
+    @GetMapping("/usernameExists")
+    public String usernameExists(WebRequest request) {
+        return "usernameExists";
     }
 
     @GetMapping("/login")

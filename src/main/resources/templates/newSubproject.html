@@ -3,19 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>New Subproject</title>
+    <link href="style.css" rel="stylesheet">
 </head>
 <body>
-<div id="wrapper" class="center">
-    <form action="/createSubproject" method="post">
-        <h1>Create Subproject</h1>
+    <div class="background">
+        <div id="wrapper" class="center">
+            <form action="/createSubproject" method="post">
+                <h1>Create Subproject</h1>
 
-        Subproject Name: <input type="text" name="subprojectName"/>
-        <br><br>
-        Deadline: <input type="datetime-local" name="deadline"/>
-        <br><br>
-        <button onclick="history.back()" type="button">Back</button>
-        <button name="create" type="submit">Register</button>
-    </form>
-</div>
+                Subproject Name: <input type="text" name="subprojectName"/>
+                <br><br>
+                Deadline: <input type="datetime-local" name="deadline"/>
+                <br><br>
+                <button onclick="history.back()" type="button">Back</button>
+                <button name="create" type="submit">Register</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

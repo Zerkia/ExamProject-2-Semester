@@ -3,19 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>New Project</title>
+    <link href="style.css" rel="stylesheet">
 </head>
 <body>
-<div id="wrapper" class="center">
-    <form action="/createProject" method="post">
-        <h1>Create Project</h1>
+<div class="background">
+    <div id="wrapper" class="center">
+        <form action="/createProject" method="post">
+            <h1>Create Project</h1>
 
-        Project Name: <input type="text" name="projectName"/>
-        <br><br>
-        Deadline: <input type="datetime-local" name="deadline"/>
-        <br><br>
-        <button onclick="location.href='/mainPage'" type="button">Back</button>
-        <button name="create" type="submit">Register</button>
-    </form>
+            Project Name: <input type="text" name="projectName"/>
+            <br><br>
+            Deadline: <input type="datetime-local" name="deadline"/>
+            <br><br>
+            <button onclick="location.href='/mainPage'" type="button">Back</button>
+            <button name="create" type="submit">Register</button>
+        </form>
+    </div>
 </div>
 </body>
 </html>

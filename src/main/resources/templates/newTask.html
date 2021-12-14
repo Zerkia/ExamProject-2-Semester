@@ -3,19 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>New Task</title>
+    <link href="style.css" rel="stylesheet">
 </head>
 <body>
-<div id="wrapper" class="center">
-    <form action="/createTask" method="post">
-        <h1>Create Task</h1>
+    <div class="background">
+        <div id="wrapper" class="center">
+            <form action="/createTask" method="post">
+                <h1>Create Task</h1>
 
-        Task Name: <input type="text" name="taskName"/>
-        <br><br>
-        Deadline: <input type="datetime-local" name="deadline"/>
-        <br><br>
-        <button onclick="history.back()" type="button">Back</button>
-        <button name="create" type="submit">Register</button>
-    </form>
-</div>
+                Task Name: <input type="text" name="taskName"/>
+                <br><br>
+                Deadline: <input type="datetime-local" name="deadline"/>
+                <br><br>
+                <button onclick="history.back()" type="button">Back</button>
+                <button name="create" type="submit">Register</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

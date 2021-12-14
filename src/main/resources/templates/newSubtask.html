@@ -3,28 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>New Subtask</title>
+    <link href="style.css" rel="stylesheet">
 </head>
 <body>
-    <div id="wrapper" class="center">
-        <form action="/createSubTask" method="post">
-            <h1>Create Subtask</h1>
+    <div class="background">
 
-            Subtask Name: <input type="text" name="subtaskName"/>
-            <br><br>
-            HoursRequired: <input type="number" step="1" name="hoursRequired"/>
-            <br><br>
-            MinutesRequired:
-            <select name="minutesRequired" id="minutesRequired">
-                <option
-                        th:each="i : ${#numbers.sequence(0,60)}"
-                        th:value="${i}"
-                        th:text="${i}">
-                </option>
-            </select>
-            <br><br>
-            <button onclick="history.back()" type="button">Back</button>
-            <button name="create" type="submit">Register</button>
-        </form>
+        <div id="wrapper" class="center">
+            <form action="/createSubTask" method="post">
+                <h1>Create Subtask</h1>
+
+                Subtask Name: <input type="text" name="subtaskName"/>
+                <br><br>
+                HoursRequired: <input type="number" step="1" name="hoursRequired"/>
+                <br><br>
+                MinutesRequired:
+                <select name="minutesRequired" id="minutesRequired">
+                    <option
+                            th:each="i : ${#numbers.sequence(0,60)}"
+                            th:value="${i}"
+                            th:text="${i}">
+                    </option>
+                </select>
+                <br><br>
+                <button onclick="history.back()" type="button">Back</button>
+                <button name="create" type="submit">Register</button>
+            </form>
+        </div>
     </div>
 </body>
 </html>

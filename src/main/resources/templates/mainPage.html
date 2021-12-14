@@ -6,20 +6,21 @@
     <link href="style.css" rel="stylesheet">
 </head>
 <body>
-    <div id="wrapper">
-        <div class="center">
-            <h1>Welcome to the main page!</h1>
-            <h2>Here you can start a new project, mark them finished or delete them!</h2>
+    <div class="background">
+        <div id="wrapper">
+            <div class="center">
+                <h1>Welcome to the main page!</h1>
+                <h2>Here you can start a new project, mark them finished or delete them!</h2>
 
-            <h2 th:hidden="${hidden}">Since you're a Super Admin / admin, you can Read/Update/Delete anyones projects</h2>
+                <h2 th:hidden="${hidden}">Since you're a Super Admin / admin, you can Read/Update/Delete anyones projects</h2>
 
-            <button onclick="location.href='/newProject'" type="button" class="button">Start a new project</button>
-            <br><br>
-            <form action="/logout">
-                <button type="submit" name="logout" class="button">Log Out</button>
-            </form>
-            <br><br>
-        </div>
+                <button onclick="location.href='/newProject'" type="button" class="button">Start a new project</button>
+                <br><br>
+                <form action="/logout">
+                    <button type="submit" name="logout" class="button">Log Out</button>
+                </form>
+                <br><br>
+            </div>
 
         <table id="customers">
             <tr>

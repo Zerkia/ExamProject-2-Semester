@@ -7,6 +7,7 @@ import java.util.List;
 import examProject2.domain.ExamProjectException;
 import examProject2.domain.models.Project;
 import examProject2.domain.models.User;
+import org.springframework.web.servlet.view.RedirectView;
 
 
 public class UserRepositoryImplemented implements UserRepository{
@@ -25,6 +26,24 @@ public class UserRepositoryImplemented implements UserRepository{
             System.out.println("Error in creating user");
             throw new ExamProjectException(regErr.getMessage());
         }
+    }
+
+    public boolean checkUser(String username) {
+        boolean userCheck = false;
+        try {
+            String sqlStr = "SELECT * FROM users WHERE username = '" + username + "'";
+            Connection conn = DBManager.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sqlStr);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                userCheck = false;
+            } else {
+                userCheck = true;
+            }
+        } catch (SQLException checkErr) {
+            System.out.println("Error in checking usernames or username already exists for username: " + username);
+        }
+        return userCheck;
     }
 
     public User login(String username, String password) throws ExamProjectException {

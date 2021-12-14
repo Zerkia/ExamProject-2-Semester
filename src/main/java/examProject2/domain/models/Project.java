@@ -69,14 +69,6 @@ public class Project {
         this.projectName = projectName;
     }
 
-    public int getProjectID() {
-        return projectID;
-    }
-
-    public void setProjectID(int projectID) {
-        this.projectID = projectID;
-    }
-
     public String getProjectOwner() {
         return projectOwner;
     }
@@ -93,6 +85,14 @@ public class Project {
         this.userID = userID;
     }
 
+    public int getProjectID() {
+        return projectID;
+    }
+
+    public void setProjectID(int projectID) {
+        this.projectID = projectID;
+    }
+
     public LocalDateTime getDeadline() {
         return deadline;
     }
@@ -101,14 +101,12 @@ public class Project {
         this.deadline = deadline;
     }
 
-    @Override
-    public String toString() {
-        return "Project{" +
-                "projectName='" + projectName + '\'' +
-                '}';
-    }
     public String getDeadlineFormatted() {
         return deadlineFormatted;
+    }
+
+    public void setDeadlineFormatted(String deadlineFormatted) {
+        this.deadlineFormatted = deadlineFormatted;
     }
 
     public String formatDate(LocalDateTime deadline){
@@ -117,5 +115,12 @@ public class Project {
         String date = str.substring(0,10).concat(" ");
         String time = str.substring(11);
         return date.concat(time);
+    }
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "projectName='" + projectName + '\'' +
+                '}';
     }
 }

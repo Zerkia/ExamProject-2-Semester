@@ -18,6 +18,9 @@
 --
 -- Table structure for table `projects`
 --
+DROP SCHEMA IF EXISTS alphasolutions;
+CREATE SCHEMA alphasolutions;
+use alphasolutions;
 
 DROP TABLE IF EXISTS `projects`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -27,8 +30,8 @@ CREATE TABLE `projects` (
   `userID` int NOT NULL,
   `projectName` varchar(100) NOT NULL,
   `deadline` datetime NOT NULL,
-  `days` int,
-  `hours` int,
+  `days` int DEFAULT NULL,
+  `hours` int DEFAULT NULL,
   PRIMARY KEY (`projectID`),
   UNIQUE KEY `projectName_UNIQUE` (`projectName`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -40,7 +43,7 @@ CREATE TABLE `projects` (
 
 LOCK TABLES `projects` WRITE;
 /*!40000 ALTER TABLE `projects` DISABLE KEYS */;
-INSERT INTO `projects` VALUES (1,3,'adminProject','2021-11-02 00:00:00',1,0),(3,4,'johnsProject','2021-02-12 00:00:01',0,0);
+INSERT INTO `projects` VALUES (1,3,'adminProject','2021-11-02 00:00:00',1,0),(3,4,'johnsProject','2021-02-12 00:00:01',3,2);
 /*!40000 ALTER TABLE `projects` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -57,8 +60,8 @@ CREATE TABLE `subprojects` (
   `userID` int NOT NULL,
   `subprojectName` varchar(100) NOT NULL,
   `deadline` datetime NOT NULL,
-  `days` int,
-  `hours`int,
+  `days` int DEFAULT NULL,
+  `hours` int DEFAULT NULL,
   PRIMARY KEY (`subprojectID`),
   UNIQUE KEY `subprojectName_UNIQUE` (`subprojectName`),
   KEY `fkprojectsubproject_idx` (`projectID`),
@@ -72,7 +75,7 @@ CREATE TABLE `subprojects` (
 
 LOCK TABLES `subprojects` WRITE;
 /*!40000 ALTER TABLE `subprojects` DISABLE KEYS */;
-INSERT INTO `subprojects` VALUES (1,1,3,'Sub1','2021-02-02 00:00:00',1,0),(2,1,3,'Sub2','2021-02-02 23:59:59',0,0),(3,3,4,'sub3','2021-02-02 00:00:00',0,0);
+INSERT INTO `subprojects` VALUES (1,1,3,'Sub1','2021-02-02 00:00:00',1,0),(2,1,3,'Sub2','2021-02-02 23:59:59',0,0),(3,3,4,'sub3','2021-02-02 00:00:00',3,2);
 /*!40000 ALTER TABLE `subprojects` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -94,7 +97,7 @@ CREATE TABLE `subtasks` (
   UNIQUE KEY `subtaskscol_UNIQUE` (`subtaskName`),
   KEY `fksubtaskTask_idx` (`taskID`),
   CONSTRAINT `fksubtaskTask` FOREIGN KEY (`taskID`) REFERENCES `tasks` (`taskID`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -103,7 +106,7 @@ CREATE TABLE `subtasks` (
 
 LOCK TABLES `subtasks` WRITE;
 /*!40000 ALTER TABLE `subtasks` DISABLE KEYS */;
-INSERT INTO `subtasks` VALUES (1,1,3,'subtask1',2,30),(2,1,3,'subtask2',1,20),(3,2,3,'subtask3',3,15);
+INSERT INTO `subtasks` VALUES (1,1,3,'subtask1',2,30),(2,1,3,'subtask2',1,15),(3,2,3,'subtask3',3,15),(4,3,4,'john test',3,2),(5,3,4,'This is a subtask',23,57),(6,3,4,'subtask',0,1);
 /*!40000 ALTER TABLE `subtasks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -120,8 +123,8 @@ CREATE TABLE `tasks` (
   `userID` int NOT NULL,
   `taskName` varchar(100) NOT NULL,
   `deadline` datetime NOT NULL,
-  `days` int,
-  `hours` int,
+  `days` int DEFAULT NULL,
+  `hours` int DEFAULT NULL,
   PRIMARY KEY (`taskID`),
   UNIQUE KEY `taskName_UNIQUE` (`taskName`),
   KEY `fktasksubproject_idx` (`subprojectID`),
@@ -135,7 +138,7 @@ CREATE TABLE `tasks` (
 
 LOCK TABLES `tasks` WRITE;
 /*!40000 ALTER TABLE `tasks` DISABLE KEYS */;
-INSERT INTO `tasks` VALUES (1,1,3,'task1','2021-02-02 00:00:00',0,4),(2,1,3,'task2','2021-02-02 00:00:00',0,3),(3,3,4,'task3','2021-02-02 00:00:00',0,0);
+INSERT INTO `tasks` VALUES (1,1,3,'task1','2021-02-02 00:00:00',0,4),(2,1,3,'task2','2021-02-02 00:00:00',0,3),(3,3,4,'task3','2021-02-02 00:00:00',3,2);
 /*!40000 ALTER TABLE `tasks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -203,4 +206,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-11-29 17:03:13
+-- Dump completed on 2021-12-14 15:04:47

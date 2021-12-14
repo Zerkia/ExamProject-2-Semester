@@ -20,6 +20,10 @@ public class UserService {
         return userRepository.createUser(user);
     }
 
+    public boolean checkUser(String username) {
+        return userRepository.checkUser(username);
+    }
+
     public User login(String username, String password) throws ExamProjectException {
         return userRepository.login(username, password);
     }
