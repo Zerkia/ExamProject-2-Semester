@@ -29,19 +29,21 @@ public class UserRepositoryImplemented implements UserRepository{
     }
 
     public boolean checkUser(String username) {
+        boolean userCheck = false;
         try {
-            String sqlStr = "SELECT * FROM users WHERE username = " + username;
+            String sqlStr = "SELECT * FROM users WHERE username = '" + username + "'";
             Connection conn = DBManager.getConnection();
             PreparedStatement ps = conn.prepareStatement(sqlStr);
-            ps.executeUpdate();
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                userCheck = false;
+            } else {
+                userCheck = true;
+            }
         } catch (SQLException checkErr) {
             System.out.println("Error in checking usernames or username already exists for username: " + username);
         }
-        if(username == null) {
-            return true;
-        } else {
-            return false;
-        }
+        return userCheck;
     }
 
     public User login(String username, String password) throws ExamProjectException {
