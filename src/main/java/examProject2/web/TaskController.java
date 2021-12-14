@@ -76,7 +76,6 @@ public class TaskController {
         assert subProject != null;
         Task task = taskService.createTask(taskName, user.getUserID(), subProject.getSubprojectID(), localDateTime);
         request.setAttribute("task", task, WebRequest.SCOPE_SESSION);
-        //need to figure out a way to return to the last visited page, something about "referer" maybe?
         return new RedirectView("tasksPage");
     }
 
@@ -290,19 +289,23 @@ public class TaskController {
         int hours = 0;
         Project project = (Project) request.getAttribute("parentProject", 1);
         List<SubTask> lst = (List<SubTask>) request.getAttribute("subtasks",1);
+
         for(SubTask subTask : lst){
             if(subTask.getSubtaskID() == subtaskID){
                 hours = subTask.getHours();
             }
         }
+
         Task task = (Task) request.getAttribute("parentTask", 1);
         SubProject subProject = (SubProject) request.getAttribute("parentSubProject", 1);
         Task taskUpdated = taskService.updateTaskTimeDeleteSubtask(task, hours);
         request.setAttribute("parentTask", taskUpdated, 1);
+
         SubProject subProjectUpdated = taskService.updateSubProjectTimeDeleteSubtask(subProject, hours);
         request.setAttribute("parentSubProject", subProjectUpdated, 1);
         Project projectUpdated =  taskService.updateProjectTimeDeleteSubtask(project, hours);
         request.setAttribute("parentProject", projectUpdated, 1);
+
         taskService.deleteSubtask(subtaskID);
         return new RedirectView("subtasksPage");
     }

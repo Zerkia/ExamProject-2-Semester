@@ -35,14 +35,17 @@ public class TaskService {
         return taskRepository.updateSubtask(subtaskID, subtaskName, hours, minutes);
     }
     public String deleteSubtask(int subtaskID) { return taskRepository.deleteSubtask(subtaskID); }
-    public Task updateTaskTimeCreateSubtask(Task task, int hours){ return taskRepository.updateTaskTimeCreateSubtask(task, hours); }
-    public SubProject updateSubProjectTimeCreateSubtask(SubProject subProject, int hours){ return taskRepository.updateSubprojectTimeCreateSubtask(subProject, hours); }
+
     public Project updateProjectTimeCreateSubtask(Project project, int hours){ return taskRepository.updateProjectTimeCreateSubtask(project, hours); }
-    public Task updateTaskTimeUpdateSubtask(Task task, int hours, int oldHours){ return taskRepository.updateTaskTimeUpdateSubtask(task, hours, oldHours); }
-    public SubProject updateSubProjectTimeUpdateSubtask(SubProject subProject, int hours, int oldHours){ return taskRepository.updateSubprojectTimeUpdateSubtask(subProject, hours, oldHours); }
     public Project updateProjectTimeUpdateSubtask(Project project, int hours, int oldHours){ return taskRepository.updateProjectTimeUpdateSubtask(project, hours, oldHours); }
     public Project updateProjectTimeDeleteSubtask(Project project, int hours){ return taskRepository.updateProjectTimeDeleteSubtask(project, hours); }
+
+    public SubProject updateSubProjectTimeCreateSubtask(SubProject subProject, int hours){ return taskRepository.updateSubprojectTimeCreateSubtask(subProject, hours); }
+    public SubProject updateSubProjectTimeUpdateSubtask(SubProject subProject, int hours, int oldHours){ return taskRepository.updateSubprojectTimeUpdateSubtask(subProject, hours, oldHours); }
     public SubProject updateSubProjectTimeDeleteSubtask(SubProject subProject, int hours){ return  taskRepository.updateSubProjectTimeDeleteSubtask(subProject, hours); }
+
+    public Task updateTaskTimeCreateSubtask(Task task, int hours){ return taskRepository.updateTaskTimeCreateSubtask(task, hours); }
+    public Task updateTaskTimeUpdateSubtask(Task task, int hours, int oldHours){ return taskRepository.updateTaskTimeUpdateSubtask(task, hours, oldHours); }
     public Task updateTaskTimeDeleteSubtask(Task task, int hours){ return taskRepository.updateTaskTimeDeleteSubtask(task, hours);}
 
 
