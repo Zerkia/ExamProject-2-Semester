@@ -14,6 +14,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 public class TaskController {
@@ -63,18 +64,10 @@ public class TaskController {
         String taskName = request.getParameter("taskName");
         String deadlineDate = request.getParameter("deadline");
 
-        String date = deadlineDate.substring(0,10).concat(" ");
-        String time = deadlineDate.substring(11);
-        String dt = date.concat(time);
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        LocalDateTime localDateTime = LocalDateTime.parse(dt, formatter);
-
         User user = (User) request.getAttribute("user", WebRequest.SCOPE_SESSION);
         SubProject subProject = (SubProject) request.getAttribute("parentSubProject", WebRequest.SCOPE_SESSION);
-        assert user != null;
-        assert subProject != null;
-        Task task = taskService.createTask(taskName, user.getUserID(), subProject.getSubprojectID(), localDateTime);
+        Task task = taskService.createTask(taskName, Objects.requireNonNull(user).getUserID(),
+                subProject.getSubprojectID(), deadlineDate);
         request.setAttribute("task", task, WebRequest.SCOPE_SESSION);
         return new RedirectView("tasksPage");
     }
@@ -82,12 +75,10 @@ public class TaskController {
     @GetMapping("/editTaskRedirect")
     public RedirectView editTaskRedirect(int taskID, WebRequest request, Model model) {
         List<Task> lst = (List<Task>) request.getAttribute("tasks", 1);
-        for(Task task : lst){
-            if(task.getTaskID() == taskID) {
-                request.setAttribute("taskInEditing", task, 1);
-                model.addAttribute("taskInEditing", task);
-            }
-        }
+        Task task = taskService.loopThroughTasks(lst, taskID);
+        request.setAttribute("taskInEditing", task, 1);
+        model.addAttribute("taskInEditing", task);
+
         return new RedirectView("editTask");
     }
 
@@ -117,19 +108,11 @@ public class TaskController {
     @PostMapping("/updateTask")
     public RedirectView updateTask(WebRequest request) {
         String taskName = request.getParameter("taskName");
-        String deadlineDate = request.getParameter("deadline");
+        String deadlineString = request.getParameter("deadline");
         Task task = (Task) request.getAttribute("taskInEditing", 1);
         assert task != null;
-        int taskID = task.getTaskID();
 
-        String date = deadlineDate.substring(0,10).concat(" ");
-        String time = deadlineDate.substring(11);
-        String dt = date.concat(time);
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        LocalDateTime deadline = LocalDateTime.parse(dt, formatter);
-
-        String result = taskService.updateTask(taskID, taskName, deadline);
+        String result = taskService.updateTask(task, taskName, deadlineString);
         return new RedirectView(result);
     }
 
@@ -138,12 +121,10 @@ public class TaskController {
         int hours = 0;
         Project project = (Project) request.getAttribute("parentProject", 1);
         List<SubTask> lst = taskService.fetchSubtasks(taskID);
-        System.out.println(lst.get(0).getSubtaskName());
         SubProject subProject = (SubProject) request.getAttribute("parentSubProject", WebRequest.SCOPE_SESSION);
 
         for(SubTask subTask : lst){
             hours = subTask.getHours();
-            System.out.println(hours);
             taskService.updateSubProjectTimeDeleteSubtask(subProject, hours);
             taskService.updateProjectTimeDeleteSubtask(project, hours);
         }
@@ -286,10 +267,10 @@ public class TaskController {
 
     @GetMapping("/deleteSubtask")
     public RedirectView deleteSubtask(int subtaskID, WebRequest request) {
-        int hours = 0;
         Project project = (Project) request.getAttribute("parentProject", 1);
         List<SubTask> lst = (List<SubTask>) request.getAttribute("subtasks",1);
 
+        int hours = 0;
         for(SubTask subTask : lst){
             if(subTask.getSubtaskID() == subtaskID){
                 hours = subTask.getHours();

@@ -8,18 +8,33 @@ import examProject2.domain.models.Task;
 import examProject2.repositories.TaskRepository;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class TaskService {
     private TaskRepository taskRepository;
     public TaskService(TaskRepository taskRepository){ this.taskRepository = taskRepository; }
 
-    public Task createTask(String taskName, int userID, int subprojectID, LocalDateTime deadline) throws ExamProjectException {
-        Task task = new Task(taskName,userID,subprojectID,deadline);
+    public Task createTask(String taskName, int userID, int subprojectID, String deadlineDate) throws ExamProjectException {
+        String date = deadlineDate.substring(0,10).concat(" ");
+        String time = deadlineDate.substring(11);
+        String dt = date.concat(time);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime localDateTime = LocalDateTime.parse(dt, formatter);
+        Task task = new Task(taskName,userID,subprojectID, localDateTime);
         return taskRepository.createTask(task);
     }
     public List<Task> fetchTasks(int subprojectID){ return taskRepository.fetchTasks(subprojectID); }
-    public String updateTask(int taskID, String taskName, LocalDateTime deadline) {
+    public String updateTask(Task task, String taskName, String deadlineString) {
+        int taskID = task.getTaskID();
+
+        String date = deadlineString.substring(0,10).concat(" ");
+        String time = deadlineString.substring(11);
+        String dt = date.concat(time);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime deadline = LocalDateTime.parse(dt, formatter);
         return taskRepository.updateTask(taskID, taskName, deadline);
     }
     public String deleteTask(int taskID){ return taskRepository.deleteTask(taskID); }
@@ -48,5 +63,12 @@ public class TaskService {
     public Task updateTaskTimeUpdateSubtask(Task task, int hours, int oldHours){ return taskRepository.updateTaskTimeUpdateSubtask(task, hours, oldHours); }
     public Task updateTaskTimeDeleteSubtask(Task task, int hours){ return taskRepository.updateTaskTimeDeleteSubtask(task, hours);}
 
-
+    public Task loopThroughTasks(List<Task> tasks, int taskID){
+        for(Task task : tasks){
+            if(task.getTaskID() == taskID) {
+                return task;
+            }
+        }
+        return null;
+    }
 }

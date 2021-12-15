@@ -45,19 +45,11 @@ public class ProjectController {
     @PostMapping("/createProject")
     public RedirectView createProject(WebRequest request) throws ExamProjectException {
         String projectname = request.getParameter("projectName");
-        String deadlineDate = request.getParameter("deadline");
-
-        String date = deadlineDate.substring(0,10).concat(" ");
-        String time = deadlineDate.substring(11);
-        String dt = date.concat(time);
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        LocalDateTime localDateTime = LocalDateTime.parse(dt, formatter);
-
+        String deadlineString = request.getParameter("deadline");
 
         User user = (User) request.getAttribute("user", WebRequest.SCOPE_SESSION);
         assert user != null;
-        Project project = projectService.createProject(projectname, user.getUserID(),localDateTime);
+        Project project = projectService.createProject(projectname, user.getUserID(),deadlineString);
         request.setAttribute("project", project, WebRequest.SCOPE_SESSION);
         return new RedirectView("mainPage");
     }
@@ -100,19 +92,10 @@ public class ProjectController {
     @PostMapping("/updateProject")
     public RedirectView updateProject(WebRequest request) {
         String projectName = request.getParameter("projectName");
-        String deadlineDate = request.getParameter("deadline");
+        String deadlineString = request.getParameter("deadline");
         Project project = (Project) request.getAttribute("projectInEditing", 1);
         assert project != null;
-        int projectID = project.getProjectID();
-
-        String date = deadlineDate.substring(0,10).concat(" ");
-        String time = deadlineDate.substring(11);
-        String dt = date.concat(time);
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        LocalDateTime deadline = LocalDateTime.parse(dt, formatter);
-
-        String result = projectService.updateProject(projectID, projectName, deadline);
+        String result = projectService.updateProject(project, projectName, deadlineString);
         return new RedirectView(result);
     }
 
@@ -170,20 +153,14 @@ public class ProjectController {
     @PostMapping("/createSubproject")
     public RedirectView createSubproject(WebRequest request) throws ExamProjectException {
         String subprojectName = request.getParameter("subprojectName");
-        String deadlineDate = request.getParameter("deadline");
+        String deadlineString = request.getParameter("deadline");
 
-        String date = deadlineDate.substring(0,10).concat(" ");
-        String time = deadlineDate.substring(11);
-        String dt = date.concat(time);
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        LocalDateTime localDateTime = LocalDateTime.parse(dt, formatter);
 
         User user = (User) request.getAttribute("user", WebRequest.SCOPE_SESSION);
         Project project = (Project) request.getAttribute("parentProject", WebRequest.SCOPE_SESSION);
         assert user != null;
         assert project != null;
-        SubProject subProject = projectService.createSubproject(subprojectName, project.getProjectID(), user.getUserID(), localDateTime);
+        SubProject subProject = projectService.createSubproject(subprojectName, project.getProjectID(), user.getUserID(), deadlineString);
         request.setAttribute("subproject", subProject, WebRequest.SCOPE_SESSION);
         //need to figure out a way to return to the last visited page, something about "referer" maybe?
         return new RedirectView("subprojectsPage");
