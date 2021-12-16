@@ -73,6 +73,7 @@ public class ProjectRepositoryImplemented implements ProjectRepository{
         try{
             String sqlStr = "SELECT users.username, projects.* FROM projects " +
                     "INNER JOIN users ON users.userID = projects.userID";
+
             Connection conn = DBManager.getConnection();
             PreparedStatement ps = conn.prepareStatement(sqlStr);
             ResultSet rs = ps.executeQuery();
@@ -136,8 +137,8 @@ public class ProjectRepositoryImplemented implements ProjectRepository{
             String sqlStr = "INSERT INTO subprojects(projectID, userID, subprojectName, deadline) VALUES (?, ?, ?, ?)";
             Connection conn = DBManager.getConnection();
             PreparedStatement ps = conn.prepareStatement(sqlStr);
-            ps.setInt(1, userID);
-            ps.setInt(2, projectID);
+            ps.setInt(1, projectID);
+            ps.setInt(2, userID);
             ps.setString(3, subprojectName);
             ps.setObject(4, deadline);
             ps.executeUpdate();

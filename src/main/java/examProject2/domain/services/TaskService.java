@@ -38,8 +38,14 @@ public class TaskService {
         return taskRepository.updateTask(taskID, taskName, deadline);
     }
     public String deleteTask(int taskID){ return taskRepository.deleteTask(taskID); }
-
-    //space between main and sub
+    public Task loopThroughTasks(List<Task> tasks, int taskID){
+        for(Task task : tasks){
+            if(task.getTaskID() == taskID) {
+                return task;
+            }
+        }
+        return null;
+    }
 
     public SubTask createSubtask(String subtaskName, int userID, int taskID, int hours, int minutes) throws ExamProjectException{
         SubTask subTask = new SubTask(subtaskName, userID, taskID, hours, minutes);
@@ -63,12 +69,4 @@ public class TaskService {
     public Task updateTaskTimeUpdateSubtask(Task task, int hours, int oldHours){ return taskRepository.updateTaskTimeUpdateSubtask(task, hours, oldHours); }
     public Task updateTaskTimeDeleteSubtask(Task task, int hours){ return taskRepository.updateTaskTimeDeleteSubtask(task, hours);}
 
-    public Task loopThroughTasks(List<Task> tasks, int taskID){
-        for(Task task : tasks){
-            if(task.getTaskID() == taskID) {
-                return task;
-            }
-        }
-        return null;
-    }
 }

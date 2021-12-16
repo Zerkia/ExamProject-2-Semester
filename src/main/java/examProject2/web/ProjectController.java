@@ -57,12 +57,11 @@ public class ProjectController {
     @GetMapping("/editProjectRedirect")
     public RedirectView editProjectRedirect(int projectID, WebRequest request, Model model) {
         List<Project> lst = (List<Project>) request.getAttribute("projects",1);
-        for(Project pro : lst){
-            if(pro.getProjectID() == projectID){
-                request.setAttribute("projectInEditing", pro,1);
-                model.addAttribute("projectInEditing", pro);
-            }
-        }
+        Project project = projectService.loopThroughProjects(lst, projectID);
+
+        request.setAttribute("projectInEditing", project,1);
+        model.addAttribute("projectInEditing", project);
+
         return new RedirectView("editProject");
     }
 
@@ -111,11 +110,9 @@ public class ProjectController {
     public RedirectView subprojectRedirect(WebRequest request, int projectID){
         List<Project> lst = (List<Project>) request.getAttribute("projects",1);
         assert lst != null;
-        for(Project pro : lst){
-            if(pro.getProjectID() == projectID){
-                request.setAttribute("parentProject", pro,1);
-            }
-        }
+        Project project = projectService.loopThroughProjects(lst, projectID);
+        request.setAttribute("parentProject", project,1);
+
         return new RedirectView("subprojectsPage");
     }
 
@@ -169,12 +166,11 @@ public class ProjectController {
     @GetMapping("/editSubprojectRedirect")
     public RedirectView editSubprojectRedirect(int subprojectID, WebRequest request, Model model) {
         List<SubProject> lst = (List<SubProject>) request.getAttribute("subprojects",1);
-        for(SubProject subProject : lst){
-            if(subProject.getSubprojectID() == subprojectID){
-                request.setAttribute("subprojectInEditing", subProject,1);
-                model.addAttribute("subprojectInEditing", subProject);
-            }
-        }
+
+        SubProject subProject = projectService.loopThroughSubProjects(lst, subprojectID);
+        request.setAttribute("subprojectInEditing", subProject,1);
+        model.addAttribute("subprojectInEditing", subProject);
+
         return new RedirectView("editSubproject");
     }
 
@@ -204,19 +200,11 @@ public class ProjectController {
     @PostMapping("/updateSubproject")
     public RedirectView updateSubproject(WebRequest request) {
         String subprojectName = request.getParameter("subprojectName");
-        String deadlineDate = request.getParameter("deadline");
+        String deadlineString = request.getParameter("deadline");
         SubProject subProject = (SubProject) request.getAttribute("subprojectInEditing",1);
         assert subProject != null;
-        int subprojectID = subProject.getSubprojectID();
 
-        String date = deadlineDate.substring(0,10).concat(" ");
-        String time = deadlineDate.substring(11);
-        String dt = date.concat(time);
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        LocalDateTime deadline = LocalDateTime.parse(dt, formatter);
-
-        String result = projectService.updateSubproject(subprojectID, subprojectName, deadline);
+        String result = projectService.updateSubproject(subProject, subprojectName, deadlineString);
         return new RedirectView(result);
     }
 
