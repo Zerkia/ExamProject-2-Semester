@@ -1,3 +1,5 @@
+CREATE DATABASE IF NOT EXISTS `alphasolutions` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `alphasolutions`;
 -- MySQL dump 10.13  Distrib 8.0.26, for Win64 (x86_64)
 --
 -- Host: localhost    Database: alphasolutions
@@ -18,9 +20,6 @@
 --
 -- Table structure for table `projects`
 --
-DROP SCHEMA IF EXISTS alphasolutions;
-CREATE SCHEMA alphasolutions;
-use alphasolutions;
 
 DROP TABLE IF EXISTS `projects`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -33,8 +32,10 @@ CREATE TABLE `projects` (
   `days` int DEFAULT NULL,
   `hours` int DEFAULT NULL,
   PRIMARY KEY (`projectID`),
-  UNIQUE KEY `projectName_UNIQUE` (`projectName`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  UNIQUE KEY `projectName_UNIQUE` (`projectName`),
+  KEY `fkusersprojects_idx` (`userID`),
+  CONSTRAINT `fkusersprojects` FOREIGN KEY (`userID`) REFERENCES `users` (`userID`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,7 +44,7 @@ CREATE TABLE `projects` (
 
 LOCK TABLES `projects` WRITE;
 /*!40000 ALTER TABLE `projects` DISABLE KEYS */;
-INSERT INTO `projects` VALUES (1,3,'adminProject','2021-11-02 00:00:00',1,0),(3,4,'johnsProject','2021-02-12 00:00:01',3,2);
+INSERT INTO `projects` VALUES (1,3,'adminProject','2021-11-02 00:00:00',0,4),(3,4,'johnsProject','2021-02-12 00:00:00',3,2);
 /*!40000 ALTER TABLE `projects` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -75,7 +76,7 @@ CREATE TABLE `subprojects` (
 
 LOCK TABLES `subprojects` WRITE;
 /*!40000 ALTER TABLE `subprojects` DISABLE KEYS */;
-INSERT INTO `subprojects` VALUES (1,1,3,'Sub1','2021-02-02 00:00:00',1,0),(2,1,3,'Sub2','2021-02-02 23:59:59',0,0),(3,3,4,'sub3','2021-02-02 00:00:00',3,2);
+INSERT INTO `subprojects` VALUES (1,1,3,'Sub1','2021-02-02 00:00:00',0,4),(3,3,4,'sub3','2021-02-02 00:00:00',3,2);
 /*!40000 ALTER TABLE `subprojects` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -97,7 +98,7 @@ CREATE TABLE `subtasks` (
   UNIQUE KEY `subtaskscol_UNIQUE` (`subtaskName`),
   KEY `fksubtaskTask_idx` (`taskID`),
   CONSTRAINT `fksubtaskTask` FOREIGN KEY (`taskID`) REFERENCES `tasks` (`taskID`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -106,7 +107,7 @@ CREATE TABLE `subtasks` (
 
 LOCK TABLES `subtasks` WRITE;
 /*!40000 ALTER TABLE `subtasks` DISABLE KEYS */;
-INSERT INTO `subtasks` VALUES (1,1,3,'subtask1',2,30),(2,1,3,'subtask2',1,15),(3,2,3,'subtask3',3,15),(4,3,4,'john test',3,2),(5,3,4,'This is a subtask',23,57),(6,3,4,'subtask',0,1);
+INSERT INTO `subtasks` VALUES (1,1,3,'subtask1',2,30),(4,3,4,'john test',3,2),(5,3,4,'This is a subtask',23,57),(6,3,4,'subtask',0,1);
 /*!40000 ALTER TABLE `subtasks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -138,7 +139,7 @@ CREATE TABLE `tasks` (
 
 LOCK TABLES `tasks` WRITE;
 /*!40000 ALTER TABLE `tasks` DISABLE KEYS */;
-INSERT INTO `tasks` VALUES (1,1,3,'task1','2021-02-02 00:00:00',0,4),(2,1,3,'task2','2021-02-02 00:00:00',0,3),(3,3,4,'task3','2021-02-02 00:00:00',3,2);
+INSERT INTO `tasks` VALUES (1,1,3,'task1','2021-02-02 00:00:00',0,3),(3,3,4,'task3','2021-02-02 00:00:00',3,2);
 /*!40000 ALTER TABLE `tasks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -184,7 +185,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `password_UNIQUE` (`password`),
   KEY `fkusersUserRoles_idx` (`userroleID`),
   CONSTRAINT `fkusersuserroles` FOREIGN KEY (`userroleID`) REFERENCES `userroles` (`userroleID`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -193,7 +194,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (3,'SuperAdmin','superadmin',1),(4,'John Wick','john',3),(5,'test','test',3);
+INSERT INTO `users` VALUES (3,'SuperAdmin','superadmin',1),(4,'John Wick','john',3),(5,'test','test',3),(6,'h','h',3);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -206,4 +207,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-12-14 15:04:47
+-- Dump completed on 2021-12-16 15:51:04
