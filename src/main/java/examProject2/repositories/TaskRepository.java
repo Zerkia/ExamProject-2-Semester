@@ -26,15 +26,17 @@ public interface TaskRepository {
     String deleteSubtask(int subtaskID);
 
     /**
-     *
      * @author Mads Haderup
      */
-    Task updateTaskTimeCreateSubtask(Task task, int hours);
-    SubProject updateSubprojectTimeCreateSubtask(SubProject subProject, int hours);
+
     Project updateProjectTimeCreateSubtask(Project project, int hours);
-    Task updateTaskTimeUpdateSubtask(Task task, int hours, int oldHours);
-    SubProject updateSubprojectTimeUpdateSubtask(SubProject subProject, int hours, int oldHours);
+    SubProject updateSubprojectTimeCreateSubtask(SubProject subProject, int hours);
+    Task updateTaskTimeCreateSubtask(Task task, int hours);
+
     Project updateProjectTimeUpdateSubtask(Project project, int hours, int oldHours);
+    SubProject updateSubprojectTimeUpdateSubtask(SubProject subProject, int hours, int oldHours);
+    Task updateTaskTimeUpdateSubtask(Task task, int hours, int oldHours);
+
     Project updateProjectTimeDeleteSubtask(Project project, int hours);
     SubProject updateSubProjectTimeDeleteSubtask(SubProject subProject, int hours);
     Task updateTaskTimeDeleteSubtask(Task task, int hours);

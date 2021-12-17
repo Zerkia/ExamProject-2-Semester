@@ -55,7 +55,7 @@ public class ProjectRepositoryImplemented implements ProjectRepository{
                 Project project = new Project(
                         rs.getString("projectName"),
                         //Inner joined username to show the name of who created the project
-                        //If userID is connected to a non existent user, project won't show
+                        //If userID is connected to a non existent user, project won't show for admins
                         rs.getString("username"),
                         rs.getInt("projectID"),
                         rs.getObject("deadline", LocalDateTime.class),

@@ -16,7 +16,6 @@ public class UserTests {
     void contextLoads() {
     }
     /**
-     *
      * @author Mads Haderup
      */
     @Test

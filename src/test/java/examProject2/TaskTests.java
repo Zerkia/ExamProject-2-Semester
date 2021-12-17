@@ -23,7 +23,6 @@ public class TaskTests {
     }
 
     /**
-     *
      * @author Mads Haderup
      */
     @Test

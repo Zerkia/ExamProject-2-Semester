@@ -24,7 +24,6 @@ class ProjectTests {
     void contextLoads() {
     }
     /**
-     *
      * @author Mads Haderup
      */
     @Test

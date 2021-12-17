@@ -1,9 +1,16 @@
+/*
+* @author Nikolaj Pregaard
+*/
+
+/* element tags */
 a{
     color:blue;
     text-decoration: none;
     opacity: 0.75;
     font-family: Arial, Helvetica, sans-serif;
 }
+
+/* classes */
 
 .background {
     position:relative;
@@ -37,6 +44,8 @@ a{
     display: block;
     margin: auto;
 }
+
+/* IDs */
 
 #wrapper {
     margin: 0 auto;

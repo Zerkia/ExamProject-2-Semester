@@ -13,7 +13,6 @@ public class DBManager {
     private static String password;
     private static String url;
     private static Connection connection;
-    private static DBManager instance;
 
     private DBManager(){}
     /**
