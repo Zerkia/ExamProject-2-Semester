@@ -23,7 +23,10 @@ class ProjectTests {
     @Test
     void contextLoads() {
     }
-
+    /**
+     *
+     * @author Mads Haderup
+     */
     @Test
     void fetchProjectTest() throws ExamProjectException {
         ProjectService projectService = new ProjectService(new ProjectRepositoryImplemented());
@@ -32,24 +35,34 @@ class ProjectTests {
         List<Project> projects = projectService.fetchProjects(user);
         assertThat(projects.size()).isEqualTo(1);
     }
+    /**
+     *
+     * @author Mads Haderup
+     */
     @Test
     void fetchSubProjectTest() {
         ProjectService projectService = new ProjectService(new ProjectRepositoryImplemented());
         List<SubProject> subProjects = projectService.fetchSubprojects(1);
         assertThat(subProjects.size()).isEqualTo(2);
     }
-
+    /**
+     *
+     * @author Mads Haderup
+     */
     @Test
     void updateSubProjectTest() {
 
         ProjectService projectService = new ProjectService(new ProjectRepositoryImplemented());
         List<SubProject> subProjects = projectService.fetchSubprojects(1);
-        projectService.updateSubproject(subProjects.get(0),"navneterskiftetnu", "2027-12-11T20:20");
+        projectService.updateSubproject(subProjects.get(0),"navneters121", "2027-11-11T20:20");
         List<SubProject> subProjects1 = projectService.fetchSubprojects(1);
         assertThat(subProjects.get(0).getSubprojectName()).isNotEqualTo(subProjects1.get(0).getSubprojectName());
         assertThat(subProjects.get(0).getDeadline()).isNotEqualTo(subProjects1.get(0).getDeadline());
     }
-
+    /**
+     *
+     * @author Mads Haderup
+     */
     @Test
     void updateProjectTest() throws ExamProjectException {
 
@@ -58,12 +71,15 @@ class ProjectTests {
         User user = userService.login("SuperAdmin", "superadmin");
         List<Project> projects = projectService.fetchProjects(user);
         Project project = projects.get(0);
-        projectService.updateProject(project,"navneterskiftetnu","2024-12-12T23:59");
+        projectService.updateProject(project,"navnetersns2srnu11","2027-11-12T22:59");
         List<Project> projects1 = projectService.fetchProjects(user);
         assertThat(projects.get(0).getProjectName()).isNotEqualTo(projects1.get(0).getProjectName());
         assertThat(projects.get(0).getDeadline()).isNotEqualTo(projects1.get(0).getDeadline());
     }
-
+    /**
+     *
+     * @author Mads Haderup
+     */
     @Test
     void addAndDeleteProjectsTest() throws ExamProjectException{
         ProjectRepositoryImplemented repo = new ProjectRepositoryImplemented();
@@ -71,7 +87,7 @@ class ProjectTests {
         ProjectService projectService = new ProjectService(repo);
 
         List<Project> projects = projectService.fetchAllProjects();
-        projectService.createProject("UnitTest4", 4, "2022-03-22T22:22");
+        projectService.createProject("UnitTefffwst41s22", 4, "2022-03-22T22:22");
 
 
         List<Project> projects1 = projectService.fetchAllProjects();
@@ -85,13 +101,17 @@ class ProjectTests {
 
     }
 
+    /**
+     *
+     * @author Mads Haderup
+     */
     @Test
     void addAndDeleteSubProjectsTest() throws ExamProjectException{
         ProjectRepositoryImplemented repo = new ProjectRepositoryImplemented();
         ProjectService projectService = new ProjectService(repo);
 
         List<SubProject> subProjects = projectService.fetchSubprojects(3);
-        projectService.createSubproject("UnitTest42virkknu", 3, 4, "2022-03-22T22:22");
+        projectService.createSubproject("UnitTesadstt42vffirkk2nu2", 3, 4, "2022-03-22T22:22");
         int i = subProjects.size();
 
         List<SubProject> subProjects1 = projectService.fetchSubprojects(3);

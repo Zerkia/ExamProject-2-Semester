@@ -15,18 +15,24 @@ public class UserTests {
     @Test
     void contextLoads() {
     }
-
+    /**
+     *
+     * @author Mads Haderup
+     */
     @Test
     void LoginTest() throws ExamProjectException {
         UserRepositoryImplemented repo = new UserRepositoryImplemented();
-        User user = repo.login("admin","admin");
-        User user1 = new User("admin","admin");
+        User user = repo.login("SuperAdmin","superadmin");
+        User user1 = new User("SuperAdmin","superadmin");
 
         String str1 = user1.toString();
         String str2 = user.toString();
         assertThat(str1).isEqualTo(str2);
     }
-
+    /**
+     *
+     * @author Mads Haderup
+     */
     @Test
     void createUserTest() throws ExamProjectException {
         UserRepositoryImplemented repo = new UserRepositoryImplemented();
