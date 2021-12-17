@@ -10,17 +10,29 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface TaskRepository {
+    /**
+     * @author Nikolaj Pregaard
+     * @author Mads Haderup
+     */
     Task createTask(Task task) throws ExamProjectException;
     List<Task> fetchTasks(int subProjectID);
     String updateTask(int taskID, String taskName, LocalDateTime deadline);
     String deleteTask(int taskID);
 
     //space between main and sub
-
+    /**
+     * @author Nikolaj Pregaard
+     * @author Mads Haderup
+     */
     SubTask createSubtask(SubTask subTask) throws ExamProjectException;
     List<SubTask> fetchSubtasks(int taskID);
     String updateSubtask(int subtaskID, String subtaskName, int hours, int minutes);
     String deleteSubtask(int subtaskID);
+
+    /**
+     *
+     * @author Mads Haderup
+     */
     Task updateTaskTimeCreateSubtask(Task task, int hours);
     SubProject updateSubprojectTimeCreateSubtask(SubProject subProject, int hours);
     Project updateProjectTimeCreateSubtask(Project project, int hours);
