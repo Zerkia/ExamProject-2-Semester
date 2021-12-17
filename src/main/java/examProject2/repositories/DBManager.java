@@ -16,7 +16,10 @@ public class DBManager {
     private static DBManager instance;
 
     private DBManager(){}
-
+    /**
+     * @author Nikolaj Pregaard
+     * @author Mads Haderup
+     */
     public static Connection getConnection(){
         if (connection == null) {
             try (InputStream input = new FileInputStream("src/main/resources/application.properties")) {

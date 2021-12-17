@@ -11,6 +11,9 @@ import org.springframework.web.servlet.view.RedirectView;
 
 
 public class UserRepositoryImplemented implements UserRepository{
+    /**
+     * @author Nikolaj Pregaard
+     */
 
     public User createUser(User user) throws ExamProjectException {
         try {

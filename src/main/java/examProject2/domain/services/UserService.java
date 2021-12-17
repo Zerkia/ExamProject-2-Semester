@@ -9,6 +9,9 @@ import java.util.List;
 import examProject2.repositories.UserRepository;
 
 public class UserService {
+    /**
+     * @author Nikolaj Pregaard
+     */
     private UserRepository userRepository;
 
     public UserService(UserRepository userRepository) {

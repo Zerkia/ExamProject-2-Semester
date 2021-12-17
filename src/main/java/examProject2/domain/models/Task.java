@@ -6,6 +6,10 @@ import java.util.Date;
 import java.util.List;
 
 public class Task {
+    /**
+     * @author Nikolaj Pregaard
+     * @author Mads Haderup
+     */
     private String taskName;
     private String taskOwner;
     private int taskID;

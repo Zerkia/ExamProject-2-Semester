@@ -16,6 +16,11 @@ import java.util.Objects;
 
 @Controller
 public class TaskController {
+
+    /**
+     * @author Nikolaj Pregaard
+     * @author Mads Haderup
+     */
     private TaskService taskService = new TaskService(new TaskRepositoryImplemented());
 
     @GetMapping("/tasksRedirect")

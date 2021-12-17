@@ -12,6 +12,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class TaskService {
+    /**
+     * @author Nikolaj Pregaard
+     * @author Mads Haderup
+     */
     private TaskRepository taskRepository;
     public TaskService(TaskRepository taskRepository){ this.taskRepository = taskRepository; }
 
@@ -55,6 +59,9 @@ public class TaskService {
     public String updateSubtask(int subtaskID, String subtaskName, int hours, int minutes) {
         return taskRepository.updateSubtask(subtaskID, subtaskName, hours, minutes);
     }
+    /**
+     * @author Mads Haderup
+     */
     public String deleteSubtask(int subtaskID) { return taskRepository.deleteSubtask(subtaskID); }
 
     public Project updateProjectTimeCreateSubtask(Project project, int hours){

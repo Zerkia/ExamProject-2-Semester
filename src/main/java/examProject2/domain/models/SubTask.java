@@ -6,6 +6,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class SubTask {
+    /**
+     * @author Nikolaj Pregaard
+     * @author Mads Haderup
+     */
     private String subtaskName;
     private String subtaskOwner;
     private int subtaskID;

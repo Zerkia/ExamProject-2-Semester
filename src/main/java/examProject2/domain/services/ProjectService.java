@@ -13,6 +13,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class ProjectService {
+    /**
+     * @author Nikolaj Pregaard
+     * @author Mads Haderup
+     */
     private ProjectRepository projectRepository;
     public ProjectService(ProjectRepository projectRepository){this.projectRepository = projectRepository;}
 

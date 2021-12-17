@@ -16,6 +16,9 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 public class UserController {
+    /**
+     * @author Nikolaj Pregaard
+     */
     private UserService userService = new UserService(new UserRepositoryImplemented());
 
     @GetMapping("/")

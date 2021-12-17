@@ -10,6 +10,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ProjectRepository {
+        /**
+         * @author Nikolaj Pregaard
+         * @author Mads Haderup
+         */
         Project createProject(Project project) throws ExamProjectException;
         List<Project> fetchProjects(User user);
         List<Project> fetchAllProjects();

@@ -19,6 +19,11 @@ import java.util.List;
 
 @Controller
 public class ProjectController {
+    /**
+     * @author Nikolaj Pregaard
+     * @author Mads Haderup
+     */
+
     private ProjectService projectService = new ProjectService(new ProjectRepositoryImplemented());
 
     @GetMapping("/mainPage")

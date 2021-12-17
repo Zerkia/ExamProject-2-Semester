@@ -19,11 +19,7 @@ public interface TaskRepository {
     String updateTask(int taskID, String taskName, LocalDateTime deadline);
     String deleteTask(int taskID);
 
-    //space between main and sub
-    /**
-     * @author Nikolaj Pregaard
-     * @author Mads Haderup
-     */
+
     SubTask createSubtask(SubTask subTask) throws ExamProjectException;
     List<SubTask> fetchSubtasks(int taskID);
     String updateSubtask(int subtaskID, String subtaskName, int hours, int minutes);

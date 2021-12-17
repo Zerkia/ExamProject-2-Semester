@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class MyErrorController implements ErrorController {
+    /**
+     * @author Nikolaj Pregaard
+     */
 
     @RequestMapping("/error")
     public String handleError(HttpServletRequest request) {

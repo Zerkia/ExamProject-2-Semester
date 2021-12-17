@@ -12,7 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TaskRepositoryImplemented implements TaskRepository{
-
+    /**
+     * @author Nikolaj Pregaard
+     * @author Mads Haderup
+     */
     public Task createTask(Task task) throws ExamProjectException {
         try {
             int userID = task.getUserID();
@@ -148,7 +151,9 @@ public class TaskRepositoryImplemented implements TaskRepository{
         }
         return list;
     }
-
+    /**
+     * @author Mads Haderup
+     */
     public Task updateTaskTimeCreateSubtask(Task task, int hours){
         try{
             int extraDays = (hours + task.getHours())/8;

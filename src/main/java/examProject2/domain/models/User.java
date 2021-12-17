@@ -1,6 +1,9 @@
 package examProject2.domain.models;
 
 public class User {
+    /**
+     * @author Nikolaj Pregaard
+     */
 
     private String username;
     private String password;

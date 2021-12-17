@@ -5,6 +5,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class Project {
+    /**
+     * @author Nikolaj Pregaard
+     * @author Mads Haderup
+     */
 
     private String projectName;
     private String projectOwner;

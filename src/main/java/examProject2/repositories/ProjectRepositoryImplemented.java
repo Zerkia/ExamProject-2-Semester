@@ -12,6 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectRepositoryImplemented implements ProjectRepository{
+    /**
+     * @author Nikolaj Pregaard
+     * @author Mads Haderup
+     */
 
     public Project createProject(Project project) throws ExamProjectException {
         try {
