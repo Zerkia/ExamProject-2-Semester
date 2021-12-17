@@ -14,6 +14,10 @@ The product was made for the company "AlphaSolutions"
 and serves as a gateway to creating as well as managing 
 your projects in an easier and safer way.
 
+## Online Website
+
+If you do not wish to install the product but rather would make use of our webclient, then it can be found [on our Heroku webpage](https://examproject-mhnp-2semester.herokuapp.com/)
+
 ## Prerequisites
 
 Before you begin, ensure you have met the following requirements:
