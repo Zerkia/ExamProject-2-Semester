@@ -29,6 +29,8 @@ Before you begin, ensure you have met the following requirements:
 To install our ExamProject, follow these steps:
 
 Linux and macOS:
+
+```
 Step 1:
 Make sure you have the newest version of java installed as well as the newest
 versions of maven, spring and MySQL workbench
@@ -42,14 +44,12 @@ In MySQL workbench, go to Server -> Data Import, click the "Import from Self-Con
 radio button and find the sql dump file. It should be under the "resources" folder.
 
 Step 4: Launch the application in your desired coding program or move to root folder of project 
-and copy the following command into your terminal
-```
-mvn spring-boot:run
+and copy the following command into your terminal:
+
+"mvn spring-boot:run"
 ```
 Windows:
 ```
-Fast install:
-
 Step 1:
 Make sure you have the newest version of java installed as well as the newest
 versions of maven, spring and MySQL workbench
@@ -63,10 +63,6 @@ In MySQL workbench, go to Server -> Data Import, click the "Import from Self-Con
 radio button and find the sql dump file. It should be under the "resources" folder.
 
 Step 4: Launch the application in your desired coding program.
-
-Step 5: ???
-
-Step 6: Profit
 
 ```
 ## Using our Examproject
@@ -97,7 +93,7 @@ If you want to contact us, you can reach us at:
 
 Niko473n@stud.kea.dk
 
-MadsXXXX@stud.kea.dk
+Mads03n4@stud.kea.dk
 
 #### We hope you enjoy our Examproject! 😊
 
