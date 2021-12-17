@@ -90,6 +90,9 @@ public class SubTask {
         this.minutes = minutes;
     }
 
+    /**
+     * @author Mads Haderup
+     */
     public String getTime() {
         return hours + ":" + minutes;
     }

@@ -112,7 +112,9 @@ public class Project {
     public void setDeadlineFormatted(String deadlineFormatted) {
         this.deadlineFormatted = deadlineFormatted;
     }
-
+    /**
+     * @author Mads Haderup
+     */
     public String formatDate(LocalDateTime deadline){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         String str = deadline.format(formatter);

@@ -78,6 +78,9 @@ public class Task {
         this.taskOwner = taskOwner;
     }
 
+    /**
+     * @author Mads Haderup
+     */
     public LocalDateTime getDeadline() {
         return deadline;
     }
